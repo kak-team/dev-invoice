@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('master');
 });
-Route::get('/dashoard', function () {
+Route::get('/dashboard', function () {
     return view('dashboard.main-dashboard');
 });
 
