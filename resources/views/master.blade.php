@@ -310,7 +310,7 @@
 					</a>
 				</li>
 				<li class="nav-item nav-item-submenu">
-					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>Services</span></a>
+					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>Invoices</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display: none;">
 						<li class="nav-item"><a href="#" class="nav-link active legitRipple">Air Ticket</a></li>
