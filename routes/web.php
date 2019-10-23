@@ -17,5 +17,15 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard.main-dashboard');
 });
+Route::get('/user', function () {
+    return view('user.create');
+});
+Route::get('/supplier', function () {
+    return view('supplier.create');
+});
+
+Route::get('/customer', function () {
+    return view('customer.create');
+});
 
 
