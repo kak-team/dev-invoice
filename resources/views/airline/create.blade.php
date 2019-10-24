@@ -138,7 +138,7 @@
     <div class="col-lg-12">
     <div class="card">
         <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> AIRLINE LIST</h6>
+            <h6 class="card-title font-weight-bold"> <i class="icon-earth pr-2"></i> AIRLINE LIST</h6>
             <div>
                 <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -169,7 +169,7 @@
                             <td><div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkself"></span></div></td>
                             <td><div class="d-flex align-items-center"><div><a href="#" class="text-default font-weight-semibold">Air ASIA </a></div></div></td>
                             <td><div><a href="#" class="text-default font-weight-semibold">969</a></div></td>
-                            <td><a href="#" id="airline-status" class="active"><span class="badge bg-blue">Active</span></a></td>
+                            <td><a  id="btn-status" class="active"><span class="badge bg-blue">Active</span></a></td>
                             <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="'.$a.'" airline-name="Air ASIA" airline-code="969"><i class="icon-quill4"></i></button></td>
                         </tr>';
                         endfor; 
@@ -213,16 +213,7 @@ $(document).ready(function(){
         $('#modal_theme_info #airline_id').val($(this).val());
     });
 
-    // status
-    $('.table-responsive').on('click','#airline-status',function(){
-        $(this).toggleClass('active');
-        if( $(this).hasClass('active')){
-            $(this).html('<span class="badge bg-blue">Active</span>');
-            
-        }else{
-            $(this).html('<span class="badge bg-warning">Disabled</span>');
-        }
-    });
+    
 
 
 });

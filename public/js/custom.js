@@ -27,4 +27,15 @@ $(document).ready(function(){
     $("#modal_theme_success").on('click','#delete',function(){
         $(this).parents("tr").remove();
       });
+
+    // status
+    $('.table-responsive').on('click','#btn-status',function(){
+        $(this).toggleClass('active');
+        if( $(this).hasClass('active')){
+            $(this).html('<span class="badge bg-blue">Active</span>');
+            
+        }else{
+            $(this).html('<span class="badge bg-warning">Disabled</span>');
+        }
+    });
 });
