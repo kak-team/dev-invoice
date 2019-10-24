@@ -28,4 +28,8 @@ Route::get('/customer', function () {
     return view('customer.create');
 });
 
+Route::get('/airline', function () {
+    return view('airline.create');
+});
+
 

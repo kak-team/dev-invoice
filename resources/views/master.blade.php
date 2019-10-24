@@ -377,6 +377,7 @@
 					</a>
 				</li>
 				<li class="nav-item"><a href="#" class="nav-link legitRipple"><i class="icon-width"></i> <span>Report</span></a></li>
+				<li class="nav-item"><a href="/user" class="nav-link legitRipple"><i class="icon-width"></i> <span>Users</span></a></li>
 				<!-- /main -->
 
 				<!-- /page kits -->
