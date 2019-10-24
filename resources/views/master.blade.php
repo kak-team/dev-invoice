@@ -37,6 +37,7 @@
 	<script src="{{ URL::asset('js/plugins/pickers/daterangepicker.js') }}"></script>
 
 	<script src="{{ URL::asset('js/app.js') }}"></script>
+	<script src="{{ URL::asset('js/custom.js') }}"></script>
 	<script src="{{ URL::asset('js/demo_pages/dashboard.js') }}"></script>
 	<!-- /theme JS files -->
 
