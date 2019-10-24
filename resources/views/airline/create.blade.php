@@ -1,5 +1,10 @@
 @extends('master')
 @section('content')
+<style>
+.icon-minus-circle2{
+    cursor: pointer;
+}
+</style>
 <div id="modal_theme_success" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -12,24 +17,40 @@
                                     <h5 class="mb-0 font-weight-bold text-success">FORM CREATE</h5>
                                     <span class="d-block text-muted">Enter your user detail below</span>
                                 </div>
+                                <p class="font-weight-bold text-underline"><a href="#" style="text-decoration: underline;" id="add-more">+ ADD MORE ROW</a></p>
+                                <table class="table" id="airline">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                                                <input type="text" class="form-control" placeholder="Airline name" name="airline_name[]" id="airline_name" required autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-earth text-muted"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                                                <input type="text" class="form-control" placeholder="Airline Code" name="airline_code[]" id="airline_code" required autocomplete="off">
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-link2 text-muted"></i>
+                                                </div>                                                
+                                            </div>  
+                                        </td>
+                                        <td class="pb-0 pt-0" id="delete">
+                                            <div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div>
+                                        </td>
+                                    </tr>
+                                </table>
 
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Airline name" name="airline_name" id="airline_name" autocomplete="off" >
-                                    <div class="form-control-feedback">
-                                        <i class="icon-magazine text-muted"></i>
-                                    </div>
-                                </div>
 
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Airline Code" name="airline_code" id="airline_code" autocomplete="off">
-                                    <div class="form-control-feedback">
-                                        <i class="icon-user text-muted"></i>
-                                    </div>
-                                </div>
+                               
+                                
+                                
                             </div>
                         </div>
                 </div> 
-
+                
+                
                 <div class="modal-footer">
                     <div class="form-group text-center">
                         <button class="btn btn-danger legitRipple" type="button" data-dismiss="modal">Cancel</button>
@@ -108,4 +129,32 @@
     </div>
    
 </div>
+<script>
+$(document).ready(function(){
+
+    var i = 0;
+    // add-more
+    $('#modal_theme_success').on('click','#add-more',function(){
+        var html = '<tr>';
+            html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0">';
+                html += '<input type="text" class="form-control" placeholder="Airline name" name="airline_name[]" id="airline_name" required autocomplete="off">';
+                html += '<div class="form-control-feedback">';
+                html += '<i class="icon-earth text-muted"></i></div></div>';
+            html += '</td>';
+            html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0">';
+                html += '<input type="text" class="form-control" placeholder="Airline Code" name="airline_code[]" id="airline_code" required autocomplete="off">';
+                html += '<div class="form-control-feedback">';
+                html += '<i class="icon-link2 text-muted"></i></div></div>';
+            html += '</td>';
+            html += '<td class="pb-0 pt-0" id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
+        $('#modal_theme_success #airline').append(html);
+    });
+
+    // delete tr table by checkboxes
+    $("#modal_theme_success").on('click','#delete',function(){
+      $(this).parents("tr").remove();
+    });
+
+});
+</script>
 @stop
