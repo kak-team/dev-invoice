@@ -11,6 +11,10 @@
 |
 */
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/', function () {
     return view('master');
 });
@@ -31,5 +35,3 @@ Route::get('/customer', function () {
 Route::get('/airline', function () {
     return view('airline.create');
 });
-
-
