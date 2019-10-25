@@ -13,8 +13,15 @@ $(document).ready(function(){
 
     // click one-by-all
     $('#checkall').click(function(){
-        $('.table-responsive .uniform-checker').children('span').toggleClass('checked');
-        Btndelete();
+        
+        $(this).parent('span').toggleClass('checked');
+        if($(this).parent('span').hasClass('checked')){
+            $('.table-responsive .uniform-checker').children('span#b4-check').addClass('checked');
+            Btndelete();
+        }else{
+            $('.table-responsive .uniform-checker').children('span#b4-check').removeClass('checked');
+            Btndelete();
+        }
     });
 
     // click one-by-one

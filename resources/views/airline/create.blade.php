@@ -157,7 +157,7 @@
                 <table class="table text-nowrap">
                     <tbody>
                     <tr>
-                        <td><div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
+                        <td><div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
                         </td>
                         <td class="text-blue-800 font-weight-bold">AIRLINE NAME</td>
                         <td class="text-blue-800 font-weight-bold">AIRLINE CODE</td>

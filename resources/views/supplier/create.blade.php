@@ -1,10 +1,12 @@
 @extends('master')
 @section('content')
+
 <div id="modal_theme_success" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <form method="post">
+            <form method="POST" action="/supplier">
+                @csrf
                 <div class="modal-body">
                     <div class="card mb-0">
                             <div class="card-body">
@@ -46,7 +48,7 @@
                                     <div class="col">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span><input type="checkbox" class="form-check-input-styled-primary" id="check_service" data-fouc=""></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span><input type="checkbox" class="form-check-input-styled-primary" name="service_id[]" id="check_service" data-fouc=""></span></div>
                                                 Air Ticket
                                             </label>
                                         </div>
@@ -117,7 +119,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <form method="post">
+            <form method="get" action="/supplier">
                 <div class="modal-body">
                     <div class="card mb-0">
                             <div class="card-body">
@@ -160,13 +162,13 @@
                                     <div class="col">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-1"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="1"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-1"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="1"></span></div>
                                                 Air Ticket
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-2"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="2"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-2"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="2"></span></div>
                                                 VISA Service
                                             </label>
                                         </div>
@@ -175,13 +177,13 @@
                                     <div class="col">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-3"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="3"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-3"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="3"></span></div>
                                                 Insurance
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-4"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="4"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-4"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="4"></span></div>
                                                 Transportation
                                             </label>
                                         </div>
@@ -190,13 +192,13 @@
                                     <div class="col">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-5"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="5"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-5"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="5"></span></div>
                                                 Hotel
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-6"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="6"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-6"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="6"></span></div>
                                                 Tour
                                             </label>
                                         </div>
@@ -205,7 +207,7 @@
                                     <div class="col">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-7"><input type="checkbox" class="form-check-input-styled-primary " id="check_service" value="7"></span></div>
+                                                <div class="uniform-checker border-primary-600 text-primary-800"><span class="span-checkbox v-7"><input type="checkbox" class="form-check-input-styled-primary " name="service_id[]" id="check_service" value="7"></span></div>
                                                 Other
                                             </label>
                                         </div>
@@ -233,7 +235,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger p-2 pr-3">
-                <h6 class="modal-title">DELETE AIRLINE</h6>
+                <h6 class="modal-title">MESSAGE </h6>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
@@ -253,6 +255,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-lg-12">
     <div class="card">
@@ -276,7 +279,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
+                            <div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
                         </td>
                         <td class="text-blue-800 font-weight-bold">COMPANY NAME</td>
                         <td class="text-blue-800 font-weight-bold">CONTACT</td>
@@ -354,6 +357,7 @@
             // remove checked box first
             $("#modal_theme_info").each(function(){
                 $('#modal_theme_info .span-checkbox').removeClass('checked');
+                $('#modal_theme_info #check_service').prop('checked', false);                
             });
 
             // add checked box by data
@@ -361,6 +365,7 @@
             var i;
             for (i = 0; i < serviceIdArray.length; i++) {
                 $('#modal_theme_info .v-'+serviceIdArray[i]).addClass('checked');
+                $('#modal_theme_info .v-'+serviceIdArray[i]+' #check_service').prop('checked', true);
             }
                 
         });
