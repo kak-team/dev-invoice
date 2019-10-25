@@ -27,7 +27,7 @@ Route::get('/user', function () {
 Route::get('/supplier', function () {
     return view('supplier.create');
 });
-
+Route::resource('supplier', 'SupplierController');
 Route::get('/customer', function () {
     return view('customer.create');
 });
