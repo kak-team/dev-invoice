@@ -24,9 +24,7 @@ Route::get('/dashboard', function () {
 Route::get('/user', function () {
     return view('user.create');
 });
-Route::get('/supplier', function () {
-    return view('supplier.create');
-});
+
 Route::resource('supplier', 'SupplierController');
 Route::get('/customer', function () {
     return view('customer.create');
