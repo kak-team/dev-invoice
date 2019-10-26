@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\SupplierList;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -35,6 +37,8 @@ class SupplierListController extends Controller
     public function store(Request $request)
     {
         //
+        DB::table('ctn_supplier_contact')->insert($data_contact);
+        return view('supplier.create', ['suppliers', $supplier]);
     }
 
     /**

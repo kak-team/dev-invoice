@@ -25,8 +25,12 @@ class SupplierController extends Controller
     {
         //list all suppliers 
         $supplier = \App\Supplier::all();
+        $supplier_contact = DB::table('ctn_supplier')
+            ->join('ctn_supplier_contact', 'ctn_supplier_contact.user_id', '=', 'ctn_supplier.id')
+            ->select('*')
+            ->get();
 
-        return view('supplier.create', ['suppliers', $supplier]);
+        return view('supplier.create', ['suppliers', $supplier_contact]);
     }
 
     /**
@@ -64,8 +68,8 @@ class SupplierController extends Controller
                         'phone'=>$request->phone,
                         ];   
 
-        DB::table(ctn_supplier)->insert($data);
-        DB::table(ctn_supplier_contact)->insert($data_contact);
+        DB::table('ctn_supplier')->insert($data);
+        
 
         return back();
         
