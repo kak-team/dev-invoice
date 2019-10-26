@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <form method="POST" action="/supplier">
+            <form method="POST" action="{{ URL::to('/dev-invoice/public/supplier/store') }}">
                 @csrf
                 <div class="modal-body">
                     <div class="card mb-0">

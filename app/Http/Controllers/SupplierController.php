@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Supplier;
+use App\SupplierList;
+use DB;
+
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -11,10 +15,18 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
-        return view('supplier.create');
+        //list all suppliers 
+        $supplier = \App\Supplier::all();
+
+        return view('supplier.create', ['suppliers', $supplier]);
     }
 
     /**
@@ -35,7 +47,24 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //insert data to table
+        $data = ['supplier_name'=>$request->supplier_name,
+                'register_number'=>$request->register_number,
+                'website'=>$request->website,
+                'address'=>$request->address
+                ];
+
+        $data_contact= ['supplier_id'=>'',
+                        'full_name'=>$request->full_name,
+                        'email'=>$request->email,
+                        'phone'=>$request->phone,
+                        ];   
+
+        DB::table(ctn_supplier)->insert($data);
+        DB::table(ctn_supplier_contact)->insert($data_contact);
+
+        return back();
+        
     }
 
     /**
@@ -58,6 +87,10 @@ class SupplierController extends Controller
     public function edit($id)
     {
         //
+        $supplier = DB::table('ctn_supplier')->select('*')
+                        ->where('id', $id)->get();
+
+        return view('supplier.create', ['suplier', $supplier]);
     }
 
     /**
@@ -70,6 +103,24 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = ['supplier_name'=>$request->supplier_name,
+                'register_number'=>$request->register_number,
+                'website'=>$request->website,
+                'address'=>$request->address
+                ];
+
+        $data_contact= ['supplier_id'=>'',
+                        'full_name'=>$request->full_name,
+                        'email'=>$request->email,
+                        'phone'=>$request->phone,
+                        ];   
+        DB::table('ctn_supplier')
+            ->where('id', $id)
+            ->update($data);
+
+        DB::table('ctn_supplier_contact')
+            ->where('id', $id)
+            ->update($data_contact);    
     }
 
     /**
