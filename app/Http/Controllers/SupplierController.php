@@ -48,7 +48,11 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         //insert data to table
-        $data = ['supplier_name'=>$request->supplier_name,
+        $user = auth()->user();
+        print_r($user);
+        $data = [
+                'user_id'=>$user->id,
+                'supplier_name'=>$request->supplier_name,
                 'register_number'=>$request->register_number,
                 'website'=>$request->website,
                 'address'=>$request->address
