@@ -153,6 +153,13 @@ table#airline td {
     </div>
 </div>
 
+@if(session('success'))
+    <div class="alert bg-success text-white alert-rounded alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+        <span class="font-weight-semibold">Well done!</span> You successfully created supplier.
+    </div>
+@endif
+
 <div class="row">
     <div class="col-lg-12">
     <div class="card">

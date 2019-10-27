@@ -56,32 +56,45 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //insert data to table
+        
+        // user id
         $user = auth()->user();
-        //print_r($user);
-        var_dump($request->c_email);
-        $service_array = $request->service_id;
-        $service_array = '['.implode(',',$service_array).']';
+        
+        // check Empty Checkbox Services
+        if(is_null($request->service_id)):
+            $service_id = '';
+        else:            
+            $service_id = '['.implode(',',$request->service_id).']';
+        endif;
+
+        $this->validate($request, [
+            'supplier_name' => 'required|max:255',
+            'address' => 'required|max:255'
+        ]);
+               
         
         $data = [
-                'user_id'=>$user->id,
-                'supplier_name'=>$request->name,
-                'register_number'=>$request->register_number,
-                'website'=>$request->website,
-                'address'=>$request->address
+                'user_id'           => $user->id,
+                'service_id'        => $service_id,
+                'supplier_name'     => $request->name,
+                'register_number'   => $request->register_number,
+                'website'           => $request->website,
+                'address'           => $request->address
                 ];
-
-        $data_contact= ['supplier_id'=>'',
-                        'full_name'=>$request->full_name,
-                        'email'=>$request->email,
-                        'phone'=>$request->phone,
-                        ];   
-
-       // DB::table('ctn_supplier')->insert($data);
+        $insert_supplier = \App\Supplier::create($data);
         
-
-        // return back();
         
+        for ($i = 0; $i < count($request->fullname); $i++) {
+            $data_key[] = [
+                'supplier_id'   => $insert_supplier->id,
+                'full_name'     => $request->fullname[$i],
+                'email'         => $request->c_email[$i],
+                'phone'         => $request->c_phone[$i],
+            ];
+        }     
+        \App\Supplier_contacts::insert($data_key);
+        
+        return redirect()->back()->withSuccess('IT WORKS!');
     }
 
     /**

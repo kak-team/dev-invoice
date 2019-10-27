@@ -77,7 +77,7 @@
                                                             </div>  
                                                         </td>
                                                         <td class="pb-0 pt-0" id="delete">
-                                                            <div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div>
+                                                            
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -102,7 +102,7 @@
                                                 </label>
                                             </div>                    
                                         </div>
-                                    @endforeach;                                   
+                                    @endforeach                                   
                                 </div> 
 
                                   

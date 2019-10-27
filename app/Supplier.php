@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     //
-    protected $table = 'ctn_supplier';
+    protected $table    = 'ctn_supplier';
+    protected $fillable = ['user_id','service_id','supplier_name','register_number','website','address'];
+    public $timestamps  = false;
 
-    public function supplier_person()
+    public function supplier_contacts()
     {
-        return $this->hasMany('id','supplier_id');
+        return $this->hasMany(Supplier_contacts::class);
     }
 }
