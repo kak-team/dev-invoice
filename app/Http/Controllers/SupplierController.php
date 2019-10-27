@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Supplier;
+use App\Service;
 use App\SupplierList;
 use DB;
 
@@ -24,13 +25,17 @@ class SupplierController extends Controller
     public function index()
     {
         //list all suppliers 
-        $supplier = \App\Supplier::all();
-        $supplier_contact = DB::table('ctn_supplier')
-            ->join('ctn_supplier_contact', 'ctn_supplier_contact.user_id', '=', 'ctn_supplier.id')
-            ->select('*')
+        $service = \App\Service::all();
+        $supplier = DB::table('ctn_supplier')
+            ->join('ctn_supplier_contact', 'ctn_supplier_contact.supplier_id', '=', 'ctn_supplier.id')
+            ->select('ctn_supplier.*')
             ->get();
+        $data = array(
+            'suppliers'=>$supplier,
+            'services'=> $service,
+        );    
 
-        return view('supplier.create', ['suppliers', $supplier_contact]);
+        return view('supplier.index', $data);
     }
 
     /**
@@ -53,10 +58,14 @@ class SupplierController extends Controller
     {
         //insert data to table
         $user = auth()->user();
-        print_r($user);
+        //print_r($user);
+        var_dump($request->c_email);
+        $service_array = $request->service_id;
+        $service_array = '['.implode(',',$service_array).']';
+        
         $data = [
                 'user_id'=>$user->id,
-                'supplier_name'=>$request->supplier_name,
+                'supplier_name'=>$request->name,
                 'register_number'=>$request->register_number,
                 'website'=>$request->website,
                 'address'=>$request->address
@@ -68,10 +77,10 @@ class SupplierController extends Controller
                         'phone'=>$request->phone,
                         ];   
 
-        DB::table('ctn_supplier')->insert($data);
+       // DB::table('ctn_supplier')->insert($data);
         
 
-        return back();
+        // return back();
         
     }
 
@@ -95,9 +104,7 @@ class SupplierController extends Controller
     public function edit($id)
     {
         //
-        $supplier = DB::table('ctn_supplier')->select('*')
-                        ->where('id', $id)->get();
-
+        $supplier = DB::table('ctn_supplier')->where('id', $id)->first();
         return view('supplier.create', ['suplier', $supplier]);
     }
 

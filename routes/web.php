@@ -26,7 +26,9 @@ Route::get('/user', function () {
 });
 
 Route::resource('supplier', 'SupplierController');
-Route::post('/dev-invoice/public/supplier/store', 'SupplierController@store')->name('store');
+
+Route::post('/supplier/store', 'SupplierController@store');
+
 Route::get('/customer', function () {
     return view('customer.create');
 });
