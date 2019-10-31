@@ -7,7 +7,15 @@
                                     <h5 class="mb-0 font-weight-bold text-success">FORM CREATE</h5>
                                     <span class="d-block text-muted">Enter your user detail below</span>
                                 </div>
-
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 
                                 <div class="row">
 

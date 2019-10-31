@@ -9,7 +9,7 @@
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
 
 	<!-- Global stylesheets -->
-    
+    <link href="{{ URL::asset('css/md.compile.css') }}" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -18,27 +18,19 @@
 	<link href="{{ URL::asset('css/components.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/colors.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/custome.css') }}" rel="stylesheet" type="text/css">
+	
+
 	<!-- /global stylesheets -->
 
-	<!-- Core JS files -->
-    <script type="text/javascript" src="{{ URL::asset('js/main/jquery.min.js') }}"></script>
-	<script src="{{ URL::asset('js/main/jquery.min.js') }}"></script>
-	<script src="{{ URL::asset('js/main/bootstrap.bundle.min.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/loaders/blockui.min.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/ui/ripple.min.js') }}"></script>
+	
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="{{ URL::asset('js/plugins/visualization/d3/d3.min.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/visualization/d3/d3_tooltip.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/forms/styling/switchery.min.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/forms/selects/bootstrap_multiselect.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/ui/moment/moment.min.js') }}"></script>
-	<script src="{{ URL::asset('js/plugins/pickers/daterangepicker.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/jquery-3.4.0.min.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+	
 
-	<script src="{{ URL::asset('js/app.js') }}"></script>
-	<script src="{{ URL::asset('js/custom.js') }}"></script>
-	<script src="{{ URL::asset('js/demo_pages/dashboard.js') }}"></script>
+
 	<!-- /theme JS files -->
 
 </head>
@@ -492,6 +484,11 @@
 
 	</div>
 	<!-- /page content -->
+	<script src="{{ URL::asset('js/custom.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/compiled-4.8.0.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/popper.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js//md.uploadfile.js') }}"></script>
+	<script src="{{ URL::asset('js/app.js') }}"></script>
 
 </body>
 

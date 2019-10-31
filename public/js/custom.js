@@ -12,7 +12,8 @@ $(document).ready(function(){
     }
 
     // click one-by-all
-    $('#checkall').click(function(){
+    alert(1);
+    $('.table-responsive').on('click','#checkall',function(){
         
         $(this).parent('span').toggleClass('checked');
         if($(this).parent('span').hasClass('checked')){

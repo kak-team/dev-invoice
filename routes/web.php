@@ -25,9 +25,11 @@ Route::get('/user', function () {
     return view('user.create');
 });
 
+// supplier
 Route::resource('supplier', 'SupplierController');
 
 Route::post('/supplier/store', 'SupplierController@store');
+Route::get('/supplier/ajax/{id}', 'SupplierController@ajax');
 
 Route::get('/customer', function () {
     return view('customer.create');

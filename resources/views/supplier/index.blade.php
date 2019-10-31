@@ -192,7 +192,7 @@ table#airline td {
                         <td class="text-blue-800 font-weight-bold">STATUS</td>
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
-                    <?php for($a=0;$a<=4;$a++): ?>
+                    @foreach($suppliers as $supplier)
                         <tr>
                             <td>
                                 <div class="uniform-checker">
@@ -205,45 +205,44 @@ table#airline td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="letter-icon">S</span>
+                                        <span class="text-icon">{{ $supplier->supplier_name[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">Phnom Penh Airplane </a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $supplier->supplier_name }}</a>
                                         <div class="text-muted font-size-sm">
-                                            Register Numer: 10200391
+                                            Register Numer: {{ $supplier->register_number }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    <a href="#" class="text-default font-weight-semibold">Ms. Srey Sor</a>
+                                    <a href="#" class="text-default font-weight-semibold">{{ $supplier->full_name }}</a>
                                     <div class="text-muted font-size-sm">
-                                        Tel : 012 423 858 
+                                        Tel : {{ $supplier->phone }}
                                     </div>
                                 </div>
                             </td>
-                            <td><span class="text-default font-weight-semibold">phnompenhairplance.com.kh</span></td>
-                            <td><span class="text-default font-weight-semibold">Phnom Penh</span></td>
-                            <td><a id="btn-status" class="active"><span class="badge bg-blue">Active</span></a></td>
+                            <td><span class="text-default font-weight-semibold">{{ $supplier->website }}</span></td>
+                            <td><span class="text-default font-weight-semibold">{{ $supplier->address }}</span></td>
+                            <td>
+                                @if( $supplier->status == 1)
+                                <a id="btn-status" class="active" data="{{ $supplier->id }}"><span class="badge bg-blue">Active</span></a>
+                                @else
+                                <a id="btn-status" data="{{ $supplier->id }}"><span class="badge bg-warning">Disabled</span></a>  
+                                @endif                              
+                                </td>
                             <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>
                         </tr>
-                        <?php endfor; ?>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         
         </div>
-        <div class="card card-body py-2">
-            <ul class="pagination-flat justify-content-center twbs-page-start pagination ">
-                <li class="page-item prev disabled"><a href="#" class="page-link">Prev</a></li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item next"><a href="#" class="page-link">Next</a></li>
-            </ul>
+        <div class="card card-body py-2 pagination-flat justify-content-center">
+        {{ $suppliers->links() }}
         </div>
     </div>
    
@@ -296,6 +295,21 @@ table#airline td {
                 html += '</tr>';
             $('#modal_theme_success #airline').append(html);           
         });
+
+        // status
+        $('.table-responsive').on('click','#btn-status',function(){
+            var id = $(this).attr('data');
+            $.ajax({
+                type : 'get',
+                url  : 'supplier/ajax/'+id,
+                success : function(respond){
+                    toastr["success"]("Successfully") ;             
+                   
+                }   
+            });
+        });
+
+        
     
     });
 

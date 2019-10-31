@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Supplier;
 use App\Service;
 use App\SupplierList;
-use DB;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 class SupplierController extends Controller
 {
@@ -26,16 +26,26 @@ class SupplierController extends Controller
     {
         //list all suppliers 
         $service = \App\Service::all();
-        $supplier = DB::table('ctn_supplier')
-            ->join('ctn_supplier_contact', 'ctn_supplier_contact.supplier_id', '=', 'ctn_supplier.id')
-            ->select('ctn_supplier.*')
-            ->get();
+        $supplier = DB::table('ctn_supplier AS A')
+        ->select('A.*', 'B.full_name', 'B.phone')             
+        ->leftJoin('ctn_supplier_contact AS B','B.supplier_id', '=', 'A.id')
+        ->groupBy('A.id')
+        ->paginate(10);
+        
         $data = array(
             'suppliers'=>$supplier,
             'services'=> $service,
         );    
 
         return view('supplier.index', $data);
+    }
+
+
+
+    public function ajax($id)
+    {
+        $status = DB::statement(" UPDATE ctn_supplier AS A SET A.status = IF(A.status = 1, 0, 1) WHERE id = $id ");
+        echo 'success';
     }
 
     /**
@@ -66,11 +76,6 @@ class SupplierController extends Controller
         else:            
             $service_id = '['.implode(',',$request->service_id).']';
         endif;
-
-        $this->validate($request, [
-            'supplier_name' => 'required|max:255',
-            'address' => 'required|max:255'
-        ]);
                
         
         $data = [
@@ -106,6 +111,7 @@ class SupplierController extends Controller
     public function show($id)
     {
         //
+        
     }
 
     /**
