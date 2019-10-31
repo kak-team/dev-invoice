@@ -27,18 +27,33 @@ table#airline td {
 
                                 <div class="form-group form-group-feedback form-group-feedback-left">
                                     <input type="hidden" id="value" name="id">
-                                    <input type="text" class="form-control" placeholder="Airline Name" name="name" id="name" autocomplete="off" required >
+                                    <input type="text" class="form-control" placeholder="Company Name" name="company_name" id="company_name" autocomplete="off" required >
                                     <div class="form-control-feedback">
                                         <i class="icon-magazine text-muted"></i>
                                     </div>
                                 </div>
 
                                 <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Airline Code" name="airline_code" id="airline_code" autocomplete="off">
+                                    <input type="text" class="form-control" placeholder="Register Number" name="register_number" id="register_number" autocomplete="off">
                                     <div class="form-control-feedback">
                                         <i class="icon-link2 text-muted"></i>
                                     </div>
                                 </div>
+
+                                <div class="form-group form-group-feedback form-group-feedback-left">
+                                    <input type="text" class="form-control" placeholder="website" name="website" id="website" autocomplete="off">
+                                    <div class="form-control-feedback">
+                                        <i class="icon-sphere text-muted"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-feedback form-group-feedback-left">
+                                    <input type="text" class="form-control" placeholder="Address" name="address" id="address" required>
+                                    <div class="form-control-feedback">
+                                        <i class="icon-location3 text-muted"></i>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                 </div> 
@@ -90,7 +105,7 @@ table#airline td {
     <div class="col-lg-12">
     <div class="card">
         <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> SUPPLIER LIST</h6>
+            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> Airline LIST</h6>
             <div>
                 <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -111,8 +126,10 @@ table#airline td {
                         <td>
                             <div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
                         </td>
-                        <td class="text-blue-800 font-weight-bold">AIRLINE NAME</td>
-                        <td class="text-blue-800 font-weight-bold">AIRLINE CODE</td>
+                        <td class="text-blue-800 font-weight-bold">COMPANY NAME</td>
+                        <td class="text-blue-800 font-weight-bold">CONTACT</td>
+                        <td class="text-blue-800 font-weight-bold">WEBSITE</td>
+                        <td class="text-blue-800 font-weight-bold">ADDRESS</td>
                         <td class="text-blue-800 font-weight-bold">STATUS</td>
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
@@ -129,22 +146,23 @@ table#airline td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $value->airline_name[0] }}</span>
+                                        <span class="text-icon">{{ $value->name[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $value->airline_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $value->name }}</a>
                                         <div class="text-muted font-size-sm">
                                             {{ $value->code }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
+                            <td></td>
                             <td>
                                 @if( $value->status == 1)
-                                <a id="btn-status" class="active" data="{{ $supplier->id }}"><span class="badge bg-blue">Active</span></a>
+                                <a id="btn-status" class="active" data="{{ $value->id }}"><span class="badge bg-blue">Active</span></a>
                                 @else
-                                <a id="btn-status" data="{{ $supplier->id }}"><span class="badge bg-warning">Disabled</span></a>  
+                                <a id="btn-status" data="{{ $value->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
                             <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>

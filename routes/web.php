@@ -29,7 +29,6 @@ Route::resource('airline', 'AirlineController');
 
 // supplier
 Route::resource('supplier', 'SupplierController');
-
 Route::post('/supplier/store', 'SupplierController@store');
 Route::get('/supplier/ajax/{id}', 'SupplierController@ajax');
 
