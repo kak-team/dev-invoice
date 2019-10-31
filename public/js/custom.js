@@ -12,7 +12,7 @@ $(document).ready(function(){
     }
 
     // click one-by-all
-    alert(1);
+    //alert(1);
     $('.table-responsive').on('click','#checkall',function(){
         
         $(this).parent('span').toggleClass('checked');

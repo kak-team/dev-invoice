@@ -24,6 +24,8 @@ Route::get('/dashboard', function () {
 Route::get('/user', function () {
     return view('user.create');
 });
+// Airline Name
+Route::resource('airline', 'AirlineController');
 
 // supplier
 Route::resource('supplier', 'SupplierController');
@@ -33,8 +35,4 @@ Route::get('/supplier/ajax/{id}', 'SupplierController@ajax');
 
 Route::get('/customer', function () {
     return view('customer.create');
-});
-
-Route::get('/airline', function () {
-    return view('airline.create');
 });

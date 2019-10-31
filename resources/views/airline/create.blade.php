@@ -134,57 +134,7 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12">
-    <div class="card">
-        <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-earth pr-2"></i> AIRLINE LIST</h6>
-            <div>
-                <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <div class="form-control-feedback">
-                        <i class="icon-search4"></i>
-                    </div>
-                </div>
-            </div>
-            <div>
-            <button type="button" class="btn btn-outline bg-success-400 border-success-400 text-success-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_success"><i class="icon-plus-circle2"></i></button>
-            <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple disabled" id="deleteRow"  data-target="#modal_theme_danger"><i class="icon-trash"></i></button>
 
-            </div>
-                   </div>
-        <div class="table-responsive">
-                <table class="table text-nowrap">
-                    <tbody>
-                    <tr>
-                        <td><div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
-                        </td>
-                        <td class="text-blue-800 font-weight-bold">AIRLINE NAME</td>
-                        <td class="text-blue-800 font-weight-bold">AIRLINE CODE</td>
-                        <td class="text-blue-800 font-weight-bold">STATUS</td>
-                        <td class="text-blue-800 font-weight-bold">SETTING</td>
-                    </tr>
-                    <?php for($a=1;$a<=4;$a++): 
-                        echo '<tr>
-                            <td><div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkself"></span></div></td>
-                            <td><div class="d-flex align-items-center"><div><a href="#" class="text-default font-weight-semibold">Air ASIA </a></div></div></td>
-                            <td><div><a href="#" class="text-default font-weight-semibold">969</a></div></td>
-                            <td><a  id="btn-status" class="active"><span class="badge bg-blue">Active</span></a></td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="'.$a.'" airline-name="Air ASIA" airline-code="969"><i class="icon-quill4"></i></button></td>
-                        </tr>';
-                        endfor; 
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-        
-        </div>
-        <div class="card card-body py-2">
-            <ul class="pagination-flat justify-content-center twbs-page-start pagination "><li class="page-item prev disabled"><a href="#" class="page-link">Prev</a></li><li class="page-item active"><a href="#" class="page-link">1</a></li><li class="page-item"><a href="#" class="page-link">2</a></li><li class="page-item"><a href="#" class="page-link">3</a></li><li class="page-item"><a href="#" class="page-link">4</a></li><li class="page-item next"><a href="#" class="page-link">Next</a></li></ul>
-        </div>
-    </div>
-   
-</div>
 <script>
 $(document).ready(function(){
 
