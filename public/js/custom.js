@@ -1,38 +1,24 @@
 $(document).ready(function(){
 
-    // check for popup modal delete
-    function Btndelete(){
-        if( $('.table-responsive .uniform-checker #b4-check').hasClass('checked') ){
-            $('#deleteRow').removeClass('disabled');
-            $('#deleteRow').attr('data-toggle','modal');
-        }else{
-            $('#deleteRow').addClass('disabled');           
-            $('#deleteRow').removeAttr('data-toggle');            
-        }
-    }
+    
 
     // click one-by-all
-    alert(1);
-    $('.table-responsive').on('click','#checkall',function(){
-        
-        $(this).parent('span').toggleClass('checked');
-        if($(this).parent('span').hasClass('checked')){
-            $('.table-responsive .uniform-checker').children('span#b4-check').addClass('checked');
-            Btndelete();
+    $('#btnCheck_all').click(function(){
+        $(this).toggleClass('check_false');
+        var self = $(this);
+        if($(self).hasClass('check_false')){
+            $('#btnCheck_all #defaultUnchecked').prop('checked', false);
+            $('.table-responsive #btnCheck_single input').prop('checked', false);
         }else{
-            $('.table-responsive .uniform-checker').children('span#b4-check').removeClass('checked');
-            Btndelete();
+            $('#btnCheck_all #defaultUnchecked').prop('checked', true);
+            $('.table-responsive #btnCheck_single input').prop('checked', true);
         }
-    });
-
-    // click one-by-one
-    $('.table-responsive').on('click','#checkself',function(){
-        $(this).parent().toggleClass('checked');
         Btndelete();
     });
 
+
     // delete tr table by checkboxes
-    $("#modal_theme_success").on('click','#delete',function(){
+    $("#modal_theme_success,#modal_theme_info").on('click','#delete',function(){
         $(this).parents("tr").remove();
       });
 

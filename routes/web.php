@@ -30,6 +30,9 @@ Route::resource('supplier', 'SupplierController');
 
 Route::post('/supplier/store', 'SupplierController@store');
 Route::get('/supplier/ajax/{id}', 'SupplierController@ajax');
+Route::get('/supplier/supplier_contact/{id}', 'SupplierController@supplier_contact');
+Route::post('/supplier/destroy', 'SupplierController@destroy');
+Route::post('/supplier/update', 'SupplierController@update');
 
 Route::get('/customer', function () {
     return view('customer.create');

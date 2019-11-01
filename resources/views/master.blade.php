@@ -28,6 +28,26 @@
 	<!-- Theme JS files -->
 	<script type="text/javascript" src="{{ URL::asset('js/jquery-3.4.0.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+	<script src="{{ URL::asset('js/custom.js') }}"></script>
+	<script>
+		// check for popup modal delete
+		function Btndelete(){
+			var arrayCheckBox = new Array();
+				$('input[name="checkbox"]:checked').each(function() {
+				arrayCheckBox.push(this.value);
+			});
+			
+			var n = arrayCheckBox.length;
+			if( n > 0 ){
+				$('#deleteRow').removeClass('disabled');
+				$('#deleteRow').attr('data-toggle','modal');
+			}else{
+				$('#deleteRow').addClass('disabled');           
+				$('#deleteRow').removeAttr('data-toggle'); 
+			}
+			$('#spanCheckobxValue').val(arrayCheckBox.toString());
+		}
+	</script>
 	
 
 
@@ -484,7 +504,7 @@
 
 	</div>
 	<!-- /page content -->
-	<script src="{{ URL::asset('js/custom.js') }}"></script>
+	
 	<script type="text/javascript" src="{{ URL::asset('js/compiled-4.8.0.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js/popper.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js//md.uploadfile.js') }}"></script>

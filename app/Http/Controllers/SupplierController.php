@@ -29,6 +29,7 @@ class SupplierController extends Controller
         $supplier = DB::table('ctn_supplier AS A')
         ->select('A.*', 'B.full_name', 'B.phone')             
         ->leftJoin('ctn_supplier_contact AS B','B.supplier_id', '=', 'A.id')
+        ->where('A.status', '!=', '2')
         ->groupBy('A.id')
         ->paginate(10);
         
@@ -124,7 +125,54 @@ class SupplierController extends Controller
     {
         //
         $supplier = DB::table('ctn_supplier')->where('id', $id)->first();
+        
         return view('supplier.create', ['suplier', $supplier]);
+    }
+
+    public function supplier_contact($id){
+
+        $supplier_contacts = DB::table('ctn_supplier_contact')
+                ->where('supplier_id', $id)
+                ->get();
+        //dd($supplier_contacts);
+        //return data contact
+        foreach($supplier_contacts as $contact){
+            
+            echo ' 
+                <tr>
+                    <td>
+                        <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                            <input type="text" class="form-control" placeholder="Full name" name="e_fullname[]" id="fullname" required="" autocomplete="off" value="'.$contact->full_name.'">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                            <input type="text" class="form-control" placeholder="Phone" name="e_c_phone[]" id="c_phone" required="" autocomplete="off" value="'.$contact->phone.'">
+                            <div class="form-control-feedback">
+                                <i class="icon-phone-wave text-muted"></i>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                            <input type="text" class="form-control" placeholder="Contact Email" name="e_c_email[]" id="c_email" required="" autocomplete="off" value="'.$contact->email.'">
+                            <div class="form-control-feedback">
+                                <i class="icon-envelop4 text-muted"></i>
+                            </div>                                                
+                        </div>  
+                    </td>
+                    <td class="pb-0 pt-0 delete_oldID" id="delete" data="'.$contact->id.'">
+                        <input type="hidden" name="supplier_contact_id[]" value="'.$contact->id.'"> 
+                        <div class="md-form m-0 "><i class="icon-minus-circle2 text-danger" ></i></div></td>
+
+                </tr>
+            
+            ';  
+        }
+
     }
 
     /**
@@ -134,27 +182,65 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
-        $data = ['supplier_name'=>$request->supplier_name,
-                'register_number'=>$request->register_number,
-                'website'=>$request->website,
-                'address'=>$request->address
+       $id = $request->id;
+        
+       // check Empty Checkbox Services
+       if(is_null($request->service_id)):
+            $service_id = '';
+        else:            
+            $service_id = '['.implode(',',$request->service_id).']';
+        endif;
+            
+        $data = [
+                'service_id'        => $service_id,
+                'supplier_name'     => $request->name,
+                'register_number'   => $request->register_number,
+                'website'           => $request->website,
+                'address'           => $request->address
                 ];
 
-        $data_contact= ['supplier_id'=>'',
-                        'full_name'=>$request->full_name,
-                        'email'=>$request->email,
-                        'phone'=>$request->phone,
-                        ];   
-        DB::table('ctn_supplier')
-            ->where('id', $id)
-            ->update($data);
+        //update supplier         
+        DB::table('ctn_supplier')->where('id', $id)->update($data);
+        
+        // Update Supplier contact       
+        if(!empty($request->e_fullname)){     
+            for ($i = 0; $i < count($request->e_fullname); $i++) {
 
-        DB::table('ctn_supplier_contact')
-            ->where('id', $id)
-            ->update($data_contact);    
+                $data_key = [
+                    'supplier_id'   => $id,
+                    'full_name'     => $request->e_fullname[$i],
+                    'email'         => $request->e_c_email[$i],
+                    'phone'         => $request->e_c_phone[$i],
+                ];
+                DB::table('ctn_supplier_contact')->where('id', $request->supplier_contact_id[$i])->update($data_key);
+            }
+                
+
+        }
+        // Insert new Supplier contact 
+        if(!empty($request->fullname)){
+            for ($i = 0; $i < count($request->fullname); $i++) {
+
+                $data_key[] = [
+                    'supplier_id'   => $id, // supplier id
+                    'full_name'     => $request->fullname[$i],
+                    'email'         => $request->c_email[$i],
+                    'phone'         => $request->c_phone[$i],
+                ];
+            }
+            \App\Supplier_contacts::insert($data_key);
+        }
+
+        //Delete Supplier contact
+        if(!empty($request->d_supplier_contact_delete)){
+            DB::statement("DELETE FROM ctn_supplier_contact WHERE id IN ($request->d_supplier_contact_delete) ");           
+        }
+
+        return redirect()->back()->withSuccess('IT WORKS!');
+
+
     }
 
     /**
@@ -163,8 +249,10 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        DB::statement("UPDATE ctn_supplier SET status = 2 WHERE id IN ($id) ");
+        return redirect()->back()->withSuccess('IT WORKS!');
     }
 }
