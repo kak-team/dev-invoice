@@ -105,7 +105,7 @@ table#airline td {
     <div class="col-lg-12">
     <div class="card">
         <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> Airline LIST</h6>
+            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> AIRLINE LIST</h6>
             <div>
                 <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -119,6 +119,7 @@ table#airline td {
             <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple disabled" id="deleteRow" data-target="#modal_theme_danger"><i class="icon-trash"></i></button>
             </div>
                    </div>
+                   
         <div class="table-responsive">
                 <table class="table text-nowrap">
                     <tbody>
@@ -126,10 +127,8 @@ table#airline td {
                         <td>
                             <div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
                         </td>
-                        <td class="text-blue-800 font-weight-bold">COMPANY NAME</td>
-                        <td class="text-blue-800 font-weight-bold">CONTACT</td>
-                        <td class="text-blue-800 font-weight-bold">WEBSITE</td>
-                        <td class="text-blue-800 font-weight-bold">ADDRESS</td>
+                        <td class="text-blue-800 font-weight-bold">AIRLINE NAME</td>
+                        <td class="text-blue-800 font-weight-bold">AIRLINE CODE</td>
                         <td class="text-blue-800 font-weight-bold">STATUS</td>
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
@@ -165,7 +164,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $value->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $value->id }}" airline_name="{{ $value->name }}" airline_code="{{ $value->code }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                     </tbody>
