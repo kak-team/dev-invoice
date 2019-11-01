@@ -24,10 +24,11 @@ Route::get('/dashboard', function () {
 Route::get('/user', function () {
     return view('user.create');
 });
+// Airline Name
+Route::resource('airline', 'AirlineController');
 
 // supplier
 Route::resource('supplier', 'SupplierController');
-
 Route::post('/supplier/store', 'SupplierController@store');
 Route::get('/supplier/ajax/{id}', 'SupplierController@ajax');
 Route::get('/supplier/supplier_contact/{id}', 'SupplierController@supplier_contact');
@@ -36,8 +37,4 @@ Route::post('/supplier/update', 'SupplierController@update');
 
 Route::get('/customer', function () {
     return view('customer.create');
-});
-
-Route::get('/airline', function () {
-    return view('airline.create');
 });
