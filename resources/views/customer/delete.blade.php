@@ -1,4 +1,4 @@
-<form method="post" action="{{ action('SupplierController@destroy') }}">
+<form method="post" action="{{ action('CustomerController@destroy') }}">
     <div class="modal-header bg-danger p-2 pr-3">
         <h6 class="modal-title">MESSAGE </h6>
         <button type="button" class="close" data-dismiss="modal">×</button>
