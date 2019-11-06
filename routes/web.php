@@ -42,3 +42,6 @@ Route::get('/customer/ajax/{id}', 'CustomerController@ajax');
 Route::get('/customer/customer_contact/{id}', 'CustomerController@customer_contact');
 Route::post('/customer/destroy', 'CustomerController@destroy');
 Route::post('/customer/update', 'CustomerController@update');
+
+// Hotel
+Route::resource('hotel','HotelController');

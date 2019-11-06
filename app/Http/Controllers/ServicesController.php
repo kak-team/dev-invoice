@@ -15,6 +15,7 @@ class ServicesController extends Controller
     public function index()
     {
         $data = \App\Service::all();
+        var_dump($data);
         return view('supplier.index',$data);
 
     }
