@@ -1,6 +1,6 @@
-<form method="post" action="{{ action('CustomerController@update') }}">
+<form method="post" action="{{ action('SupplierController@update') }}">
     @csrf
-    <input type="hidden" name="id" id="customer_id">
+    <input type="hidden" name="id" id="supplier_id">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -45,7 +45,7 @@
 
                             <div class="col">
                                 <div class="d-flex">                                            
-                                    <div> <h5 style="margin-bottom: 4px;">customer Contact Person</h5></div>
+                                    <div> <h5 style="margin-bottom: 4px;">Supplier Contact Person</h5></div>
                                     <div class="ml-auto"><a href="#" style="text-decoration: underline;" id="add-more">+ ADD MORE ROW</a></div>
                                 </div>
                                 <table class="table" id="airline">
@@ -55,7 +55,7 @@
                                 </table>
 
                                 <span>  
-                                   <span><input type="hidden" name="d_customer_contact_delete" id="customerContactDelete"></span>
+                                   <span><input type="hidden" name="d_supplier_contact_delete" id="supplierContactDelete"></span>
                                 </span>
                                 
                             </div>
