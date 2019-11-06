@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Supplier;
 use App\Service;
 use App\SupplierList;
+use App\Hotel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -98,7 +99,21 @@ class SupplierController extends Controller
                 'phone'         => $request->c_phone[$i],
             ];
         }     
+
+        // insert to suppier contact
         \App\Supplier_contacts::insert($data_key);
+
+        // insert to hotel supplier
+    
+        if(in_array('5',$request->service_id)){
+            $data_hotel = [
+                'supplier_id' => $insert_supplier->id,
+                'description' => '',
+                'star_rate'   => 0,
+                'status'      => 1
+            ];
+            \App\Hotel::insert($data_hotel);
+        }
         
         return redirect()->back()->withSuccess('IT WORKS!');
     }
@@ -124,8 +139,7 @@ class SupplierController extends Controller
     public function edit($id)
     {
         //
-        $supplier = DB::table('ctn_supplier')->where('id', $id)->first();
-        
+        $supplier = DB::table('ctn_supplier')->where('id', $id)->first();        
         return view('supplier.create', ['suplier', $supplier]);
     }
 
@@ -203,6 +217,15 @@ class SupplierController extends Controller
 
         //update supplier         
         DB::table('ctn_supplier')->where('id', $id)->update($data);
+
+        //update supplier hotel
+        if(!in_array('5',$request->service_id)){
+            $data_hotel = ['status' => 0];
+        }else{
+            $data_hotel = ['status' => 1];
+        }
+            DB::table('ctn_supplier_hotel')->where('supplier_id', $id)->update($data_hotel);
+        
         
         // Update Supplier contact       
         if(!empty($request->e_fullname)){     

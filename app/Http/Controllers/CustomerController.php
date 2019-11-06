@@ -12,6 +12,11 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         /**  
@@ -216,14 +221,14 @@ class CustomerController extends Controller
         if(!empty($request->fullname)){
             for ($i = 0; $i < count($request->fullname); $i++) {
 
-                $data_key[] = [
+                $data_cc[] = [
                     'customer_id'   => $id, // customer id
                     'full_name'     => $request->fullname[$i],
                     'email'         => $request->c_email[$i],
                     'phone'         => $request->c_phone[$i],
                 ];
             }
-            \App\customer_contacts::insert($data_key);
+            \App\customer_contacts::insert($data_cc);
         }
 
         //Delete customer contact
@@ -245,7 +250,7 @@ class CustomerController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id;
-        DB::statement("UPDATE ctn_supplier SET status = 2 WHERE id IN ($id) ");
+        DB::statement("UPDATE ctn_customer SET status = 2 WHERE id IN ($id) ");
         return redirect()->back()->withSuccess('IT WORKS!');
     }
 }

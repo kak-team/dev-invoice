@@ -10,6 +10,7 @@
 
 	<!-- Global stylesheets -->
     <link href="{{ URL::asset('css/md.compile.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ URL::asset('css/mdbootstrap.fileupload.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -506,8 +507,9 @@
 	<!-- /page content -->
 	
 	<script type="text/javascript" src="{{ URL::asset('js/compiled-4.8.0.min.js') }}"></script>
-	<script type="text/javascript" src="{{ URL::asset('js/popper.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js//md.uploadfile.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js//md.rating.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/popper.min.js') }}"></script>
 	<script src="{{ URL::asset('js/app.js') }}"></script>
 
 </body>

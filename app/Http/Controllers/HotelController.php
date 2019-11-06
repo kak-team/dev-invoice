@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Hotel;
+use App\Hotel ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
 
 class HotelController extends Controller
 {
@@ -12,9 +14,24 @@ class HotelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        return view('hotel.index');
+        $hotel = DB::table('ctn_supplier_hotel AS A')
+        ->select('A.*', 'B.supplier_name','B.register_number','B.website','B.address','C.full_name', 'C.phone')            
+        ->join('ctn_supplier AS B','B.id', '=', 'A.supplier_id')
+        ->join('ctn_supplier_contact AS C', 'C.supplier_id', '=', 'B.id' )
+        ->where('B.status', '!=', '2')
+        ->groupBy('C.id')
+        ->paginate(10);
+        $data = array(
+            'hotels' => $hotel
+        );
+        return view('hotel.index',$data);
     }
 
     /**
