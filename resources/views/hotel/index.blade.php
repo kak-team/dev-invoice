@@ -4,8 +4,18 @@
 table#airline td {
     padding: 5px;
 }
-
-
+#tbl_room td{
+    padding: 2px 0px;
+}
+table#supplier_contact td {
+    padding: 2px;
+}
+.modal-dialog.modal-lg{
+    max-width: 995px!important;
+}
+.chip{
+    margin-bottom : 5px;
+}
 </style>
 
 
@@ -98,7 +108,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $hotel->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $hotel->id }}" company_name="{{ $hotel->supplier_name }}" register_number="{{ $hotel->register_number }}" website="{{ $hotel->website }}" address="{{ $hotel->address }}" value="1"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" hotel_id="{{ $hotel->id }}" supplier_id="{{ $hotel->supplier_id }}" company_name="{{ $hotel->supplier_name }}" register_number="{{ $hotel->register_number }}" website="{{ $hotel->website }}" address="{{ $hotel->address }}" star_rate="{{ $hotel->star_rate }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else
@@ -123,12 +133,26 @@ table#airline td {
         $('#rateMe1').mdbRate();
         $('.file-upload').file_upload();
         $('[data-toggle="popover"]').popover();
+        
+
+        var html = '<tr>';
+            html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Full name" name="fullname[]" id="fullname" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-user text-muted"></i></div></div></td>';
+            html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Phone" name="c_phone[]" id="c_phone" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-phone-wave text-muted"></i></div></div></td>';
+            html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Contact Email" name="c_email[]" id="c_email" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-envelop4 text-muted"></i></div></div></td>';
+            html += '<td class="pb-0 pt-0" id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
+            html += '</tr>';
+
+        var room_type = '<tr>';
+            room_type += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Room Type" name="room_name[]" id="room_name" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-more2 text-muted"></i></div></div></td>';
+            room_type += '<td class="pb-0 pt-0" id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
+            room_type += '</tr>';
 
         var hiddenId = new Array();
     
         // Edit
         $('.table-responsive').on('click','#btn-edit',function(){
-            var id = $(this).val();
+            $('#modal_theme_info #rateMe1').text('');
+            var id = $(this).attr('supplier_id');
             hiddenId = new Array();
             $(this).each(function() {
                 $.each(this.attributes, function() {
@@ -141,33 +165,54 @@ table#airline td {
                 });
             });
 
-            // remove checked box first
-            $("#modal_theme_info").each(function(){
-                $('#modal_theme_info .span-checkbox').removeClass('checked');
-                $('#modal_theme_info #check_service').prop('checked', false);                
-            });
-
-            // add checked box by data
-            var serviceIdArray = JSON.parse($(this).attr('service_id'));            
-            var i;
-            for (i = 0; i < serviceIdArray.length; i++) {
-                $('#modal_theme_info .v-'+serviceIdArray[i]).addClass('checked');
-                $('#modal_theme_info .v-'+serviceIdArray[i]+' #check_service').prop('checked', true);
-            }
-
-            $("#modal_theme_info #hotelContactDelete").val('');
+            // star rate            
+            var star = $(this).attr('star_rate');
+            $('#modal_theme_info #rateMe1').attr('star',star);  
+            $('#modal_theme_info #rateMe1').mdbRate();
 
             // ajax call hotel_contact
-            $('#modal_theme_info #airline').html('' );
+            $('#modal_theme_info #supplier_contact').html('' );
             $.ajax({
                 type : 'get',
                 url : 'hotel/hotel_contact/'+id,
                 success : function (respond){
                     $('#modal_theme_info #hotel_id').val(id);
-                    $('#modal_theme_info #airline').append(respond);    
+                    $('#modal_theme_info #supplier_contact').append(respond);    
                 }
+            });  
+            
+            // Tag Input
+            $('.chips-initial').materialChip({
+                placeholder: 'Enter a tag',
+                secondaryPlaceholder: '+Tag',
+                data : [{"tag":"sfdas"},{"tag":"asfdas"},{"tag":"asfa"}],
             });
-                
+
+            
+
+            $('.chips').on('chip.add', function(e, chip){
+               array = $('.chips-initial').materialChip('data');
+               console.log(array);
+               arrString = JSON.stringify(array);
+               $('#modal_theme_info #room_type').val(arrString);
+            });
+
+            $('.chips').on('chip.delete', function(e, chip){
+            // you have the deleted chip here
+            });
+
+            $('.chips').on('chip.select', function(e, chip){
+            // you have the selected chip here
+            });
+
+
+        });
+
+        $('#modal_theme_success').on('click','#add-more-room-type',function(){
+            $('#modal_theme_success #tbl_room').append(room_type);
+        });
+        $('#modal_theme_info').on('click','#add-more-room-type',function(){
+            $('#modal_theme_info #tbl_room').append(room_type);
         });
         
         // delete hotel_contact in modal edit
@@ -184,12 +229,12 @@ table#airline td {
 
         // create hotel contact person
         $('#modal_theme_success').on('click','#add-more',function(){
-            $('#modal_theme_success #airline').append(html);           
+            $('#modal_theme_success #supplier_contact').append(html);           
         });
 
         // edit hotel contact person
         $('#modal_theme_info').on('click','#add-more',function(){
-            $('#modal_theme_info #airline').append(html);           
+            $('#modal_theme_info #supplier_contact').append(html);           
         });
 
         // status

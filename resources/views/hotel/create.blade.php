@@ -57,12 +57,12 @@
                     <div class="col-5 border-left border-right">
                         <div class="d-flex mb-0 flex-nowrap">                            
                             <div class="py-2 h6 text-info-800 mx-auto my-0">
-                                <a id="add-more"><i class="icon-plus-circle2 pr-2"></i> Hotel Room:</a>
+                                <a id="add-more"><i class="icon-plus-circle2 pr-2"></i> Hotel Contact:</a>
                             </div>                                                               
                         
                             
                         </div>
-                        <table class="table" id="airline">
+                        <table class="table table-borderless" id="supplier_contact">
                             <tbody>
                                 <tr>
                                     <td>
@@ -100,25 +100,24 @@
                     <div class="col">
                         <div class="d-flex mb-0 flex-nowrap">                            
                             <div class="py-2 h6 mx-auto my-0 text-info-800 text-center">
-                               <a id="add-more"><i class="icon-plus-circle2 pr-2"></i> Hotel Room:</a>
+                               <a id="add-more-room-type"><i class="icon-plus-circle2 pr-2"></i> Hotel Room:</a>
                             </div>                                                                
                         
                             
                         </div>
-                        <table class="table" id="airline">
+                        <table class="table table-borderless" id="tbl_room">
                             <tbody>
-                                <tr>
-                                    
+                                <tr>                                    
                                     <td>
                                         <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                            <input type="text" class="form-control" placeholder="Contact Email" name="c_email[]" id="c_email" required="" autocomplete="off">
+                                            <input type="text" class="form-control" placeholder="Room Type" name="room_name[]" id="room_name" required="" autocomplete="off">
                                             <div class="form-control-feedback">
-                                                <i class="icon-envelop4 text-muted"></i>
+                                                <i class="icon-more2 text-muted"></i>
                                             </div>                                                
                                         </div>  
                                     </td>
                                     <td class="pb-0 pt-0" id="delete">
-                                        
+                                        <div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div>
                                     </td>
                                 </tr>
                             </tbody>

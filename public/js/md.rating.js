@@ -11,76 +11,26 @@
   
       var titles = ['1 star', '2 stars', '3 stars', '4 stars', '5 stars'];
   
-      for (var i = 0; i < 5; i++) {
+      for (var i = 1; i < 6; i++) {
         $container.append(`<i class="py-1 px-1 rate-popover" data-index="${i}" data-html="true" 
         data-placement="top" title="${titles[i]}"></i>`);
       }
   
       $stars = $container.children();
-  
-      if ($container.hasClass('rating-faces')) {
-        $stars.addClass('far fa-meh-blank');
-      } else if ($container.hasClass('empty-stars')) {
-        $stars.addClass('far fa-star');
-      } else {
-        $stars.addClass('fas fa-star');
-      }
-  
+      $stars.addClass('fas fa-star');
+      var index = $container.attr('star') ;
+      markStarsAsActive(index);
+
       $stars.on('click', function () {
-        var index = $(this).attr('data-index');
+        index = $(this).attr('data-index');
         markStarsAsActive(index);
       });
   
       function markStarsAsActive(index) {
         unmarkActive();
   
-        for (var i = 0; i <= index; i++) {
-  
-          if ($container.hasClass('rating-faces')) {
-            $($stars.get(i)).removeClass('fa-meh-blank');
-            $($stars.get(i)).addClass('live');
-  
-            switch (index) {
-              case '0':
-                $($stars.get(i)).addClass('fa-angry');
-                break;
-              case '1':
-                $($stars.get(i)).addClass('fa-frown');
-                break;
-              case '2':
-                $($stars.get(i)).addClass('fa-meh');
-                break;
-              case '3':
-                $($stars.get(i)).addClass('fa-smile');
-                break;
-              case '4':
-                $($stars.get(i)).addClass('fa-laugh');
-                break;
-            }
-  
-          } else if ($container.hasClass('empty-stars')) {
-            $($stars.get(i)).addClass('fas');
-            switch (index) {
-              case '0':
-                $($stars.get(i)).addClass('oneStar');
-                break;
-              case '1':
-                $($stars.get(i)).addClass('twoStars');
-                break;
-              case '2':
-                $($stars.get(i)).addClass('threeStars');
-                break;
-              case '3':
-                $($stars.get(i)).addClass('fourStars');
-                break;
-              case '4':
-                $($stars.get(i)).addClass('fiveStars');
-                break;
-            }
-          } else {
+        for (var i = 0; i < index; i++) {
             $($stars.get(i)).addClass('amber-text');
-  
-          }
         }
       }
   

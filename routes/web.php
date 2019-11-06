@@ -44,4 +44,9 @@ Route::post('/customer/destroy', 'CustomerController@destroy');
 Route::post('/customer/update', 'CustomerController@update');
 
 // Hotel
-Route::resource('hotel','HotelController');
+Route::resource('hotel', 'HotelController');
+Route::post('/hotel/store', 'HotelController@store');
+Route::get('/hotel/ajax/{id}', 'HotelController@ajax');
+Route::get('/hotel/hotel_contact/{id}', 'HotelController@hotel_contact');
+Route::post('/hotel/destroy', 'HotelController@destroy');
+Route::post('/hotel/update', 'HotelController@update');
