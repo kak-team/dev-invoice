@@ -12,7 +12,7 @@
                         <tr>
                             <td>
                                 <div class="col form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Airline name" name="airline_name" id="airline_name" autocomplete="off" >
+                                    <input type="text" class="form-control" placeholder="Airline name" name="airline_name[]" id="airline_name" autocomplete="off" >
                                     <div class="form-control-feedback">
                                         <i class="icon-magazine text-muted"></i>
                                     </div>
@@ -20,7 +20,7 @@
                             </td>
                             <td>
                                 <div class="col form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Airline Code" name="airline_code" id="airline_code" autocomplete="off">
+                                    <input type="text" class="form-control" placeholder="Airline Code" name="airline_code[]" id="airline_code" autocomplete="off">
                                     <div class="form-control-feedback">
                                         <i class="icon-user text-muted"></i>
                                     </div>

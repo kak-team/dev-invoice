@@ -1,5 +1,6 @@
 <form method="post" action="{{ action('AirlineController@update') }}">
     @csrf 
+    <input type="hidden" name="id" id="airline_id">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">

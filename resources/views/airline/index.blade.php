@@ -79,7 +79,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $value->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $value->id }}" airline_name="{{ $value->name }}" airline_code="{{ $value->code }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $value->id }}" airline_id="{{ $value->id }}" airline_name="{{ $value->name }}" airline_code="{{ $value->code }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -99,12 +99,29 @@ table#airline td {
     $('document').ready(function(){
 
         var html = '<tr>';
-            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline name" name="airline_name" id="airline_name" autocomplete="off"><div class="form-control-feedback"><i class="icon-magazine text-muted"></i></div></div></td>';
-            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline Code" name="airline_code" id="airline_code" autocomplete="off"><div class="form-control-feedback"><i class="icon-user text-muted"></i></div></div></td>';
+            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline name" name="airline_name[]" id="airline_name" autocomplete="off"><div class="form-control-feedback"><i class="icon-magazine text-muted"></i></div></div></td>';
+            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline Code" name="airline_code[]" id="airline_code" autocomplete="off"><div class="form-control-feedback"><i class="icon-user text-muted"></i></div></div></td>';
             html += '<td id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
             html += '</tr>';
         $('#modal_theme_success').on('click','#add-more',function(){
             $('#modal_theme_success #airline').append(html);
+        });
+
+        // update status
+        $('.table-responsive').on('click','#btn-status',function(){
+            var id = $(this).attr('data');
+            $.ajax({
+                type : 'get',
+                url  : 'airline/ajax/'+id,
+                success : function(respond){
+                    if(respond == 'success'){
+                        toastr["success"]("Successfully") ;  
+                    }else{
+                        toastr["warning"]("Something Problems...") ;  
+                    }
+                               
+                }   
+            });
         });
 
         // delete customer_contact in modal edit

@@ -96,7 +96,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $customer->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $customer->id }}" company_name="{{ $customer->customer_name }}" register_number="{{ $customer->register_number }}" website="{{ $customer->website }}" address="{{ $customer->address }}" value="1" service_id="{{ $customer->service_id }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $customer->id }}" company_name="{{ $customer->customer_name }}" register_number="{{ $customer->register_number }}" website="{{ $customer->website }}" address="{{ $customer->address }}" service_id="{{ $customer->service_id }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else
