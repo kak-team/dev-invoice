@@ -1,4 +1,4 @@
-<form method="post" action="{{ action('AirlineController@store') }}">
+<form method="post" action="{{ action('AirlineController@update') }}">
     @csrf 
     <div class="modal-body">
         <div class="card mb-0">
@@ -7,7 +7,6 @@
                         <h5 class="mb-0 font-weight-bold text-success">FORM CREATE</h5>
                         <span class="d-block text-muted">Enter your user detail below</span>
                     </div>
-                    <div class="ml-auto text-right"><a style="text-decoration: underline;" id="add-more">+ ADD MORE ROW</a></div>
                     <table class="table table-borderless" id="airline">
                         <tr>
                             <td>
@@ -39,5 +38,4 @@
             <button type="submit" class="btn btn-success legitRipple">Save Change<i class="icon-circle-right2 ml-2"></i></button>
         </div>
     </div>
-</form>    
-
+</form>

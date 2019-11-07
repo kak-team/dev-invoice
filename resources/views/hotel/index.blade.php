@@ -4,10 +4,7 @@
 table#airline td {
     padding: 5px;
 }
-
-
 </style>
-
 
 @include('modal.modal')
 @if(session('success'))
@@ -111,9 +108,13 @@ table#airline td {
             </div>
         
         </div>
-        <div class="card card-body py-2 pagination-flat justify-content-center">
-        {{ $hotels->links() }}
-        </div>
+
+        @if($hotels->count() > $hotels->perPage())
+            <div class="card card-body py-2 pagination-flat justify-content-center">
+                {{ $hotels->links() }}
+            </div>
+        @endif
+       
     </div>
    
 </div>

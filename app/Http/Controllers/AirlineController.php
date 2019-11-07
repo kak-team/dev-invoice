@@ -20,6 +20,7 @@ class AirlineController extends Controller
         $data = array(
             'values' => $airline
         );
+        
         return view('airline.index', $data);
 
     }

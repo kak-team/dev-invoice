@@ -26,6 +26,7 @@ Route::get('/user', function () {
 });
 // Airline Name
 Route::resource('airline', 'AirlineController');
+Route::post('/airline/update', 'AirlineController@update');
 
 // supplier
 Route::resource('supplier', 'SupplierController');
