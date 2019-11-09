@@ -20,12 +20,6 @@
 	<link href="{{ URL::asset('css/colors.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/custome.css') }}" rel="stylesheet" type="text/css">
 	
-
-	<!-- /global stylesheets -->
-
-	
-	<!-- /core JS files -->
-
 	<!-- Theme JS files -->
 	<script type="text/javascript" src="{{ URL::asset('js/jquery-3.4.0.min.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>

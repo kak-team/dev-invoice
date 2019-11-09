@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Airline extends Model
 {
     //
-    protected $table    = 'ctn_airline';
-    protected $fillable = ['user_id','airline_name','code','status'];
+    protected $table    = 'ctn_airline_name';
+    protected $fillable = ['user_id','name','code','status'];
     public $timestamps  = false;
 }

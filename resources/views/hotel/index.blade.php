@@ -4,6 +4,7 @@
 table#airline td {
     padding: 5px;
 }
+
 #tbl_room td{
     padding: 2px 0px;
 }
@@ -17,7 +18,6 @@ table#supplier_contact td {
     margin-bottom : 5px;
 }
 </style>
-
 
 @include('modal.modal')
 @if(session('success'))
@@ -119,9 +119,13 @@ table#supplier_contact td {
             </div>
         
         </div>
-        <div class="card card-body py-2 pagination-flat justify-content-center">
-        {{ $hotels->links() }}
-        </div>
+
+        @if($hotels->count() > $hotels->perPage())
+            <div class="card card-body py-2 pagination-flat justify-content-center">
+                {{ $hotels->links() }}
+            </div>
+        @endif
+       
     </div>
    
 </div>

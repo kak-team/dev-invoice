@@ -5,100 +5,15 @@ table#airline td {
     padding: 5px;
 }
 </style>
-<div id="modal_theme_success" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            @include('airline.create')
-        </div>
-    </div>
-</div>
-<div id="modal_theme_info" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <form method="get" action="/supplier">
-                <div class="modal-body">
-                    <div class="card mb-0">
-                            <div class="card-body">
-                                <div class="text-center mb-3">
-                                    <h5 class="mb-0 font-weight-bold text-success">FORM CREATE</h5>
-                                    <span class="d-block text-muted">Enter your user detail below</span>
-                                </div>
 
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="hidden" id="value" name="id">
-                                    <input type="text" class="form-control" placeholder="Company Name" name="company_name" id="company_name" autocomplete="off" required >
-                                    <div class="form-control-feedback">
-                                        <i class="icon-magazine text-muted"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Register Number" name="register_number" id="register_number" autocomplete="off">
-                                    <div class="form-control-feedback">
-                                        <i class="icon-link2 text-muted"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="website" name="website" id="website" autocomplete="off">
-                                    <div class="form-control-feedback">
-                                        <i class="icon-sphere text-muted"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Address" name="address" id="address" required>
-                                    <div class="form-control-feedback">
-                                        <i class="icon-location3 text-muted"></i>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                </div> 
-
-                <div class="modal-footer">
-                    <div class="form-group text-center">
-                        <button class="btn btn-danger legitRipple" type="button" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success legitRipple">Save Change<i class="icon-circle-right2 ml-2"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="modal_theme_danger" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger p-2 pr-3">
-                <h6 class="modal-title">MESSAGE </h6>
-                <button type="button" class="close" data-dismiss="modal">×</button>
-            </div>
-
-            <div class="modal-body text-center">
-                <p class="mb-0">
-                    <i class="icon-trash icon-2x text-danger-800 border-danger-800 border-3 rounded-round p-3 mb-3 mt-1"></i>
-                    <h5 class="mb-0">Are you sure to delete ?</h5>
-                    <span class="d-block text-muted">Note: you can view all list delete in trash</span>
-                </p>
-                <hr class="col-lg-8">
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link legitRipple" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn bg-danger legitRipple">I understand</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+@include('modal.modal')
+        
 @if(session('success'))
-    <div class="alert bg-success text-white alert-rounded alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
-        <span class="font-weight-semibold">Well done!</span> You successfully created supplier.
-    </div>
+    <script>
+        $(document).ready(function(){
+            toastr["success"]("Successfully") ;
+        });
+    </script>
 @endif
 
 <div class="row">
@@ -124,22 +39,22 @@ table#airline td {
                     <tbody>
                     <tr>
                         <td>
-                            <div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
+                            <!-- Default unchecked -->
+                            <div class="custom-control custom-checkbox check_false" id="btnCheck_all" >
+                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                <span class="custom-control-label" for="defaultUnchecked"></span>
+                            </div>
                         </td>
-                        <td class="text-blue-800 font-weight-bold">COMPANY NAME</td>
-                        <td class="text-blue-800 font-weight-bold">CONTACT</td>
-                        <td class="text-blue-800 font-weight-bold">WEBSITE</td>
-                        <td class="text-blue-800 font-weight-bold">ADDRESS</td>
+                        <td class="text-blue-800 font-weight-bold">AIR LINE NAME</td>
                         <td class="text-blue-800 font-weight-bold">STATUS</td>
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
                     @foreach($values as $value)
                         <tr>
                             <td>
-                                <div class="uniform-checker">
-                                    <span id="b4-check">
-                                        <input type="checkbox" class="form-input-styled" id="checkself">
-                                    </span>
+                                <div class="custom-control custom-checkbox" id="btnCheck_single" >
+                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked{{ $loop->iteration }}" value="{{ $value->id }}" name="checkbox">
+                                    <label class="custom-control-label" for="defaultUnchecked{{ $loop->iteration }}"></label>
                                 </div>
                             </td>
                             <td>
@@ -152,12 +67,11 @@ table#airline td {
                                     <div>
                                         <a href="#" class="text-default font-weight-semibold">{{ $value->name }}</a>
                                         <div class="text-muted font-size-sm">
-                                            {{ $value->code }}
+                                            Air Line Code: {{ $value->code }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td></td>
                             <td>
                                 @if( $value->status == 1)
                                 <a id="btn-status" class="active" data="{{ $value->id }}"><span class="badge bg-blue">Active</span></a>
@@ -165,7 +79,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $value->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $value->id }}" airline_id="{{ $value->id }}" airline_name="{{ $value->name }}" airline_code="{{ $value->code }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -173,17 +87,56 @@ table#airline td {
             </div>
         
         </div>
-        <div class="card card-body py-2 pagination-flat justify-content-center">
-        {{ $values->links() }}
-        </div>
+        @if($values->count() > $values->perPage())
+            <div class="card card-body py-2 pagination-flat justify-content-center">
+                {{ $values->links() }}
+            </div>
+        @endif
     </div>
    
 </div>
 <script>
-    $(document).ready(function(){
-    
-        // Edit
-        $('.table-responsive').on('click','#btn-edit',function(){
+    $('document').ready(function(){
+
+        var html = '<tr>';
+            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline name" name="airline_name[]" id="airline_name" autocomplete="off"><div class="form-control-feedback"><i class="icon-magazine text-muted"></i></div></div></td>';
+            html += '<td><div class="col form-group form-group-feedback form-group-feedback-left"><input type="text" class="form-control" placeholder="Airline Code" name="airline_code[]" id="airline_code" autocomplete="off"><div class="form-control-feedback"><i class="icon-user text-muted"></i></div></div></td>';
+            html += '<td id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
+            html += '</tr>';
+        $('#modal_theme_success').on('click','#add-more',function(){
+            $('#modal_theme_success #airline').append(html);
+        });
+
+        // update status
+        $('.table-responsive').on('click','#btn-status',function(){
+            var id = $(this).attr('data');
+            $.ajax({
+                type : 'get',
+                url  : 'airline/ajax/'+id,
+                success : function(respond){
+                    if(respond == 'success'){
+                        toastr["success"]("Successfully") ;  
+                    }else{
+                        toastr["warning"]("Something Problems...") ;  
+                    }
+                               
+                }   
+            });
+        });
+
+        // delete customer_contact in modal edit
+        $("#modal_theme_info").on('click','.delete_oldID',function(){
+            var id = $(this).attr('data');            
+            hiddenId.push(id);            
+            $("#modal_theme_info #customerContactDelete").val(hiddenId.toString());
+        });
+
+        // click one-by-one
+        $('.table-responsive').on('click','#btnCheck_single',function(){        
+            Btndelete();
+        });
+
+        $('.table-responsive').on('click', '#btn-edit', function(){
             $(this).each(function() {
                 $.each(this.attributes, function() {
                     // this.attributes is not a plain object, but an array
@@ -195,56 +148,7 @@ table#airline td {
                 });
             });
 
-            // remove checked box first
-            $("#modal_theme_info").each(function(){
-                $('#modal_theme_info .span-checkbox').removeClass('checked');
-                $('#modal_theme_info #check_service').prop('checked', false);                
-            });
-
-            // add checked box by data
-            var serviceIdArray = JSON.parse($(this).attr('service_id'));            
-            var i;
-            for (i = 0; i < serviceIdArray.length; i++) {
-                $('#modal_theme_info .v-'+serviceIdArray[i]).addClass('checked');
-                $('#modal_theme_info .v-'+serviceIdArray[i]+' #check_service').prop('checked', true);
-            }
-                
         });
-
-
-        // Select chekbox service
-        $('#modal_theme_success,#modal_theme_info').on('click','#check_service',function(){
-            $(this).parent().toggleClass('checked');
-        });
-
-        // create supplier contact person
-        $('#modal_theme_success').on('click','#add-more',function(){
-            var html = '<tr>';
-                    html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Full name" name="fullname[]" id="fullname" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-user text-muted"></i></div></div></td>';
-                    html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Phone" name="c_phone[]" id="c_phone" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-phone-wave text-muted"></i></div></div></td>';
-                    html += '<td><div class="form-group form-group-feedback form-group-feedback-left mb-0"><input type="text" class="form-control" placeholder="Contact Email" name="c_email[]" id="c_email" required="" autocomplete="off"><div class="form-control-feedback"><i class="icon-envelop4 text-muted"></i></div></div></td>';
-                    html += '<td class="pb-0 pt-0" id="delete"><div class="md-form m-0 "><i class="icon-minus-circle2 text-danger"></i></div></td>';
-                html += '</tr>';
-            $('#modal_theme_success #airline').append(html);           
-        });
-
-        // status
-        $('.table-responsive').on('click','#btn-status',function(){
-            var id = $(this).attr('data');
-            $.ajax({
-                type : 'get',
-                url  : 'supplier/ajax/'+id,
-                success : function(respond){
-                    toastr["success"]("Successfully") ;             
-                   
-                }   
-            });
-        });
-
-        
-    
     });
-
-
 </script>
 @stop
