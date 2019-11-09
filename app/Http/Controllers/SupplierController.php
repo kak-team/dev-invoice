@@ -103,16 +103,28 @@ class SupplierController extends Controller
         // insert to suppier contact
         \App\Supplier_contacts::insert($data_key);
 
-        // insert to hotel supplier
-    
+        // insert to hotel supplier    
         if(in_array('5',$request->service_id)){
             $data_hotel = [
                 'supplier_id' => $insert_supplier->id,
                 'description' => '',
                 'star_rate'   => 0,
+                'room_type'   => '[]',
                 'status'      => 1
             ];
             \App\Hotel::insert($data_hotel);
+        }
+
+        // insert to hotel supplier    
+        if(in_array('4',$request->service_id)){
+            $data_hotel = [
+                'supplier_id' => $insert_supplier->id,
+                'description' => '',
+                'star_rate'   => 0,
+                'car_type'   => '[]',
+                'status'      => 1
+            ];
+            \App\Transportation::insert($data_hotel);
         }
         
         return redirect()->back()->withSuccess('IT WORKS!');

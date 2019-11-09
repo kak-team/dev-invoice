@@ -46,7 +46,13 @@ Route::post('/customer/update', 'CustomerController@update');
 // Hotel
 Route::resource('hotel', 'HotelController');
 Route::post('/hotel/store', 'HotelController@store');
-Route::get('/hotel/ajax/{id}', 'HotelController@ajax');
+Route::get('/hotel/update_status/{id}', 'HotelController@update_status');
 Route::get('/hotel/hotel_contact/{id}', 'HotelController@hotel_contact');
-Route::post('/hotel/destroy', 'HotelController@destroy');
 Route::post('/hotel/update', 'HotelController@update');
+
+// transportation
+Route::resource('transportation', 'TransportationController');
+Route::post('/transportation/store', 'TransportationController@store');
+Route::get('/transportation/update_status/{id}', 'TransportationController@update_status');
+Route::get('/transportation/transportation_contact/{id}', 'TransportationController@transportation_contact');
+Route::post('/transportation/update', 'TransportationController@update');

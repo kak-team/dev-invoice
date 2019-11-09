@@ -32,7 +32,7 @@ table#supplier_contact td {
     <div class="col-lg-12">
     <div class="card">
         <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> HOTEL LIST</h6>
+            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> TRANSPORTATION LIST</h6>
             <div>
                 <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -57,7 +57,7 @@ table#supplier_contact td {
                                 </div>
                             
                         </td>
-                        <td class="text-blue-800 font-weight-bold">hotel NAME</td>
+                        <td class="text-blue-800 font-weight-bold">Transportation NAME</td>
                         <td class="text-blue-800 font-weight-bold">CONTACT</td>
                         <td class="text-blue-800 font-weight-bold">WEBSITE</td>
                         <td class="text-blue-800 font-weight-bold">ADDRESS</td>
@@ -65,12 +65,12 @@ table#supplier_contact td {
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
                
-                @if(!$hotels->isEmpty())
-                    @foreach($hotels as $hotel)
+                @if(!$transportations->isEmpty())
+                    @foreach($transportations as $transportation)
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox" id="btnCheck_single" >
-                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked{{ $loop->iteration }}" value="{{ $hotel->id }}" name="checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked{{ $loop->iteration }}" value="{{ $transportation->id }}" name="checkbox">
                                     <label class="custom-control-label" for="defaultUnchecked{{ $loop->iteration }}"></label>
                                 </div>
                             </td>
@@ -78,35 +78,35 @@ table#supplier_contact td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $hotel->supplier_name[0] }}</span>
+                                        <span class="text-icon">{{ $transportation->supplier_name[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $hotel->supplier_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $transportation->supplier_name }}</a>
                                         <div class="text-muted font-size-sm">
-                                            Register Numer: {{ $hotel->register_number }}
+                                            Register Numer: {{ $transportation->register_number }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    <a href="#" class="text-default font-weight-semibold">{{ $hotel->supplier_name }}</a>
+                                    <a href="#" class="text-default font-weight-semibold">{{ $transportation->supplier_name }}</a>
                                     <div class="text-muted font-size-sm">
-                                        Tel : {{ $hotel->phone }}
+                                        Tel : {{ $transportation->phone }}
                                     </div>
                                 </div>
                             </td>
-                            <td><span class="text-default font-weight-semibold">{{ $hotel->website }}</span></td>
-                            <td><span class="text-default font-weight-semibold">{{ $hotel->address }}</span></td>
+                            <td><span class="text-default font-weight-semibold">{{ $transportation->website }}</span></td>
+                            <td><span class="text-default font-weight-semibold">{{ $transportation->address }}</span></td>
                             <td>
-                                @if( $hotel->status == 1)
-                                <a id="btn-status" class="active" data="{{ $hotel->id }}"><span class="badge bg-blue">Active</span></a>
+                                @if( $transportation->status == 1)
+                                <a id="btn-status" class="active" data="{{ $transportation->id }}"><span class="badge bg-blue">Active</span></a>
                                 @else
-                                <a id="btn-status" data="{{ $hotel->id }}"><span class="badge bg-warning">Disabled</span></a>  
+                                <a id="btn-status" data="{{ $transportation->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" hotel_id="{{ $hotel->id }}" supplier_id="{{ $hotel->supplier_id }}" company_name="{{ $hotel->supplier_name }}" register_number="{{ $hotel->register_number }}" website="{{ $hotel->website }}" address="{{ $hotel->address }}" star_rate="{{ $hotel->star_rate }}" description="{{ $hotel->description }}" room_type="{{ $hotel->room_type }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" transportation_id="{{ $transportation->id }}" supplier_id="{{ $transportation->supplier_id }}" company_name="{{ $transportation->supplier_name }}" register_number="{{ $transportation->register_number }}" website="{{ $transportation->website }}" address="{{ $transportation->address }}" star_rate="{{ $transportation->star_rate }}" description="{{ $transportation->description }}" car_type="{{ $transportation->car_type }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else
@@ -120,7 +120,7 @@ table#supplier_contact td {
         
         </div>
         <div class="card card-body py-2 pagination-flat justify-content-center">
-        {{ $hotels->links() }}
+        {{ $transportations->links() }}
         </div>
     </div>
    
@@ -164,11 +164,11 @@ table#supplier_contact td {
             $('#modal_theme_info #rateMe1').attr('star',star);  
             $('#modal_theme_info #rateMe1').mdbRate();
 
-            // ajax call hotel_contact
+            // ajax call Transportation_contact
             $('#modal_theme_info #supplier_contact').html('' );
             $.ajax({
                 type : 'get',
-                url : 'hotel/hotel_contact/'+id,
+                url : 'transportation/transportation_contact/'+id,
                 success : function (respond){
                     $('#modal_theme_info #supplier_contact').append(respond);    
                 }
@@ -180,19 +180,19 @@ table#supplier_contact td {
             $('#modal_theme_info .chips-initial').materialChip({
                 placeholder: 'more...',
                 secondaryPlaceholder: '+ Room Type',
-                data : jQuery.parseJSON($(this).attr('room_type')),
+                data : jQuery.parseJSON($(this).attr('car_type')),
             });            
 
             $('.chips').on('chip.add', function(e, chip){
                array = $('.chips-initial').materialChip('data');
                arrString = JSON.stringify(array);
-               $('#modal_theme_info #room_type').val(arrString);
+               $('#modal_theme_info #car_type').val(arrString);
             });
 
             $('.chips').on('chip.delete', function(e, chip){
                 array = $('.chips-initial').materialChip('data');
                 arrString = JSON.stringify(array);
-               $('#modal_theme_info #room_type').val(arrString);
+               $('#modal_theme_info #car_type').val(arrString);
             });
 
             $('.chips').on('chip.select', function(e, chip){
@@ -210,19 +210,19 @@ table#supplier_contact td {
         
         });
         
-        // delete hotel_contact in modal edit
+        // delete Transportation_contact in modal edit
         $("#modal_theme_info").on('click','.delete_oldID',function(){
             var id = $(this).attr('data');            
             hiddenId.push(id);            
-            $("#modal_theme_info #hotelContactDelete").val(hiddenId.toString());
+            $("#modal_theme_info #TransportationContactDelete").val(hiddenId.toString());
         });
 
-        // create hotel contact person
+        // create Transportation contact person
         $('#modal_theme_success').on('click','#add-more',function(){
             $('#modal_theme_success #supplier_contact').append(html);           
         });
 
-        // edit hotel contact person
+        // edit Transportation contact person
         $('#modal_theme_info').on('click','#add-more',function(){
             $('#modal_theme_info #supplier_contact').append(html);           
         });
@@ -232,7 +232,7 @@ table#supplier_contact td {
             var id = $(this).attr('data');
             $.ajax({
                 type : 'get',
-                url  : 'hotel/update_status/'+id,
+                url  : 'transportation/update_status/'+id,
                 success : function(respond){
                     if(respond == 'success'){
                         toastr["success"]("Successfully") ;  
