@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Hotel ;
+use App\Transportation ;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 
-class HotelController extends Controller
+class TransportationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class HotelController extends Controller
     
     public function index()
     {
-        $hotel = DB::table('ctn_supplier_hotel AS A')
+        $transportation = DB::table('ctn_supplier_transportation AS A')
         ->select('A.*', 'B.supplier_name','B.register_number','B.website','B.address','C.full_name', 'C.phone')            
         ->join('ctn_supplier AS B','B.id', '=', 'A.supplier_id')
         ->join('ctn_supplier_contact AS C', 'C.supplier_id', '=', 'B.id' )
@@ -29,9 +29,9 @@ class HotelController extends Controller
         ->groupBy('A.id')
         ->paginate(10);
         $data = array(
-            'hotels' => $hotel
+            'transportations' => $transportation
         );
-        return view('hotel.index',$data);
+        return view('transportation.index',$data);
     }
 
     /**
@@ -56,7 +56,7 @@ class HotelController extends Controller
         //
     }
 
-    public function hotel_contact($id){
+    public function transportation_contact($id){
 
         $supplier_contacts = DB::table('ctn_supplier_contact')
                 ->where('supplier_id', $id)
@@ -105,10 +105,10 @@ class HotelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Hotel  $hotel
+     * @param  \App\transportation  $transportation
      * @return \Illuminate\Http\Response
      */
-    public function show(Hotel $hotel)
+    public function show(Transportation $transportation)
     {
         //
     }
@@ -116,10 +116,10 @@ class HotelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Hotel  $hotel
+     * @param  \App\transportation  $transportation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Hotel $hotel)
+    public function edit(Transportation $transportation)
     {
         //
     }
@@ -128,13 +128,13 @@ class HotelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Hotel  $hotel
+     * @param  \App\transportation  $transportation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $supplier_id    = $request->supplier_id;
-        $hotel_id       = $request->hotel_id;
+        $transportation_id       = $request->transportation_id;
         $data_supplier  = [
         'supplier_name'     => $request->name,
         'register_number'   => $request->register_number,
@@ -142,17 +142,17 @@ class HotelController extends Controller
         'address'           => $request->address
         ];
         
-        $data_hotel = [
+        $data_transportation = [
             'star_rate'     => $request->star_rate,
             'description'   => $request->description,
-            'room_type'     => $request->room_type
+            'car_type'     => $request->car_type
         ];
 
         //update supplier         
         DB::table('ctn_supplier')->where('id', $supplier_id)->update($data_supplier);
 
-        //update hotel  
-        DB::table('ctn_supplier_hotel')->where('supplier_id', $supplier_id)->update($data_hotel);
+        //update transportation  
+        DB::table('ctn_supplier_transportation')->where('supplier_id', $supplier_id)->update($data_transportation);
         
         
         // Update Supplier contact       
@@ -194,17 +194,17 @@ class HotelController extends Controller
 
     public function update_status($id)
     {
-        $status = DB::statement(" UPDATE ctn_supplier_hotel AS A SET A.status = IF(A.status = 1, 0, 1) WHERE id = $id ");
+        $status = DB::statement(" UPDATE ctn_supplier_transportation AS A SET A.status = IF(A.status = 1, 0, 1) WHERE id = $id ");
         echo 'success';
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Hotel  $hotel
+     * @param  \App\transportation  $transportation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Hotel $hotel)
+    public function destroy(Transportation $transportation)
     {
         //
     }

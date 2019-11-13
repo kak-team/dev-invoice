@@ -1,9 +1,9 @@
-<form method="post" action="{{ action('HotelController@update') }}">
+<form method="post" action="{{ action('TransportationController@update') }}">
     @csrf
     <input type="hidden" name="supplier_id" id="supplier_id">
-    <input type="hidden" name="hotel_id" id="hotel_id">
+    <input type="hidden" name="transportation_id" id="transportation_id">
     <input type="hidden" name="star_rate" id="star_rate">
-    <input type="hidden" name="hotelContactDelete" id="hotelContactDelete">
+    <input type="hidden" name="transportationContactDelete" id="transportationContactDelete">
     <div class="modal-body">
         <div class="card mb-0">
             <div class="card-body">
@@ -27,7 +27,7 @@
                         <div class="d-flex mb-0 flex-nowrap">                            
                             <div class="py-2 h6 m-0">
                                
-                               Hotel Rating:  <span id="rateMe1" class="modal_theme_info" star="4"></span>
+                               Transportation Rating:  <span id="rateMe1" class="modal_theme_info" star="4"></span>
                             </div>
                         </div>
                         
@@ -66,7 +66,7 @@
                         <div class="row">
                             <div class="d-flex mb-0 flex-nowrap">                            
                                 <div class="py-2 h6 text-info-800 mx-auto my-0">
-                                    <a id="add-more"><i class="icon-plus-circle2 pr-2"></i> Hotel Contact:</a>
+                                    <a id="add-more"><i class="icon-plus-circle2 pr-2"></i> Transportation Contact:</a>
                                 </div>                                                             
                             </div>
 
@@ -113,12 +113,12 @@
                     <div class="col border-left">
                         <div class="d-flex mb-0 flex-nowrap">                            
                             <div class="py-2 h6 my-0 text-info-800 text-left">
-                               <span class="py-2 h6 m-0">Hotel Room:</span> 
+                               <span class="py-2 h6 m-0">Transportation Room:</span> 
                             </div>                                                                
                         
                             
                         </div>
-                        <input type="hidden" id="room_type" name="room_type">
+                        <input type="hidden" id="car_type" name="car_type">
                         <div id="cci">
                         
                         </div>
