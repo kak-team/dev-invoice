@@ -24,6 +24,13 @@ Route::get('/dashboard', function () {
 Route::get('/user', function () {
     return view('user.create');
 });
+
+// Paymenth Method
+Route::resource('paymentmethod', 'PaymentMethodController');
+Route::post('/paymentmethod/update', 'PaymentMethodController@update');
+Route::get('/paymentmethod/ajax/{id}', 'PaymentMethodController@ajax');
+Route::post('/paymentmethod/destroy', 'PaymentMethodController@destroy');
+
 // Airline Name
 Route::resource('airline', 'AirlineController');
 Route::post('/airline/update', 'AirlineController@update');
