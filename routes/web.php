@@ -24,6 +24,7 @@ Route::get('/dashboard', function () {
 Route::get('/user', function () {
     return view('user.create');
 });
+
 // Airline Name
 Route::resource('airline', 'AirlineController');
 Route::post('/airline/update', 'AirlineController@update');
@@ -59,3 +60,7 @@ Route::post('/transportation/store', 'TransportationController@store');
 Route::get('/transportation/update_status/{id}', 'TransportationController@update_status');
 Route::get('/transportation/transportation_contact/{id}', 'TransportationController@transportation_contact');
 Route::post('/transportation/update', 'TransportationController@update');
+
+
+// transportation
+Route::resource('invoice_airticket', 'Invoice_airticketController');

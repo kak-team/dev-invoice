@@ -179,7 +179,7 @@ table#supplier_contact td {
             $('#cci').html('<div class="chips-initial p-0 mb-0 mt-1"></div>');
             $('#modal_theme_info .chips-initial').materialChip({
                 placeholder: 'more...',
-                secondaryPlaceholder: '+ Room Type',
+                secondaryPlaceholder: '+ Car Type',
                 data : jQuery.parseJSON($(this).attr('car_type')),
             });            
 

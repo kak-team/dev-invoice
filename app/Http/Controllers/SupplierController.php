@@ -74,7 +74,7 @@ class SupplierController extends Controller
         
         // check Empty Checkbox Services
         if(is_null($request->service_id)):
-            $service_id = '';
+            $service_id = '[]';
         else:            
             $service_id = '['.implode(',',$request->service_id).']';
         endif;
@@ -83,7 +83,8 @@ class SupplierController extends Controller
         $data = [
                 'user_id'           => $user->id,
                 'service_id'        => $service_id,
-                'supplier_name'     => $request->name,
+                'name_kh'           => $request->name_kh,
+                'name_en'           => $request->name_en,
                 'register_number'   => $request->register_number,
                 'website'           => $request->website,
                 'address'           => $request->address
@@ -103,28 +104,30 @@ class SupplierController extends Controller
         // insert to suppier contact
         \App\Supplier_contacts::insert($data_key);
 
-        // insert to hotel supplier    
-        if(in_array('5',$request->service_id)){
-            $data_hotel = [
-                'supplier_id' => $insert_supplier->id,
-                'description' => '',
-                'star_rate'   => 0,
-                'room_type'   => '[]',
-                'status'      => 1
-            ];
-            \App\Hotel::insert($data_hotel);
-        }
+        if(!empty($request->service_id)){
+            // insert to hotel supplier    
+            if(in_array('5',$request->service_id)){
+                $data_hotel = [
+                    'supplier_id' => $insert_supplier->id,
+                    'description' => '',
+                    'star_rate'   => 0,
+                    'room_type'   => '[]',
+                    'status'      => 1
+                ];
+                \App\Hotel::insert($data_hotel);
+            }
 
-        // insert to hotel supplier    
-        if(in_array('4',$request->service_id)){
-            $data_hotel = [
-                'supplier_id' => $insert_supplier->id,
-                'description' => '',
-                'star_rate'   => 0,
-                'car_type'   => '[]',
-                'status'      => 1
-            ];
-            \App\Transportation::insert($data_hotel);
+            // insert to hotel supplier    
+            if(in_array('4',$request->service_id)){
+                $data_hotel = [
+                    'supplier_id' => $insert_supplier->id,
+                    'description' => '',
+                    'star_rate'   => 0,
+                    'car_type'   => '[]',
+                    'status'      => 1
+                ];
+                \App\Transportation::insert($data_hotel);
+            }
         }
         
         return redirect()->back()->withSuccess('IT WORKS!');
@@ -221,7 +224,8 @@ class SupplierController extends Controller
             
         $data = [
                 'service_id'        => $service_id,
-                'supplier_name'     => $request->name,
+                'name_kh'           => $request->name_kh,
+                'name_en'           => $request->name_en,
                 'register_number'   => $request->register_number,
                 'website'           => $request->website,
                 'address'           => $request->address
@@ -231,13 +235,16 @@ class SupplierController extends Controller
         DB::table('ctn_supplier')->where('id', $id)->update($data);
 
         //update supplier hotel
-        if(!in_array('5',$request->service_id)){
-            $data_hotel = ['status' => 0];
-        }else{
-            $data_hotel = ['status' => 1];
+        if(in_array('5',$request->service_id)){            
+            DB::statement("INSERT INTO ctn_supplier_hotel (`supplier_id`, `description`, `star_rate`, `room_type`, `status`) 
+            VALUES($id, '', '0', '[]', '1') ON DUPLICATE KEY UPDATE supplier_id = $id ");
         }
-            DB::table('ctn_supplier_hotel')->where('supplier_id', $id)->update($data_hotel);
-        
+
+        //update supplier Transportation
+        if(in_array('4',$request->service_id)){            
+            DB::statement("INSERT INTO ctn_supplier_transportation (`supplier_id`, `description`, `star_rate`, `car_type`, `status`) 
+            VALUES($id, '', '0', '[]', '1') ON DUPLICATE KEY UPDATE supplier_id = $id ");
+        }
         
         // Update Supplier contact       
         if(!empty($request->e_fullname)){     

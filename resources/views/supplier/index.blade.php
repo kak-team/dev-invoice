@@ -54,7 +54,7 @@ table#airline td {
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
                     
-                    @foreach($suppliers as $supplier)
+                    @forelse($suppliers as $supplier)
                         <tr>
                             <td>
                                 <div class="custom-control custom-checkbox" id="btnCheck_single" >
@@ -66,11 +66,11 @@ table#airline td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $supplier->supplier_name[0] }}</span>
+                                        <span class="text-icon">{{ $supplier->name_en[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $supplier->supplier_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $supplier->name_en }}</a>
                                         <div class="text-muted font-size-sm">
                                             Register Numer: {{ $supplier->register_number }}
                                         </div>
@@ -94,9 +94,13 @@ table#airline td {
                                 <a id="btn-status" data="{{ $supplier->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $supplier->id }}" company_name="{{ $supplier->supplier_name }}" register_number="{{ $supplier->register_number }}" website="{{ $supplier->website }}" address="{{ $supplier->address }}" value="1" service_id="{{ $supplier->service_id }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $supplier->id }}" name_kh="{{ $supplier->name_kh }}" name_en="{{ $supplier->name_en }}" register_number="{{ $supplier->register_number }}" website="{{ $supplier->website }}" address="{{ $supplier->address }}" value="1" service_id="{{ $supplier->service_id }}"><i class="icon-quill4"></i></button></td>
                         </tr>
-                    @endforeach
+                        @empty
+                            <tr>
+                                <td colspan=7 class="p-5 text-center">No Data...</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -202,6 +206,14 @@ table#airline td {
                                
                 }   
             });
+        });
+
+        // supplier register 
+        $('#modal_theme_success,#modal_theme_info').on('keyup','#register_number',function(){
+            var c = this.value.length;
+            if(c == 4){
+                $(this).val($(this).val() + "-");
+            }
         });
 
         // click one-by-one

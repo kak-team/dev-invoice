@@ -13,7 +13,14 @@
                             <div class="col-lg-5">
                                 <h5>Company Info</h5>
                                 <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Company Name" name="name" id="company_name" autocomplete="off" required >
+                                    <input type="text" class="form-control" placeholder="Company Name Kh" name="name_kh" id="name_kh" autocomplete="off" required >
+                                    <div class="form-control-feedback">
+                                        <i class="icon-magazine text-muted"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-feedback form-group-feedback-left">
+                                    <input type="text" class="form-control" placeholder="Company Name En" name="name_en" id="name_en" autocomplete="off" required >
                                     <div class="form-control-feedback">
                                         <i class="icon-magazine text-muted"></i>
                                     </div>

@@ -26,6 +26,7 @@ class HotelController extends Controller
         ->join('ctn_supplier AS B','B.id', '=', 'A.supplier_id')
         ->join('ctn_supplier_contact AS C', 'C.supplier_id', '=', 'B.id' )
         ->where('B.status', '!=', '2')
+        ->where('B.service_id', 'LIKE', '%5%')
         ->groupBy('A.id')
         ->paginate(10);
         $data = array(
