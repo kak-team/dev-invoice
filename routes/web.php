@@ -25,6 +25,9 @@ Route::get('/user', function () {
     return view('user.create');
 });
 
+//Company Profile
+Route::resource('companyprofile', 'CompanyProfileController');
+
 // Paymenth Method
 Route::resource('paymentmethod', 'PaymentMethodController');
 Route::post('/paymentmethod/update', 'PaymentMethodController@update');
