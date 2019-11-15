@@ -15,8 +15,12 @@ table#airline td {
 @endif
 
 <div class="row">
-    <form class="col-md-12" method="post" action="{{ action('CompanyProfileController@store') }}">
+    <form class="col-md-12" enctype="multipart/form-data" method="post" action="{{ action('CompanyProfileController@store') }}">
         @csrf 
+
+    @foreach($values as $value) 
+    <input type="hidden" name="company_id" value="{{ $value->id }}"/>
+
         <div class="modal-body col-md-12">
             <div class="card mb-0">
                     <div class="card-body row">
@@ -26,28 +30,28 @@ table#airline td {
                                     <td>
                                         <p>Company Name in Khmer</p>
                                         <div class="col form-group form-group-feedback form-group-feedback-left">
-                                            <input type="text" class="form-control" placeholder="Your company name in Khmer" name="kh_companyname" id="companyname" autocomplete="off" >
+                    <input type="text" class="form-control" placeholder="Your company name in Khmer" name="kh_companyname" value="{{ $value->name }}" id="companyname" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <p>Company Name in English</p>
                                         <div class="col form-group form-group-feedback form-group-feedback-left">
-                                            <input type="text" class="form-control" placeholder="Your company name in English" name="en_companyname" id="companyname" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="Your company name in English" name="en_companyname" value="{{ $value->en_name }}" id="companyname" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <p>Registration Number</p>
                                         <div class="col form-group form-group-feedback form-group-feedback-left">
-                                            <input type="text" class="form-control" placeholder="Your company vat number" name="registration_number" id="companyvat" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="Your company vat number" name="registration_number" value="{{ $value->register_number }}" id="companyvat" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <p>Vat (%)</p>
                                         <div class="col form-group form-group-feedback form-group-feedback-left">
-                                            <input type="text" class="form-control" placeholder="10%" name="vat" id="vat" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="10" name="vat" id="vat" value="{{ $value->vat }}" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
@@ -58,11 +62,22 @@ table#airline td {
                         </div>
                         <div class="col">
                             <p>Company Logo</p>
-                            <div class="col form-group form-group-feedback form-group-feedback-left">
-                                <div class="file-upload-wrapper">
-                                    <input type="file" name="companylogo" id="input-file-now" class="file-upload" />
+                            @if(!empty($value->logo))
+                                <div class="col form-group form-group-feedback form-group-feedback-left">
+                                    <img src="{{ $value->logo }}"/>
                                 </div>
-                            </div>
+                                <div class="col form-group form-group-feedback form-group-feedback-left">
+                                    <div class="file-upload-wrapper">
+                                        <input type="file" name="images" id="input-file-now" class="file-upload" />
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col form-group form-group-feedback form-group-feedback-left">
+                                    <div class="file-upload-wrapper">
+                                        <input type="file" name="images" id="input-file-now" class="file-upload" />
+                                    </div>
+                                </div>
+                            @endif
                         </div>  
                     </div>
                 </div>
@@ -74,46 +89,119 @@ table#airline td {
                             <tr>
                                 <td>
                                     <p>Address in Khmer</p>
-                                    
+                                    @forelse($khaddress as $kh_address)
                                     <div class="col d-flex form-group form-group-feedback form-group-feedback-left">
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="ផ្ទះលេខ" name="house_number" id="house_number" autocomplete="off" >
+                                            <input type="hidden" value="{{ $kh_address->id }}" name="khaddress_id"/>
+                                            <input type="text" class="form-control" placeholder="ផ្ទះលេខ" name="house_number" value="{{ $kh_address->house_number }}" id="house_number" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="ផ្លូវ" name="st_number" id="st_number" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="ផ្លូវ" name="st_number" value="{{ $kh_address->street_number }}" id="st_number" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>    
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="ឃុំ/សង្កាត់" name="sangkat" id="sangkat" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="ឃុំ/សង្កាត់" name="sangkat" value="{{ $kh_address->commune }}" id="sangkat" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="ខណ្ឌ" name="khan" id="sangkat" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="ខណ្ឌ" name="khan" value="{{ $kh_address->districk }}" id="sangkat" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="ខេត្ត/រាជធានី" name="city" id="city" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="ខេត្ត/រាជធានី" name="city" value="{{ $kh_address->province }}" id="city" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
                                     </div>                                    
                                 </td>
+                                @empty
+                                    <div class="col d-flex form-group form-group-feedback form-group-feedback-left">
+                                            <div class="p-2">
+                                                <input type="text" class="form-control" placeholder="ផ្ទះលេខ" name="house_number" id="house_number" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <input type="text" class="form-control" placeholder="ផ្លូវ" name="st_number" id="st_number" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>    
+                                            <div class="p-2">
+                                                <input type="text" class="form-control" placeholder="ឃុំ/សង្កាត់" name="sangkat"  id="sangkat" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <input type="text" class="form-control" placeholder="ខណ្ឌ" name="khan" id="sangkat" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <input type="text" class="form-control" placeholder="ខេត្ត/រាជធានី" name="city"  id="city" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>
+                                        </div>                                    
+                                    </td>
+                                @endforelse
                             </tr>
                             <tr>    
                                 <td>
                                     <p>Address in English</p>
+                                    @forelse($enaddress as $en_address)
                                     <div class="col d-flex form-group form-group-feedback form-group-feedback-left">
                                         <div class="p-2">
+                                        <input type="hidden" value="{{ $en_address->id }}" name="enaddress_id"/>
+                                            <input type="text" class="form-control" placeholder="House Number" name="en_house_number" value="{{ $en_address->house_number }}" id="en_house_number" autocomplete="off" >
+                                            <div class="form-control-feedback">
+                                                <i class="icon-magazine text-muted"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-2">
+                                            <input type="text" class="form-control" placeholder="Street Number" name="en_st_number" value="{{ $en_address->street_number }}" id="en_st_number" autocomplete="off" >
+                                            <div class="form-control-feedback">
+                                                <i class="icon-magazine text-muted"></i>
+                                            </div>
+                                        </div>    
+                                        <div class="p-2">
+                                            <input type="text" class="form-control" placeholder="Commune/Sangkat" name="en_sangkat" value="{{ $en_address->commune }}" id="en_sangkat" autocomplete="off" >
+                                            <div class="form-control-feedback">
+                                                <i class="icon-magazine text-muted"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-2">
+                                            <input type="text" class="form-control" placeholder="Town/District/Khan" name="en_khan" value="{{ $en_address->districk }}" id="en_sangkat" autocomplete="off" >
+                                            <div class="form-control-feedback">
+                                                <i class="icon-magazine text-muted"></i>
+                                            </div>
+                                        </div>
+                                        <div class="p-2">
+                                            <input type="text" class="form-control" placeholder="Province/City" name="en_city" value="{{ $en_address->province }}" id="en_city" autocomplete="off" >
+                                            <div class="form-control-feedback">
+                                                <i class="icon-magazine text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @empty
+
+                                    <div class="col d-flex form-group form-group-feedback form-group-feedback-left">
+                                        <div class="p-2">
+                                            
                                             <input type="text" class="form-control" placeholder="House Number" name="en_house_number" id="en_house_number" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
@@ -126,7 +214,7 @@ table#airline td {
                                             </div>
                                         </div>    
                                         <div class="p-2">
-                                            <input type="text" class="form-control" placeholder="Commune/Sangkat" name="en_sangkat" id="en_sangkat" autocomplete="off" >
+                                            <input type="text" class="form-control" placeholder="Commune/Sangkat" name="en_sangkat"  id="en_sangkat" autocomplete="off" >
                                             <div class="form-control-feedback">
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
@@ -143,7 +231,9 @@ table#airline td {
                                                 <i class="icon-magazine text-muted"></i>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
+
+                                    @endforelse
                                 </td>
                             </tr>
                         </table>    
@@ -161,12 +251,22 @@ table#airline td {
                                         <td>
                                             <p>Email</p>
                                             <div class="ml-auto text-right email"><a style="text-decoration: underline;" id="add-more-email">+ ADD MORE ROW</a></div>
+                                            @forelse($emails as $email)
+                                            <div class="col form-group form-group-feedback form-group-feedback-left">
+                                                <input type="hidden" value="{{ $email->id }}" name="email_id"/>
+                                                <input type="text" class="form-control" placeholder="Email" value="{{ $email->email }}" name="email[]" id="companyemail" autocomplete="off" >
+                                                <div class="form-control-feedback">
+                                                    <i class="icon-magazine text-muted"></i>
+                                                </div>
+                                            </div>
+                                            @empty
                                             <div class="col form-group form-group-feedback form-group-feedback-left">
                                                 <input type="text" class="form-control" placeholder="Email" name="email[]" id="companyemail" autocomplete="off" >
                                                 <div class="form-control-feedback">
                                                     <i class="icon-magazine text-muted"></i>
                                                 </div>
-                                            </div>                                    
+                                            </div>
+                                            @endforelse                                    
                                         </td>
                                         <td></td>
                                     </tr>
@@ -216,7 +316,10 @@ table#airline td {
                     <button type="submit" class="btn btn-success legitRipple">Save Change<i class="icon-circle-right2 ml-2"></i></button>
                 </div>
             </div>
-        </div>    
+        </div> 
+    @endforeach
+    <!--end description-->
+
     </form>  
 </div>
 <script>
