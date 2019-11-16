@@ -64,7 +64,7 @@ table#airline td {
                             <p>Company Logo</p>
                             @if(!empty($value->logo))
                                 <div class="col form-group form-group-feedback form-group-feedback-left">
-                                    <img src="{{ $value->logo }}"/>
+                                    <img src="/pulbic/images/{{ $value->logo }}"/>
                                 </div>
                                 <div class="col form-group form-group-feedback form-group-feedback-left">
                                     <div class="file-upload-wrapper">
