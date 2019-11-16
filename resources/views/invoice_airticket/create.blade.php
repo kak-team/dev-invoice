@@ -1,6 +1,6 @@
 <style>
     table.table-create td{
-        padding: 3px 12px;
+        padding: 0px 12px;
     }
     input.select-dropdown{
         margin: 0px!important;
@@ -34,6 +34,14 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+.custom-control-label::before,.custom-control-label::after{
+    left : -25px;
+}
+
+.mdb-autocomplete-wrap{
+    white-space: nowrap;
+    min-width: 315px;
+}
    
 </style>
 <form method="post" >
@@ -46,7 +54,7 @@ input::-webkit-inner-spin-button {
                     </div>
 
                     <div class="d-flex mb-3">
-                        <div class="mr-auto p-2">
+                        <div class="mr-auto p-2 col-lg-6">
                             <div class="row mb-2">
                                 <div class="col d-flex align-items-center ">
                                    <b> អតិថិជន/Customer : </b>
@@ -54,22 +62,24 @@ input::-webkit-inner-spin-button {
                                 
                             </div>
                             <div class="row mb-2">
-                                <div class="col d-flex align-items-center ">
+                                <div class="col-lg-4 d-flex align-items-center ">
                                     ឈ្មោះក្រុមហ៊ុន ឬអតិថិជន
                                 </div>
                                 <div class="col">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="text" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off">
+                                        <input type="text" class="form-control" placeholder="name_kh" id="name_kh" readonly required="" autocomplete="off">
+                                        <input type="hidden" id="customer_id" name="customer_id">
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col d-flex align-items-center ">
+                                <div class="col-lg-4 d-flex align-items-center ">
                                      Company name / Customer
                                 </div>
                                 <div class="col">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="text" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off">
+                                        <input type="text" class="form-control" placeholder="Customer Name En" id="cusNameEn" required="" autocomplete="off">
+                                        <div class="AutoDisplay"></div>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +92,7 @@ input::-webkit-inner-spin-button {
                                 </div>
                                 <div class="col">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="text" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off">
+                                        <input type="text" class="form-control" disabled value="Draf Number" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -94,18 +104,22 @@ input::-webkit-inner-spin-button {
                                 </div>
                                 <div class="col">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="text" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off">
+                                        <input type="date" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         
                     </div>
-
                     <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-3"></td>
+                            <td class="p-2">
+                                <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
+                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                    <span class="custom-control-label" for="defaultUnchecked"></span>
+                                </div>
+                            </td>
+                            <td>No</td>
                             <td>Airline</td>
                             <td style="width:120px;">Ticket No</td>
                             <td style="width: 170px;">Guest Name</td>                            
@@ -116,26 +130,33 @@ input::-webkit-inner-spin-button {
                             <td>Service Fee</td>
                             <td>VAT</td>
                             <td>Service Fee + VAT</td>
-                            <td>Sub Total</td>
-                            
+                            <td>Sub Total</td>                            
                         </tr>
                         <tr>
-                            <td class="position-relative text-center"> 
-                                <div class="Dtdisabled"></div>  
-                                <span class="loop">1</span>
+                            <td class="position-relative text-center hidMode"> 
+                                <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                    <input type="checkbox" class="custom-control-input" id="c_1">
+                                    <label class="custom-control-label" for="c_1"></label>
+                                </div>
+                            </td>
+                            <td class="position-relative text-center" id="hidMode_1">
+                                <div class="Dtdisabled"></div>
+                                <input type="hidden" name="n_p[]" id="np_1">
+                                <span>1</span>
                             </td>
                             <td class="position-relative text-center">
                                 <div class="Dtdisabled"></div>
-                                <span class="airline-code">ML</span>
+                                <span class="airlineCode_1"></span>
+                                <input type="hidden" name="airline_id" class="airlineId_1"></span>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="form1" class="form-control m-0">                                    
+                                    <input type="text" id="AutoCompleteAirlineCode_1" name="ticket_no" class="form-control m-0">                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="form1" class="form-control m-0">                                    
+                                    <input type="text" id="guestName_1" name="guest_name" class="form-control m-0">                                    
                                 </div>
                             </td>
                             <td>
@@ -149,45 +170,50 @@ input::-webkit-inner-spin-button {
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="number" name="qty[]" id="qyt" class="form-control m-0 text-center qty" value=0>                                    
+                                    <input type="number" name="qty[]" id="qty_1" class="form-control m-0 text-center qty" value=1>                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="price[]" id="price" step="0.01" class="form-control m-0 text-center price" value=0>                                    
+                                    <input type="number" name="price[]" id="price_1" step="0.01" class="form-control m-0 text-center price" value=0>                                    
                                 </div>
                             </td>
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="number" id="amount" name="amount[]" step="0.01" class="form-control m-0 text-center amount" value=0>                                    
+                                    <input type="number" id="amount_1" name="amount[]" step="0.01" class="form-control m-0 text-center amount" value=0>                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" id="service_fee" name="service_fee[]" step="0.01" class="form-control m-0 text-center service_fee" value=0>                                    
-                                </div>
-                            </td>
-                            <td>
-                                <div class="md-form m-0">
-                                    <input type="number" id="vat" name="vat[]" class="form-control m-0 text-center vat" step="0.01" value=0>                                    
+                                    <input type="number" id="serviceFee_1" name="service_fee[]" step="0.01" class="form-control m-0 text-center service_fee" value=0>                                    
                                 </div>
                             </td>
                             <td class="position-relative">
                                 <div class="Dtdisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="text" id="serviceFee_VAT" name="serviceFee_VAT" class="form-control m-0 text-center serviceFee_VAT" value=0>                                    
+                                    <input type="number" id="vat_1" name="vat[]" class="form-control m-0 text-center vat" step="0.01" value=0>                                    
                                 </div>
                             </td>
                             <td class="position-relative">
                                 <div class="Dtdisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="text" id="sub_total" class="form-control m-0 text-center sub__total" value=0>                                    
+                                    <input type="text" id="serviceFeeVat_1" name="serviceFee_VAT" step="0.01"  class="form-control m-0 text-center serviceFee_VAT" value=0>                                    
+                                </div>
+                            </td>
+                            <td class="position-relative">
+                                <div class="Dtdisabled"></div>
+                                <div class="md-form m-0">
+                                    <input type="text" id="subTotal_1" step="0.01" class="form-control m-0 text-center sub__total" value=0>                                    
                                 </div>
                             </td>
                         </tr>
                     </table>
-
+                    <div class="respond"></div>
+                    <div class="mt-3">                    
+                        <button type="button" class="btn btn-info btn-sm btn-rounded waves-effect waves-light new-row"><i class="icon-plus-circle2 pr-2 pt-0" aria-hidden="true"></i>Add More</button>
+                        <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light"><i class="icon-cancel-circle2 pr-2 pt-0" aria-hidden="true"></i>Remove</button>
+                    </div>
                 </div>
             </div>
     </div> 

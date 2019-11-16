@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice_airticket AS BBB;
+use App\Invoice_airticket;
+use App\Airline;
+use App\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
@@ -15,8 +17,37 @@ class Invoice_airticketController extends Controller
      */
     public function index()
     {
-        $invoice_airtickets = BBB::paginate(15);
+        $invoice_airtickets = Invoice_airticket::paginate(15);
         return view('invoice_airticket.index',[ 'invoices' => $invoice_airtickets ]);
+    }
+
+    public function auto_airline(Request $request)
+    {
+        $all = $request->all();
+        if(!empty($all['code'])){        
+            $airline = Airline::select('name','id')->where('code' , 'LIKE', $all['code'].'%')->get(); 
+            if(!empty($airline[0])){
+                return $airline[0]['id'].'|'.$airline[0]['name'];
+            }
+        }  
+    }
+
+    public function auto_customer(Request $request)
+    {
+        $all  = $request->all();
+        $html = '<div id="country-list" class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+            if(!empty($all['name'])){        
+                $customers = Customer::select('name_kh','name_en','id')->where('name_en' , 'LIKE', $all['name'].'%')->get(); 
+                
+                if(!empty($customers[0])){
+                    foreach($customers as $customer){
+                        $html .= '<li name_kh= "'.$customer->name_kh.'" customer_id="'.$customer->id.'" class="customer list-group-item list-group-item-action" id="acceptCustomer">'.$customer->name_en.'</li>';
+                    }                    
+                }
+            }
+        $html .= '<ul>';  
+        return $html;
+
     }
 
     /**

@@ -68,11 +68,11 @@ table#airline td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $customer->customer_name[0] }}</span>
+                                        <span class="text-icon">{{ $customer->name_en[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $customer->customer_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $customer->name_en }}</a>
                                         <div class="text-muted font-size-sm">
                                             Register Numer: {{ $customer->register_number }}
                                         </div>
@@ -96,7 +96,7 @@ table#airline td {
                                 <a id="btn-status" data="{{ $customer->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $customer->id }}" company_name="{{ $customer->customer_name }}" register_number="{{ $customer->register_number }}" website="{{ $customer->website }}" address="{{ $customer->address }}" service_id="{{ $customer->service_id }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $customer->id }}" name_kh="{{ $customer->name_kh }}" name_en="{{ $customer->name_en }}" register_number="{{ $customer->register_number }}" website="{{ $customer->website }}" address="{{ $customer->address }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else
@@ -151,13 +151,7 @@ table#airline td {
                 $('#modal_theme_info #check_service').prop('checked', false);                
             });
 
-            // add checked box by data
-            var serviceIdArray = JSON.parse($(this).attr('service_id'));            
-            var i;
-            for (i = 0; i < serviceIdArray.length; i++) {
-                $('#modal_theme_info .v-'+serviceIdArray[i]).addClass('checked');
-                $('#modal_theme_info .v-'+serviceIdArray[i]+' #check_service').prop('checked', true);
-            }
+            
 
             $("#modal_theme_info #customerContactDelete").val('');
 

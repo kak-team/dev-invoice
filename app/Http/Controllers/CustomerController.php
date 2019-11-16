@@ -24,7 +24,7 @@ class CustomerController extends Controller
         * status = 1 mean deactived
         * status = 2 mean deleted
         */
-        $services = \App\Service::all();
+        
         $customers = DB::table('ctn_customer AS A')
         ->select('A.*', 'B.full_name', 'B.phone')             
         ->leftJoin('ctn_customer_contact AS B','B.customer_id', '=', 'A.id')
@@ -32,10 +32,7 @@ class CustomerController extends Controller
         ->groupBy('A.id')
         ->paginate(10);
 
-        $data = array(
-            'customers' => $customers,
-            'services' => $services
-        );
+        $data = array('customers' => $customers);
 
         return view('customer.index',$data);
     }
@@ -66,21 +63,11 @@ class CustomerController extends Controller
     {
         
         // user id
-        $user = auth()->user();
-        
-        // check Empty Checkbox Services
-        if(is_null($request->service_id)):
-            $service_id = '';
-        else:            
-            $service_id = '['.implode(',',$request->service_id).']';
-        endif;
-        
-        
-        
+        $user = auth()->user();        
         $data = [
                 'user_id'           => $user->id,
-                'service_id'        => $service_id,
-                'customer_name'     => $request->name,
+                'name_kh'           => $request->name_kh,
+                'name_en'           => $request->name_en,
                 'register_number'   => $request->register_number,
                 'website'           => $request->website,
                 'address'           => $request->address
@@ -182,18 +169,10 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
-       $id = $request->id;
-        
-       // check Empty Checkbox Services
-       if(is_null($request->service_id)):
-            $service_id = '';
-        else:            
-            $service_id = '['.implode(',',$request->service_id).']';
-        endif;
-            
+        $id = $request->id;           
         $data = [
-                'service_id'        => $service_id,
-                'customer_name'     => $request->name,
+                'name_kh'           => $request->name_kh,
+                'name_en'           => $request->name_en,
                 'register_number'   => $request->register_number,
                 'website'           => $request->website,
                 'address'           => $request->address

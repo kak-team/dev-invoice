@@ -22,7 +22,14 @@
                             <div class="col-lg-5">
                                 <h5>Company Info</h5>
                                 <div class="form-group form-group-feedback form-group-feedback-left">
-                                    <input type="text" class="form-control" placeholder="Company Name" name="name" id="name" autocomplete="off" required >
+                                    <input type="text" class="form-control" placeholder="Company Name Kh" name="name_kh" id="name_kh" autocomplete="off" required >
+                                    <div class="form-control-feedback">
+                                        <i class="icon-magazine text-muted"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-feedback form-group-feedback-left">
+                                    <input type="text" class="form-control" placeholder="Company Name En" name="name_en" id="name_en" autocomplete="off" required >
                                     <div class="form-control-feedback">
                                         <i class="icon-magazine text-muted"></i>
                                     </div>
@@ -95,23 +102,7 @@
 
                     </div>
 
-                    <p>Choose Service</p>
-                    <div class="row">                               
-                        @foreach($services as $service)                                        
-                            <div class="col-md-3 p-1">                                   
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <div class="uniform-checker border-primary-600 text-primary-800">
-                                            <span>
-                                                <input type="checkbox" class="form-check-input-styled-primary" name="service_id[]" id="check_service" value="{{ $service->id }}">
-                                            </span>
-                                        </div>
-                                        {{ $service->name }}
-                                    </label>
-                                </div>                    
-                            </div>
-                        @endforeach                                   
-                    </div> 
+                    
 
                                   
 
