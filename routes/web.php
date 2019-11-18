@@ -70,3 +70,5 @@ Route::post('invoice_airticket/auto_supplier', 'Invoice_airticketController@auto
 
 // Company Profile
 Route::resource('companyprofile', 'CompanyProfileController');
+Route::post('/companyprofile/store', 'CompanyProfileController@store');
+Route::post('/companyprofile/update', 'CompanyProfileController@update');
