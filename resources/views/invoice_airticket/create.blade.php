@@ -267,7 +267,7 @@ input::-webkit-inner-spin-button {
                                 </div>
                                 <div class="col">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" required class="form-control font-weight-bold" style="border-color: #009688;" id="deposit_total" required="" autocomplete="off">
+                                        <input type="number" value="0" required class="form-control font-weight-bold" style="border-color: #009688;" id="deposit_total" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
