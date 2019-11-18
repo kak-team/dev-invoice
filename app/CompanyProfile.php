@@ -8,7 +8,7 @@ class CompanyProfile extends Model
 {
     //
     protected $table    = 'ctn_company_profile';
-    protected $fillable = ['register_id','name','logo','register_number','vat','email','phone','description','create_at'];
+    protected $fillable = ['register_id','name', 'en_name', 'logo','register_number','vat','email','phone','description','create_at'];
     public $timestamps  = false;
     public function CompanyEmail()
     {
