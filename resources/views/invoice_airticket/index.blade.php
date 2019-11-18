@@ -403,8 +403,30 @@ table#supplier_contact td {
         //Deposit
         $('#modal_theme_success').on('keyup','#deposit_total',function(){
             deposit = $(this).val();
-            grand   = $('#grand_total').val();
-            total_grand = parseFloat(grand) - parseFloat(deposit);
+
+            Amount_Total = 0;
+            service_fee  = 0;
+            vat          = 0; 
+
+            
+
+            // Total Amount
+            $('.amount').each(function(){
+                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
+            });
+
+            // Total Service Fee
+            $('.service_fee').each(function(){
+                if($(this).val() != '' ) service_fee += parseFloat( $(this).val());
+            });
+
+            // Total VAT
+            $('.vat').each(function(){
+                if($(this).val() != '' ) vat += parseFloat( $(this).val());
+            });
+
+            total_grand = Amount_Total + service_fee + vat - deposit;
+
             $('#grand_total').val(total_grand.toFixed(2));
         });
 
