@@ -66,6 +66,7 @@ Route::post('/transportation/update', 'TransportationController@update');
 Route::resource('invoice_airticket', 'Invoice_airticketController');
 Route::post('invoice_airticket/auto_airline', 'Invoice_airticketController@auto_airline');
 Route::post('invoice_airticket/auto_customer', 'Invoice_airticketController@auto_customer');
+Route::post('invoice_airticket/auto_supplier', 'Invoice_airticketController@auto_supplier');
 
 // Company Profile
 Route::resource('companyprofile', 'CompanyProfileController');

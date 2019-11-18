@@ -42,6 +42,14 @@ input::-webkit-inner-spin-button {
     white-space: nowrap;
     min-width: 315px;
 }
+
+.form-group-feedback-left .form-control{
+    padding-left: 5px;
+}
+.list-group{
+    padding:0px;
+    border:0px;
+}
    
 </style>
 <form method="post" >
@@ -76,11 +84,12 @@ input::-webkit-inner-spin-button {
                                 <div class="col-lg-4 d-flex align-items-center ">
                                      Company name / Customer
                                 </div>
-                                <div class="col">
+                                <div class="col d-flex">
                                     <div class="form-group form-group-feedback form-group-feedback-left mb-0">
                                         <input type="text" class="form-control" placeholder="Customer Name En" id="cusNameEn" required="" autocomplete="off">
                                         <div class="AutoDisplay"></div>
                                     </div>
+                                    <i class="icon-notification2 text-warning align-self-center" id="CustomerAutoStatus"></i>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +144,7 @@ input::-webkit-inner-spin-button {
                         <tr>
                             <td class="position-relative text-center hidMode"> 
                                 <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" class="custom-control-input" id="c_1">
+                                    <input type="checkbox" class="custom-control-input Bchk" id="c_1">
                                     <label class="custom-control-label" for="c_1"></label>
                                 </div>
                             </td>
@@ -150,9 +159,13 @@ input::-webkit-inner-spin-button {
                                 <input type="hidden" name="airline_id" class="airlineId_1"></span>
                             </td>
                             <td>
-                                <div class="md-form m-0">
-                                    <input type="text" id="AutoCompleteAirlineCode_1" name="ticket_no" class="form-control m-0">                                    
-                                </div>
+                                <div class="d-flex">
+                                    <div class="md-form m-0">
+                                        <input type="text" id="AutoCompleteAirlineCode_1" name="ticket_no[]" placeholder="ticket no" class="form-control m-0">                                    
+                                    </div>
+                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="TickAutoStatus_1"></i>
+                                </div>                             
+
                             </td>
                             <td>
                                 <div class="md-form m-0">
@@ -209,10 +222,103 @@ input::-webkit-inner-spin-button {
                             </td>
                         </tr>
                     </table>
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+                            <div class="row mt-1">
+                                <div class="col-lg-4 d-flex align-items-center ">
+                                    <span>Routing</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold">
+                                        <input type="text" required="" class="form-control font-weight-bold"  id="routing" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="custom-control custom-checkbox mt-3 pl-0" id="btnCheck_single">
+                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked1" value="1" name="checkbox">
+                                    <label class="custom-control-label ml-3" for="defaultUnchecked1">Grouping</label>
+                                </div>
+                            
+                        </div>
+
+                        <div>
+                            <div class="row mt-1">
+                                <div class="col-lg-4 d-flex align-items-center ">
+                                    <span>Supplier</span>
+                                </div>
+                                <div class="col d-flex">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold">
+                                        <input type="text" required="" class="form-control" placeholder="Type Supplier Name" id="supNameEn" autocomplete="off">
+                                        <input type="hidden" id="supplier_id" name="supplier_id">
+                                        <div class="AutoDisplaySup"></div>
+                                    </div>
+                                    <i class="icon-notification2 text-warning align-self-center" id="SupplierAutoStatus"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="">
+                            
+                            <div class="row mt-1">
+                                <div class="col d-flex align-items-center justify-content-end">
+                                    <span>Deposit</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" required class="form-control font-weight-bold" style="border-color: #009688;" id="deposit_total" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col d-flex align-items-center justify-content-end">
+                                    <span>Amount Total</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" step="0.01" class="form-control font-weight-bold" style="border-color: #009688;" id="Amount_total" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col d-flex align-items-center justify-content-end">
+                                    <span>Service-Fee Total</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" step="0.01" class="form-control font-weight-bold" style="border-color: #009688;" id="SerFee_total" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col d-flex align-items-center justify-content-end">
+                                    <span>VAT Total</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" step="0.01" required class="form-control font-weight-bold" style="border-color: #009688;" id="vat_total" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col d-flex align-items-center justify-content-end">
+                                    <span>Grand Total</span>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" step="0.01" required class="form-control font-weight-bold" style="border-color: #009688;" id="grand_total" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                     <div class="respond"></div>
                     <div class="mt-3">                    
                         <button type="button" class="btn btn-info btn-sm btn-rounded waves-effect waves-light new-row"><i class="icon-plus-circle2 pr-2 pt-0" aria-hidden="true"></i>Add More</button>
-                        <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light"><i class="icon-cancel-circle2 pr-2 pt-0" aria-hidden="true"></i>Remove</button>
+                        <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" id="delete" ><i class="icon-cancel-circle2 pr-2 pt-0" aria-hidden="true"></i>Remove</button>
                     </div>
                 </div>
             </div>

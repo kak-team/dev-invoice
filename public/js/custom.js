@@ -2,20 +2,6 @@ $(document).ready(function(){
 
     
 
-    // click one-by-all
-    $('#btnCheck_all').click(function(){
-        $(this).toggleClass('check_false');
-        var self = $(this);
-        if($(self).hasClass('check_false')){
-            $('#btnCheck_all #defaultUnchecked').prop('checked', false);
-            $('.table-responsive #btnCheck_single input').prop('checked', false);
-        }else{
-            $('#btnCheck_all #defaultUnchecked').prop('checked', true);
-            $('.table-responsive #btnCheck_single input').prop('checked', true);
-        }
-        Btndelete();
-    });
-
 
     // delete tr table by checkboxes
     $("#modal_theme_success,#modal_theme_info").on('click','#delete',function(){
@@ -31,5 +17,16 @@ $(document).ready(function(){
         }else{
             $(this).html('<span class="badge bg-warning">Disabled</span>');
         }
+    });
+
+    function clickGet(val) {
+        $("#c_name").val(val);
+        $("#suggesstion-box").hide();
+    }
+    $(".card-body").on("click",".customer",function(){
+        var location = $(this).attr("location");
+        $("#place").val(location);
+        $('#place').siblings().addClass('active');
+        $('#cus-id').val($(this).attr('autocus-id'));
     });
 });
