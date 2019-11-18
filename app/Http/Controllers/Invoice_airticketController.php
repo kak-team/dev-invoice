@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice_airticket;
 use App\Airline;
 use App\Customer;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
@@ -24,18 +25,46 @@ class Invoice_airticketController extends Controller
     public function auto_airline(Request $request)
     {
         $all = $request->all();
-        if(!empty($all['code'])){        
-            $airline = Airline::select('name','id')->where('code' , 'LIKE', $all['code'].'%')->get(); 
+        if(!empty($all['code'])){    
+            $code = substr($all['code'], 0, 4);    
+            $airline = Airline::select('name','id')
+            ->where('code' , 'LIKE', $code.'%')
+            ->where('status', '=', '1')
+            ->limit(5)
+            ->get(); 
             if(!empty($airline[0])){
                 return $airline[0]['id'].'|'.$airline[0]['name'];
             }
         }  
     }
 
+    public function auto_supplier(REquest $request)
+    {
+        $all            = $request->all();
+        $html           = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+            $supplier_name  = $all['supplier_name'];
+            if(!empty($supplier_name)){
+                $query_supplier = Supplier::select('name_en','id')
+                ->where('name_en','LIKE', $supplier_name.'%')
+                ->where('status', '=', '1')
+                ->limit(5)
+                ->get();
+                if(!empty($query_supplier[0])){
+                    foreach($query_supplier as $supplier){
+                        $html .= '<li supplier_id="'.$supplier->id.'" class="supplier list-group-item list-group-item-action" id="acceptSupplier">'.$supplier->name_en.'</li>';
+                    }                    
+                }
+            }
+        $html .= '<ul>';  
+        return $html;
+       
+        
+    }
+
     public function auto_customer(Request $request)
     {
         $all  = $request->all();
-        $html = '<div id="country-list" class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+        $html = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
             if(!empty($all['name'])){        
                 $customers = Customer::select('name_kh','name_en','id')->where('name_en' , 'LIKE', $all['name'].'%')->get(); 
                 

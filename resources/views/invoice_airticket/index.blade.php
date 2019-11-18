@@ -170,18 +170,19 @@ table#supplier_contact td {
 <script>
     
     $(document).ready(function(){
+
+        // Token CSRF
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
-        // testing 
-        //  HTML 
-        var loop = 2;
         
+        // New Invoice List
+        var loop = 2;        
         $('#modal_theme_success').on('click','.new-row',function(){
             var html = '<tr>';
-                html += '<td class="position-relative text-center"><div class="custom-control custom-checkbox" id="btnCheck_single"><input type="checkbox" class="custom-control-input" id="c_'+loop+'"><label class="custom-control-label" for="c_'+loop+'"></label></div></td>';
+                html += '<td class="position-relative text-center"><div class="custom-control custom-checkbox" id="btnCheck_single"><input type="checkbox" class="custom-control-input Bchk" id="c_'+loop+'"><label class="custom-control-label" for="c_'+loop+'"></label></div></td>';
                 html += '<td class="position-relative text-center" id="hidMode_'+loop+'"><div class="Dtdisabled"></div><input type="hidden" name="n_p[]" id="np_'+loop+'"><span>'+loop+'</span></td>';
                 html += '<td class="position-relative text-center"><div class="Dtdisabled"></div><span class="airlineCode_'+loop+'"></span><input type="hidden" name="airline_id" class="airlineId_'+loop+'"></td>';
-                html += '<td><div class="md-form m-0"><input type="text" id="AutoCompleteAirlineCode_'+loop+'" name="ticket_no" class="form-control m-0"></div></td>';
+                html += '<td><div class="d-flex"><div class="md-form m-0"><input type="text" id="AutoCompleteAirlineCode_'+loop+'" placeholder="Ticket No" name="ticket_no" class="form-control m-0"></div><i class="icon-notification2 text-warning align-self-center pl-1" id="TickAutoStatus_'+loop+'"></i></td></td>';
                 html += '<td><div class="md-form m-0"><input type="text" id="guestName_'+loop+'" name="guest_name" class="form-control m-0"></div></td>';
                 html += '<td><select class="mdb-select_'+loop+' md-form m-0" name="type[]"><option value="Adult">Adult</option><option value="Child">Child</option><option value="Infant">Infant</option></select></td>';
                 html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty" value="1"></div></td>';
@@ -191,13 +192,13 @@ table#supplier_contact td {
                 html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="number" id="vat_'+loop+'" name="vat[]" class="form-control m-0 text-center vat" step="0.01" value="0"></div></td>';
                 html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="text" id="serviceFeeVat_'+loop+'" name="serviceFee_VAT" step="0.01" class="form-control m-0 text-center serviceFee_VAT" value="0"></div></td>';
                 html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="text" id="subTotal_'+loop+'" step="0.01" class="form-control m-0 text-center sub__total" value="0"></div></td>';
-            html += '</tr>';
+            html += '</tr>';    
             $('.table-create').append(html);
             $('.mdb-select_'+loop).materialSelect();
-            loop++;
-
-           
+            loop++;           
         });
+
+        // Double Click
         $('#modal_theme_success').on('dblclick','td[id^="hidMode_"]',function(){           
             $('#HidModeSys').modal('show');
             Hmode = $(this).attr('id');
@@ -212,6 +213,7 @@ table#supplier_contact td {
 
         });
 
+        // MD Library
         $('[data-toggle="popover"]').popover();
         $('.mdb-select').materialSelect();
 
@@ -220,10 +222,12 @@ table#supplier_contact td {
             var code  = $(this).val();
             var id = $(this).attr("id").replace ( /[^\d.]/g, '' );
             
-            // Remove Data first
+            // Clear
             $('#modal_theme_success .airlineCode_'+id).text('');
             $('#modal_theme_success .airlineId_'+id).val('');
+            $('#TickAutoStatus_'+id).attr('class','icon-notification2 text-warning align-self-center pl-1');
 
+            // ajax
             $.ajax({
                 type : 'post',
                 data : {code : code},
@@ -232,6 +236,9 @@ table#supplier_contact td {
                     var airline = respond.split("|");
                     $('#modal_theme_success .airlineCode_'+id).text(airline[1]);
                     $('#modal_theme_success .airlineId_'+id).val(airline[0]);
+                    if(airline != ''){
+                        $('#TickAutoStatus_'+id).attr('class','');
+                    }                     
                 }
             });
         });
@@ -243,7 +250,9 @@ table#supplier_contact td {
             // Clear 
             $('#modal_theme_success #customer_id').val('');
             $('#modal_theme_success #name_kh').val('');
+            $('#CustomerAutoStatus').attr('class','icon-notification2 text-warning align-self-center pl-1');
 
+            // Ajax
             $.ajax({
                 type : 'post',
                 data : {name : name},
@@ -259,11 +268,37 @@ table#supplier_contact td {
                 $('#modal_theme_success #name_kh').val($(this).attr('name_kh'));
                 $('#modal_theme_success #cusNameEn').val($(this).text());
                 $('.AutoDisplay').text('');
+                $('#CustomerAutoStatus').attr('class','icon-checkmark3 text-success align-self-center pl-1');
             }); 
         
         });
 
-        
+        // AutoComplete Supplier
+        $('#modal_theme_success').on('keyup','#supNameEn',function(){
+            var supplier_name = $(this).val();
+
+            // Clear 
+            $('#modal_theme_success #supplier_id').val('');
+            $('#SupplierAutoStatus').attr('class','icon-notification2 text-warning align-self-center pl-1');
+
+            // Ajax
+            $.ajax({
+                type : 'post',
+                data : {supplier_name : supplier_name},
+                url  : 'invoice_airticket/auto_supplier',
+                success : function(respond){    
+                    $('.AutoDisplaySup').html(respond);
+                }
+            });
+
+            // Accept Supplier
+            $('#modal_theme_success').on('click','#acceptSupplier',function(){
+                $('#modal_theme_success #supplier_id').val($(this).attr('supplier_id'));
+                $('#modal_theme_success #supNameEn').val($(this).text());
+                $('.AutoDisplaySup').text('');
+                $('#SupplierAutoStatus').attr('class','icon-checkmark3 text-success align-self-center pl-1');
+            });
+        });
 
         //price change
         $(document).on('change keyup blur','.price',function(){
@@ -273,7 +308,8 @@ table#supplier_contact td {
             price       = $('#price_'+id[1]).val();
             
             if( quantity!='' && price !='' ) $('#amount_'+id[1]).val( (parseFloat(price)*parseFloat(quantity)).toFixed(2) ); 
-            //calculateTotal();
+            calculate_Amount();
+            calculate_grand();
         });
 
         // Service Fee
@@ -294,9 +330,83 @@ table#supplier_contact td {
                 // Sub Total
                 sub_Total = parseFloat($('#amount_'+id[1]).val()) + parseFloat(serviceFee_VAT);
                 $('#subTotal_'+id[1]).val((sub_Total).toFixed(2));
-            //calculateTotal();
+            calculate_SerFee();
+            calculate_vat();
+            calculate_grand();
         });
 
+        //to check all checkboxes
+        $("#modal_theme_success").on('click','#btnCheck_all',function(){
+            $(this).toggleClass('check_false');
+            var self = $(this);
+            if($(self).hasClass('check_false')){
+                $('#btnCheck_all #defaultUnchecked').prop('checked', false);
+                $('#modal_theme_success #btnCheck_single input').prop('checked', false);
+            }else{
+                $('#btnCheck_all #defaultUnchecked').prop('checked', true);
+                $('#modal_theme_success #btnCheck_single input').prop('checked', true);
+            }
+
+            
+        });
+
+        //deletes the selected table rows
+        $("#modal_theme_success").on('click','#delete',function(){
+            $('#modal_theme_success .Bchk:checkbox:checked').parents("tr").remove();
+            if($('#modal_theme_success #btnCheck_all').hasClass('check_false')){
+                
+            }else{
+                $('#modal_theme_success #btnCheck_all input').prop('checked', false);
+            }
+            calculate_Amount();
+            calculate_SerFee();
+            calculate_vat();
+            calculate_grand();
+        });
+
+        //amount total calculation
+        function calculate_Amount(){
+            Amount_Total = 0 ;  
+            $('.amount').each(function(){
+                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
+            });
+            $('#Amount_total').val( Amount_Total.toFixed(2));
+        }
+
+        //service Fee total calcalation
+        function calculate_SerFee(){
+            Amount_Total = 0 ;  
+            $('.service_fee').each(function(){
+                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
+            });
+            $('#SerFee_total').val( Amount_Total.toFixed(2));
+        }
+
+        //vat total calcalation
+        function calculate_vat(){
+            Amount_Total = 0 ;  
+            $('.vat').each(function(){
+                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
+            });
+            $('#vat_total').val( Amount_Total.toFixed(2));
+        }
+
+        // Grand Total
+        function calculate_grand(){
+            amount = $('#Amount_total').val();
+            serFee = $('#SerFee_total').val();
+            vat    = $('#vat_total').val();
+            grandX  = parseFloat(amount) + parseFloat(serFee) + parseFloat(vat);
+            $('#grand_total').val( grandX.toFixed(2));
+        }
+
+        //Deposit
+        $('#modal_theme_success').on('keyup','#deposit_total',function(){
+            deposit = $(this).val();
+            grand   = $('#grand_total').val();
+            total_grand = parseFloat(grand) - parseFloat(deposit);
+            $('#grand_total').val(total_grand.toFixed(2));
+        });
 
 
     });
