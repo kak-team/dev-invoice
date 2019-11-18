@@ -393,10 +393,11 @@ table#supplier_contact td {
 
         // Grand Total
         function calculate_grand(){
+            deposit =  $('#deposit_total').val();
             amount = $('#Amount_total').val();
             serFee = $('#SerFee_total').val();
             vat    = $('#vat_total').val();
-            grandX  = parseFloat(amount) + parseFloat(serFee) + parseFloat(vat);
+            grandX  = parseFloat(amount) + parseFloat(serFee) + parseFloat(vat) - parseFloat(deposit);
             $('#grand_total').val( grandX.toFixed(2));
         }
 
