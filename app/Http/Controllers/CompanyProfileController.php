@@ -151,11 +151,11 @@ class CompanyProfileController extends Controller
         //update company kh address
         $kh_address = [
             'user_id'               => $user->id,
-            'company_profile_id'    =>  $company_id,
+            'company_id'            =>  $company_id,
             'house_number'          =>   $house_number,
             'street_number'         =>   $st_number,
             'commune'               =>   $sangkat,
-            'districk'               =>   $khan,
+            'districk'              =>   $khan,
             'province'              =>   $city,
             'lang'                  =>  'kh'
         ];
@@ -172,11 +172,11 @@ class CompanyProfileController extends Controller
         //update company en address
         $en_address = [
             'user_id'               => $user->id,
-            'company_profile_id'    =>  $company_id,
+            'company_id'            =>  $company_id,
             'house_number'          =>   $en_house_number,
             'street_number'         =>   $en_st_number,
             'commune'               =>   $en_sangkat,
-            'districk'               =>   $en_khan,
+            'districk'              =>   $en_khan,
             'province'              =>   $en_city,
             'lang'                  =>   'en'
         ];
@@ -207,15 +207,19 @@ class CompanyProfileController extends Controller
                     'status'   => 1
                 ];
             }
-            CompanyAddress::insert($data_nemail);
+            CompanyEmail::insert($data_nemail);
         }
         
         //delete email
+        $delete_email = $request->d_company_email;
 
+        if(!empty($delete_email)){
+            DB::statement("DELETE FROM ctn_company_email WHERE id IN ($delete_email) ");           
+        }
 
         // company phone
         $phone      =   $request->phone;
-        $nphone     =   $request->n_email;    
+        $nphone     =   $request->n_phone;    
 
         //Update Company phone
         if(!empty($phone)){
@@ -238,11 +242,15 @@ class CompanyProfileController extends Controller
                     'status'   => 1
                 ];
             }
-            CompanyAddress::insert($data_nphone);
+            CompanyPhone::insert($data_nphone);
         }
 
         //delete phone
+        $delete_phone = $request->d_company_phone;
 
+        if(!empty($delete_phone)){
+            DB::statement("DELETE FROM ctn_company_phone WHERE id IN ($delete_phone) ");           
+        }
 
         return redirect()->back()->withSuccess('IT WORKS!');
     }

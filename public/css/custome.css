@@ -7,3 +7,6 @@
     padding: 14px;
     border-radius: 100px;
 }
+.small a{
+    font-size: 10px;
+}

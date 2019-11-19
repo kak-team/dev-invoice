@@ -58,6 +58,12 @@ table#airline td {
                                             <input type="file" name="images" data-default-file="{{ URL::asset('/images/'. $value->logo) }}" id="input-file-now" class="file-upload" />
                                         </div>
                                     </div>
+                                @else
+                                    <div class="col form-group form-group-feedback form-group-feedback-left">
+                                        <div class="file-upload-wrapper">
+                                            <input type="file" name="images" id="input-file-now" class="file-upload" />
+                                        </div>
+                                    </div>
                                 @endif
                             </div>  
                         </div>
@@ -138,35 +144,46 @@ table#airline td {
                             <div class="row">
                                 <div class="col">
                                     <table class="table table-borderless" id="email">
+                                        <p>Email</p>
+                                        <div class="ml-auto text-right email small"><a style="text-decoration: underline;" id="add-more-email">+ ADD MORE ROW</a></div>
+                                        @foreach($emails as $email)
                                         <tr>
-                                            <p>Email</p>
-                                            <div class="ml-auto text-right email"><a style="text-decoration: underline;" id="add-more-email">+ ADD MORE ROW</a></div>
                                             <td>
-                                                @foreach($emails as $email)
                                                 <div class="col form-group form-group-feedback form-group-feedback-left">
                                                     <input type="hidden" value="{{ $email->id }}" name="email_id[]"/>
                                                     <input type="text" class="form-control pl-0" placeholder="Email" value="{{ $email->email }}" name="email[]" id="companyemail" autocomplete="off" >
-                                                </div>
-                                                @endforeach                                   
+                                                </div>                               
                                             </td>
+                                            <td>
+                                                @if(!$loop->first) 
+                                                    <div id="delete" data="{{ $email->id }}" class="md-form m-3 m-0"><i class="icon-minus-circle2 text-danger"></i></div>
+                                                @endif
+                                            </td>         
                                         </tr>
+                                        @endforeach
+                                        <input type="hidden" name="d_company_email" id="d_company_email">   
                                     </table>    
                                 </div>
                                 <div class="col">
                                     <table class="table table-borderless" id="phone">
-                                        <tr>
-                                            <p>Phone</p>
-                                            <div class="ml-auto text-right phone"><a style="text-decoration: underline;" id="add-more-phone">+ ADD MORE ROW</a></div>
-                                            <td>
-                                                @forelse($phones as $phone)
+                                        <p>Phone</p>
+                                        <div class="ml-auto text-right phone small"><a style="text-decoration: underline;" id="add-more-phone">+ ADD MORE ROW</a></div>
+                                        @forelse($phones as $phone)
+                                            <tr>
+                                                <td>
                                                     <div class="col form-group form-group-feedback form-group-feedback-left" >
                                                         <input type="hidden" value="{{ $phone->id }}" name="phone_id[]"/>
                                                         <input type="text" class="form-control pl-0" placeholder="Phone" name="phone[]" value="{{ $phone->phone }}" id="companyphone" autocomplete="off" >
                                                     </div>
-                                                @endforeach
-                                            </td>
-                                            <td></td>
-                                        </tr>
+                                                </td> 
+                                                <td>
+                                                @if(!$loop->first) 
+                                                    <div id="delete" data="{{ $phone->id }}" class="md-form m-3 m-0"><i class="icon-minus-circle2 text-danger"></i></div>
+                                                @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <input type="hidden" name="d_company_phone" id="d_company_phone">
                                     </table>
                                 </div>
                             </div>
@@ -202,11 +219,28 @@ table#airline td {
     </form>  
 </div>
 <script>
-    $('document').ready(function(){
+    $(document).ready(function(){
+        var d_company_phone = [];
+        var d_company_email = [];
 
         //drag and drop file upload
         $('.file-upload').file_upload();
 
+        //Delete phone one by one
+        $('#phone').on('click','#delete',function(){
+            var id = $(this).attr('data');
+            d_company_phone.push(id);
+            $('#d_company_phone').val(d_company_phone.toString());
+            $(this).parents('tr').remove();
+        });
+
+        //Delete email one by one
+        $('#email').on('click','#delete',function(){
+            var id = $(this).attr('data');
+            d_company_email.push(id);
+            $('#d_company_email').val(d_company_email.toString());
+            $(this).parents('tr').remove();
+        });
 
         // add more email row
         var html = '<tr>';
