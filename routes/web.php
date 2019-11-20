@@ -72,3 +72,10 @@ Route::post('invoice_airticket/auto_supplier', 'Invoice_airticketController@auto
 Route::resource('companyprofile', 'CompanyProfileController');
 Route::post('/companyprofile/store', 'CompanyProfileController@store');
 Route::post('/companyprofile/update', 'CompanyProfileController@update');
+
+// paymentmethod
+Route::resource('paymentmethod', 'PaymentMethodController');
+Route::post('/paymentmethod/store', 'PaymentMethodController@store');
+Route::post('/paymentmethod/update', 'PaymentMethodController@update');
+Route::get('/paymentmethod/ajax/{id}', 'PaymentMethodController@ajax');
+Route::post('/paymentmethod/destroy', 'PaymentMethodController@destroy');

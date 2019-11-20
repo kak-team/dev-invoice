@@ -7,43 +7,43 @@
             'bg'    => 'bg-teal-400',
             'icon'  => 'icon-airplane2',
             'title' => 'AIR TICKET',
-            'link'  => '#'
+            'link'  => 'invoice_airticket'
         ),
         array(
             'bg'    => 'bg-green-400',
             'icon'  => 'icon-vcard',
             'title' => 'VISA SERVICE',
-            'link'  => '#'
+            'link'  => 'invoice_visa'
         ),
         array(
             'bg'    => 'bg-blue-400',
             'icon'  => 'icon-camera',
             'title' => 'TOURS BOOKING',
-            'link'  => '#'
+            'link'  => 'invoice_tour'
         ),
         array(
             'bg'    => 'bg-warning-400',
             'icon'  => 'icon-bed2',
             'title' => 'HOTEL BOOKING',
-            'link'  => '#'
+            'link'  => 'invoice_hotel'
         ),
         array(
             'bg'    => 'bg-pink-400',
             'icon'  => 'icon-folder-heart',
             'title' => 'INSURANCE SAVING',
-            'link'  => '#'
+            'link'  => 'invoice_insurance'
         ),
         array(
             'bg'    => 'bg-info-400',
             'icon'  => 'icon-car2',
             'title' => 'TRANSPORTATION',
-            'link'  => '#'
+            'link'  => 'invoice_transportation'
         ),
         array(
             'bg'    => 'bg-orange-400',
             'icon'  => 'icon-grid4',
             'title' => 'OTHER',
-            'link'  => '#'
+            'link'  => 'invoice_other'
         )
     
     );

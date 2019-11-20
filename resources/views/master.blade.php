@@ -325,7 +325,7 @@
 					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>Create Invoice</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display: none;">
-						<li class="nav-item"><a href="#" class="nav-link active legitRipple">Air Ticket</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_airticket' }}" class="nav-link active legitRipple">Air Ticket</a></li>
 
 					</ul>
 				</li>
@@ -333,13 +333,13 @@
 					<a href="#" class="nav-link legitRipple"><i class="icon-color-sampler"></i> <span>Resources</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Themes" style="display: none;">
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">AirLine Code</a></li>
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">Suppliers</a></li>
+						<li class="nav-item"><a href="{{ 'airline' }}" class="nav-link legitRipple">Air Line Code</a></li>
+						<li class="nav-item"><a href="{{ 'supplier' }}" class="nav-link legitRipple">Suppliers</a></li>
 
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">Customers</a></li>
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">Hotel</a></li>
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">Transportation</a></li>
-						<li class="nav-item"><a href="#" class="nav-link legitRipple">Payment Method</a></li>
+						<li class="nav-item"><a href="{{ 'customer' }}" class="nav-link legitRipple">Customers</a></li>
+						<li class="nav-item"><a href="{{ 'hotel' }}" class="nav-link legitRipple">Hotel</a></li>
+						<li class="nav-item"><a href="{{ 'transportation' }}" class="nav-link legitRipple">Transportation</a></li>
+						<li class="nav-item"><a href="{{ 'paymentmethod' }}" class="nav-link legitRipple">Payment Method</a></li>
 					</ul>
 				</li>
 				<li class="nav-item nav-item-submenu">
@@ -379,7 +379,7 @@
 					</ul>
 				</li>
 				<li class="nav-item">
-					<a href="#" class="nav-link legitRipple">
+					<a href="{{ 'companyprofile' }}" class="nav-link legitRipple">
 						<i class="icon-list-unordered"></i>
 						<span>Company Setting</span>
 						<span class="badge bg-blue-400 align-self-center ml-auto">2.2</span>
