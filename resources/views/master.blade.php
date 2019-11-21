@@ -26,13 +26,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 	<script src="{{ URL::asset('js/custom.js') }}"></script>
 	<script>
+
 		// check for popup modal delete
-		function Btndelete(){
+		function Btndelete(){			
 			var arrayCheckBox = new Array();
-				$('input[name="checkbox"]:checked').each(function() {
+				$('.table-responsive input[name="checkbox"]:checked').each(function() {
 				arrayCheckBox.push(this.value);
-			});
-			
+			});        
 			var n = arrayCheckBox.length;
 			if( n > 0 ){
 				$('#deleteRow').removeClass('disabled');
@@ -43,8 +43,20 @@
 			}
 			$('#spanCheckobxValue').val(arrayCheckBox.toString());
 		}
-	</script>
 	
+		// check all
+		function check_all(e){                  
+			var self = $(e+' #btnCheck_all');
+			if($(self).hasClass('check_false')){
+				$(e+' #btnCheck_all #defaultUnchecked').prop('checked', false);
+				$(e+' #btnCheck_single input').prop('checked', false);
+			}else{
+				$(e+' #btnCheck_all #defaultUnchecked').prop('checked', true);
+				$(e+' #btnCheck_single input').prop('checked', true);
+			}          
+		}
+
+	</script>
 
 
 	<!-- /theme JS files -->

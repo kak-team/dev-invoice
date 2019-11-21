@@ -336,20 +336,13 @@ table#supplier_contact td {
         });
 
         //to check all checkboxes
-        $("#modal_theme_success").on('click','#btnCheck_all',function(){
+        // click one-by-all
+        $('#modal_theme_success').on('click','#btnCheck_all',function(){
             $(this).toggleClass('check_false');
-            var self = $(this);
-            if($(self).hasClass('check_false')){
-                $('#btnCheck_all #defaultUnchecked').prop('checked', false);
-                $('#modal_theme_success #btnCheck_single input').prop('checked', false);
-            }else{
-                $('#btnCheck_all #defaultUnchecked').prop('checked', true);
-                $('#modal_theme_success #btnCheck_single input').prop('checked', true);
-            }
-
-            
+            check_all('#modal_theme_success');
+            Btndelete();
         });
-
+        
         //deletes the selected table rows
         $("#modal_theme_success").on('click','#delete',function(){
             $('#modal_theme_success .Bchk:checkbox:checked').parents("tr").remove();
@@ -407,28 +400,27 @@ table#supplier_contact td {
 
             Amount_Total = 0;
             service_fee  = 0;
-            vat          = 0; 
-
-            
+            vat          = 0;      
 
             // Total Amount
             $('.amount').each(function(){
                 if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
             });
-
             // Total Service Fee
             $('.service_fee').each(function(){
                 if($(this).val() != '' ) service_fee += parseFloat( $(this).val());
             });
-
             // Total VAT
             $('.vat').each(function(){
                 if($(this).val() != '' ) vat += parseFloat( $(this).val());
             });
-
             total_grand = Amount_Total + service_fee + vat - deposit;
-
             $('#grand_total').val(total_grand.toFixed(2));
+        });
+
+        // click one-by-one
+        $('.table-responsive').on('click','#btnCheck_single',function(){        
+            Btndelete();
         });
 
 

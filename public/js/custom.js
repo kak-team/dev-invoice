@@ -1,7 +1,14 @@
 $(document).ready(function(){
 
     
+	
 
+    // click one-by-all
+    $('.table-responsive').on('click','#btnCheck_all',function(){
+        $(this).toggleClass('check_false');
+        check_all('.table-responsive');
+        Btndelete();
+    });
 
     // delete tr table by checkboxes
     $("#modal_theme_success,#modal_theme_info").on('click','#delete',function(){
