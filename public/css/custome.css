@@ -10,3 +10,10 @@
 .small a{
     font-size: 10px;
 }
+
+.dashed{
+    border-bottom: 1px #ddd dashed;
+}
+.dashed:focus{
+    box-shadow: none;
+}

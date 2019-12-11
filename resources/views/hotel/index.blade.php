@@ -78,11 +78,11 @@ table#supplier_contact td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $hotel->supplier_name[0] }}</span>
+                                        <span class="text-icon">{{ $hotel->name_en[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $hotel->supplier_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $hotel->name_en }}</a>
                                         <div class="text-muted font-size-sm">
                                             Register Numer: {{ $hotel->register_number }}
                                         </div>
@@ -91,7 +91,7 @@ table#supplier_contact td {
                             </td>
                             <td>
                                 <div>
-                                    <a href="#" class="text-default font-weight-semibold">{{ $hotel->supplier_name }}</a>
+                                    <a href="#" class="text-default font-weight-semibold">{{ $hotel->name_en }}</a>
                                     <div class="text-muted font-size-sm">
                                         Tel : {{ $hotel->phone }}
                                     </div>
@@ -106,7 +106,7 @@ table#supplier_contact td {
                                 <a id="btn-status" data="{{ $hotel->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" hotel_id="{{ $hotel->id }}" supplier_id="{{ $hotel->supplier_id }}" company_name="{{ $hotel->supplier_name }}" register_number="{{ $hotel->register_number }}" website="{{ $hotel->website }}" address="{{ $hotel->address }}" star_rate="{{ $hotel->star_rate }}" description="{{ $hotel->description }}" room_type="{{ $hotel->room_type }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" hotel_id="{{ $hotel->id }}" supplier_id="{{ $hotel->supplier_id }}" company_name="{{ $hotel->name_en }}" register_number="{{ $hotel->register_number }}" website="{{ $hotel->website }}" address="{{ $hotel->address }}" star_rate="{{ $hotel->star_rate }}" description="{{ $hotel->description }}" room_type="{{ $hotel->room_type }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else

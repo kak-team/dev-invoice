@@ -12,8 +12,8 @@ class Customer_contacts extends Model
     public $timestamps = false;
 
 
-    public function customer_contacts()
+    public function customer()
     {
-        return $this->belongsTo(customer::Class);
+        return $this->belongsTo(Customer::Class);
     }
 }
