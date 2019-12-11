@@ -28,7 +28,26 @@ table#supplier_contact td {
     </script>
 @endif
 
-<div class="modal fade" id="HidModeSys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="modal_print" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-avatar modal-lg" role="document">
+      <!--Content-->
+      <div class="modal-content">
+        <!--Body-->
+        <div class="modal-body text-center mb-1">         
+            @include('invoice_airticket.print')
+        </div>
+        <div class="modal-footer">
+            <div class="form-group text-center">
+                <button class="btn btn-danger legitRipple waves-effect waves-light" type="button" data-dismiss="modal" id="iaSave">Cancel</button>
+                <button type="button" id="print" class="btn btn-success legitRipple waves-effect waves-light">Print<i class="icon-circle-right2 ml-2"></i></button>
+            </div>
+        </div>
+
+      </div>
+      <!--/.Content-->
+    </div>
+</div>
+<div class="modal fade" id="HidModeSys" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
     <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
       <!--Content-->
       <div class="modal-content">
@@ -39,7 +58,7 @@ table#supplier_contact td {
           </div>
 
           <div class="text-center mt-4">
-            <button class="btn btn-cyan waves-effect waves-light" data-dismiss="modal">Save and Close
+            <button class="btn btn-cyan waves-effect waves-light" id="nvSave" data-dismiss="modal">Save and Close
               <i class="fas fa-sign-in ml-1"></i>
             </button>
           </div>
@@ -48,13 +67,13 @@ table#supplier_contact td {
       </div>
       <!--/.Content-->
     </div>
-  </div>
+</div>
 
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header header-elements-sm-inline py-2">
-                <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> SUPPLIER LIST</h6>
+                <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> INVOICE AIR-TICKET LIST</h6>
                 <div>
                     <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                         <input type="text" class="form-control" placeholder="Search...">
@@ -93,55 +112,43 @@ table#supplier_contact td {
                     
                     @else
                 <tr role="row" class="odd">
-                <td>
-                                <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked1" value="4" name="checkbox">
-                                    <label class="custom-control-label" for="defaultUnchecked1"></label>
-                                </div>
-                            </td>
-                                <td class="sorting_1">#0025</td>
-                                
-                                <td>
-                                    <h6 class="mb-0">
-                                        <a href="#">Rebecca Manes</a>
-                                        <span class="d-block font-size-sm text-muted">Payment method: Skrill</span>
-                                    </h6>
-                                </td>
-                                <td>
-                                    <select name="status" class="form-control form-control-select2" data-placeholder="Select status">
-                                        <option value="overdue">Overdue</option>
-                                        <option value="hold" selected="">On hold</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="paid">Paid</option>
-                                        <option value="invalid">Invalid</option>
-                                        <option value="cancel">Canceled</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    April 18, 2015
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Paid on Mar 16, 2015</span>
-                                </td>
-                                <td>
-                                    <h6 class="mb-0 font-weight-bold">$17,890 <span class="d-block font-size-sm text-muted font-weight-normal">VAT $4,890</span></h6>
-                                </td>
-                                <td class="text-center">
-                                    <div class="list-icons list-icons-extended">
-                                        <a href="#" class="list-icons-item" data-toggle="modal" data-target="#invoice"><i class="icon-file-eye"></i></a>
-                                        <div class="list-icons-item dropdown">
-                                            <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"><i class="icon-file-text2"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item"><i class="icon-file-download"></i> Download</a>
-                                                <a href="#" class="dropdown-item"><i class="icon-printer"></i> Print</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item"><i class="icon-file-plus"></i> Edit</a>
-                                                <a href="#" class="dropdown-item"><i class="icon-cross2"></i> Remove</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                    <td>
+                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                            <input type="checkbox" class="custom-control-input" id="defaultUnchecked1" value="4" name="checkbox">
+                            <label class="custom-control-label" for="defaultUnchecked1"></label>
+                        </div>
+                    </td>
+                    <td class="sorting_1">#0025</td>
+                    
+                    <td>
+                        <h6 class="mb-0">
+                            <a href="#">Rebecca Manes</a>
+                            <span class="d-block font-size-sm text-muted">Payment method: Skrill</span>
+                        </h6>
+                    </td>
+                    <td>
+                        <select name="status" class="form-control form-control-select2" data-placeholder="Select status">
+                            <option value="overdue">Overdue</option>
+                            <option value="hold" selected="">On hold</option>
+                            <option value="pending">Pending</option>
+                            <option value="paid">Paid</option>
+                            <option value="invalid">Invalid</option>
+                            <option value="cancel">Canceled</option>
+                        </select>
+                    </td>
+                    <td>
+                        April 18, 2015
+                    </td>
+                    <td>
+                        <span class="badge badge-success">Paid on Mar 16, 2015</span>
+                    </td>
+                    <td>
+                        <h6 class="mb-0 font-weight-bold">$17,890 <span class="d-block font-size-sm text-muted font-weight-normal">VAT $4,890</span></h6>
+                    </td>
+                    <td class="text-center">
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_print">View Invoice</button>
+                    </td>
+                </tr>
                 <tr>
                     <td colspan=8 class="text-center p-5">No Data...</td>
                 </tr>
@@ -174,24 +181,31 @@ table#supplier_contact td {
         // Token CSRF
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
-        
+        // Modal in Modal Fix overflow
+        $('#nvSave').click(function(){
+            $('body').addClass('modal-open1');
+        });
+
+        // Modal popup in Modal
+        $('#iaSave').click(function(){
+            $('body').removeClass('modal-open1');
+        });
+
         // New Invoice List
         var loop = 2;        
         $('#modal_theme_success').on('click','.new-row',function(){
             var html = '<tr>';
                 html += '<td class="position-relative text-center"><div class="custom-control custom-checkbox" id="btnCheck_single"><input type="checkbox" class="custom-control-input Bchk" id="c_'+loop+'"><label class="custom-control-label" for="c_'+loop+'"></label></div></td>';
                 html += '<td class="position-relative text-center" id="hidMode_'+loop+'"><div class="Dtdisabled"></div><input type="hidden" name="n_p[]" id="np_'+loop+'"><span>'+loop+'</span></td>';
-                html += '<td class="position-relative text-center"><div class="Dtdisabled"></div><span class="airlineCode_'+loop+'"></span><input type="hidden" name="airline_id" class="airlineId_'+loop+'"></td>';
-                html += '<td><div class="d-flex"><div class="md-form m-0"><input type="text" id="AutoCompleteAirlineCode_'+loop+'" placeholder="Ticket No" name="ticket_no" class="form-control m-0"></div><i class="icon-notification2 text-warning align-self-center pl-1" id="TickAutoStatus_'+loop+'"></i></td></td>';
+                html += '<td class="text-center"> <div class="d-flex"> <div class="md-form m-0"> <input type="text" class="airlineId_'+loop+' form-control m-0" id="airlineName_'+loop+'" placeholder="airline name"></span> <input type="hidden" name="airline_id[]" id="airlineId_'+loop+'"> <div id="autoDisplay_airlineName_'+loop+'"></div></div><i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_'+loop+'"></i> </div></td>';
+                html += '<td> <div class="d-flex"> <div class="md-form m-0"> <input type="text" id="ticketNo_'+loop+'" name="ticket_no[]" placeholder="ticket no" class="form-control m-0"> </div><i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_'+loop+'"></i> </div></td>';
                 html += '<td><div class="md-form m-0"><input type="text" id="guestName_'+loop+'" name="guest_name" class="form-control m-0"></div></td>';
                 html += '<td><select class="mdb-select_'+loop+' md-form m-0" name="type[]"><option value="Adult">Adult</option><option value="Child">Child</option><option value="Infant">Infant</option></select></td>';
                 html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty" value="1"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" name="price[]" id="price_'+loop+'" step="0.01" class="form-control m-0 text-center price" value="0"></div></td>';
-                html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" id="amount_'+loop+'" name="amount[]" step="0.01" class="form-control m-0 text-center amount" value="0"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" id="serviceFee_'+loop+'" name="service_fee[]" step="0.01" class="form-control m-0 text-center service_fee" value="0"></div></td>';
                 html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="number" id="vat_'+loop+'" name="vat[]" class="form-control m-0 text-center vat" step="0.01" value="0"></div></td>';
                 html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="text" id="serviceFeeVat_'+loop+'" name="serviceFee_VAT" step="0.01" class="form-control m-0 text-center serviceFee_VAT" value="0"></div></td>';
-                html += '<td class="position-relative"><div class="Dtdisabled"></div><div class="md-form m-0"><input type="text" id="subTotal_'+loop+'" step="0.01" class="form-control m-0 text-center sub__total" value="0"></div></td>';
             html += '</tr>';    
             $('.table-create').append(html);
             $('.mdb-select_'+loop).materialSelect();
@@ -217,59 +231,130 @@ table#supplier_contact td {
         $('[data-toggle="popover"]').popover();
         $('.mdb-select').materialSelect();
 
-        // AutoComplete Airline Code
-        $('#modal_theme_success').on('keyup','input[id^="AutoCompleteAirlineCode_"]',function(){
-            var code  = $(this).val();
-            var id = $(this).attr("id").replace ( /[^\d.]/g, '' );
+        // AutoComplete AirTicket No
+        $('#modal_theme_success').on('keyup','input[id^="ticketNo_"]',function(){
+            var name  = $(this).val();
+            var Tid = $(this).attr("id").replace ( /[^\d.]/g, '' );
             
             // Clear
-            $('#modal_theme_success .airlineCode_'+id).text('');
-            $('#modal_theme_success .airlineId_'+id).val('');
-            $('#TickAutoStatus_'+id).attr('class','icon-notification2 text-warning align-self-center pl-1');
+            $('#modal_theme_success #airlineName_'+Tid).val('');
+            $('#modal_theme_success #airlineId_'+Tid).val('');
+            $('#modal_theme_success #iconAirline_'+Tid).attr('class','icon-notification2 text-warning align-self-center pl-1');
+            $('#modal_theme_success #iconTicketNo_'+Tid).attr('class','icon-notification2 text-warning align-self-center pl-1');
 
             // ajax
             $.ajax({
                 type : 'post',
-                data : {code : code},
-                url  : 'invoice_airticket/auto_airline',
+                data : {name : name},
+                url  : 'invoice_airticket/auto_ticket',
                 success : function(respond){    
-                    var airline = respond.split("|");
-                    $('#modal_theme_success .airlineCode_'+id).text(airline[1]);
-                    $('#modal_theme_success .airlineId_'+id).val(airline[0]);
-                    if(airline != ''){
-                        $('#TickAutoStatus_'+id).attr('class','');
+                    json  = jQuery.parseJSON(respond);
+                    if (json.length != 0) {
+                        $('#modal_theme_success #airlineName_'+Tid).val(json[0].name);
+                        $('#modal_theme_success #airlineId_'+Tid).val(json[0].id);
+                        $('#modal_theme_success #iconTicketNo_'+Tid).attr('class','icon-checkmark3 text-success align-self-center pl-1');
+                        $('#modal_theme_success #iconAirline_'+Tid).attr('class','icon-checkmark3 text-success align-self-center pl-1');
+
                     }                     
                 }
             });
         });
 
+        // AutoComplete Airline name
+        $('#modal_theme_success').on('keyup','input[id^="airlineName_"]',function(){
+            var name            = $(this).val();
+            var seft_airline    = $(this);
+            var Aid              = $(this).attr("id").replace ( /[^\d.]/g, '' );
+            json                = [];
+            
+            // clear data
+            $('#modal_theme_success airlineId_'+Aid).val('');
+            $('#modal_theme_success #iconAirline_'+Aid).attr('class','icon-notification2 text-warning align-self-center pl-1');
+            
+            // Ajax
+            $.ajax({
+                type : 'post',
+                data : {name : name},
+                url  : 'invoice_airticket/auto_airline',
+                success : function(respond){  
+                    json  = jQuery.parseJSON(respond);
+                    var html = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+                    if ( json.length != 0 ) {
+                        $.each(json, function (i, obj) {                            
+                            html += '<li class="customer list-group-item list-group-item-action" id="acceptAirtiket" airline_id="'+obj.id+'" >'+obj.name+'</li>';                         
+                        });  
+                    }
+                    html += '</ul></div>';
+                    $('#autoDisplay_airlineName_'+Aid).html(html);                    
+                }
+            });
+
+            // Accept Airline name
+            $('#modal_theme_success').on('click','#acceptAirtiket',function(){
+                var airline_id = $(this).attr('airline_id');
+                var text = $(this).text();
+                $(seft_airline).val(text);
+                $('#modal_theme_success #airlineId_'+Aid).val(airline_id);
+                $('#modal_theme_success #autoDisplay_airlineName_'+Aid).html('');
+                $('#modal_theme_success #iconAirline_'+Aid).attr('class','icon-checkmark3 text-success align-self-center pl-1');
+
+            });
+        });
         // AutoComplete Customer
         $('#modal_theme_success').on('keyup','#cusNameEn',function(){
             var name = $(this).val();
+            json = [];
+            var z = 0;
 
             // Clear 
             $('#modal_theme_success #customer_id').val('');
-            $('#modal_theme_success #name_kh').val('');
+            $('#modal_theme_success #contactPerson').val('');
             $('#CustomerAutoStatus').attr('class','icon-notification2 text-warning align-self-center pl-1');
+            $('#contactPerson').html('');
+            $('#phone').val('');
 
             // Ajax
             $.ajax({
                 type : 'post',
                 data : {name : name},
                 url  : 'invoice_airticket/auto_customer',
-                success : function(respond){    
-                    $('.AutoDisplay').html(respond);
+                success : function(respond){  
+                    json  = jQuery.parseJSON(respond);
+                    var html = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+                    if ( json.length != 0 ) {
+                        $.each(json, function (i, obj) {                            
+                            html += '<li class="customer list-group-item list-group-item-action" id="acceptCustomer" phone-data="'+i+'" customer_id="'+obj.id+'" >'+obj.name_en +'</li>';
+                            z++;                            
+                        });  
+                    }
+                    html += '</ul></div>';
+                    $('.AutoDisplay_Customer').html(html);
+                    
                 }
-            });
-        
+            });                
             // Accept Customer
             $('#modal_theme_success').on('click','#acceptCustomer',function(){
-                $('#modal_theme_success #customer_id').val($(this).attr('customer_id'));
-                $('#modal_theme_success #name_kh').val($(this).attr('name_kh'));
+                var customer_id = $(this).attr('customer_id');
+                var phone_data = $(this).attr('phone-data');
+                var opt = '<select class="mdb-select md-form m-0 w-100 dashed mdbContact">';
+                $('#modal_theme_success #customer_id').val(customer_id);
                 $('#modal_theme_success #cusNameEn').val($(this).text());
-                $('.AutoDisplay').text('');
+                $('.AutoDisplay_Customer').text('');
                 $('#CustomerAutoStatus').attr('class','icon-checkmark3 text-success align-self-center pl-1');
+                $.each(json[phone_data].contacts, function (i, contact) {
+                    opt += '<option value="'+contact.full_name+'" phone="'+contact.phone+'">'+contact.full_name+'</option>';
+                });
+                opt += '</select>';
+                $('#contactPerson').html(opt);
+                $('.mdbContact').materialSelect();
+                $('#phone').val(json[phone_data].contacts[0].phone); 
             }); 
+
+            // selected get contact
+            $('#modal_theme_success').on('change','.mdbContact',function(){
+                var contact = $('option:selected', this).attr('phone');
+                $('#modal_theme_success #phone').val(contact);
+            });
         
         });
 
@@ -300,40 +385,7 @@ table#supplier_contact td {
             });
         });
 
-        //price change
-        $(document).on('change keyup blur','.price',function(){
-            id_arr      = $(this).attr('id');
-            id          = id_arr.split("_");
-            quantity    = $('#qty_'+id[1]).val();
-            price       = $('#price_'+id[1]).val();
-            
-            if( quantity!='' && price !='' ) $('#amount_'+id[1]).val( (parseFloat(price)*parseFloat(quantity)).toFixed(2) ); 
-            calculate_Amount();
-            calculate_grand();
-        });
-
-        // Service Fee
-        $(document).on('change keyup blur','.service_fee',function(){
-            id_arr      = $(this).attr('id');
-            id          = id_arr.split("_");
-            value       = $(this).val();
-            
-            if( value!='') 
-                // VAT
-                vat = parseFloat(value) * parseFloat(0.1);
-                $('#vat_'+id[1]).val((vat).toFixed(2)); 
-
-                // ServiceFee + VAT
-                serviceFee_VAT = parseFloat(value) + parseFloat(vat);
-                $('#serviceFeeVat_'+id[1]).val((serviceFee_VAT).toFixed(2)); 
-                
-                // Sub Total
-                sub_Total = parseFloat($('#amount_'+id[1]).val()) + parseFloat(serviceFee_VAT);
-                $('#subTotal_'+id[1]).val((sub_Total).toFixed(2));
-            calculate_SerFee();
-            calculate_vat();
-            calculate_grand();
-        });
+        
 
         //to check all checkboxes
         // click one-by-all
@@ -357,13 +409,15 @@ table#supplier_contact td {
             calculate_grand();
         });
 
-        //amount total calculation
-        function calculate_Amount(){
-            Amount_Total = 0 ;  
-            $('.amount').each(function(){
-                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
+        // ------------------------------------------------------------ calculation
+
+        //price total calculation
+        function calculate_price(){
+            var price_Total = 0 ;  
+            $('.price').each(function(){
+                if($(this).val() != '' ) price_Total += parseFloat( $(this).val());
             });
-            $('#Amount_total').val( Amount_Total.toFixed(2));
+            return price_Total;
         }
 
         //service Fee total calcalation
@@ -384,38 +438,58 @@ table#supplier_contact td {
             $('#vat_total').val( Amount_Total.toFixed(2));
         }
 
-        // Grand Total
-        function calculate_grand(){
-            deposit =  $('#deposit_total').val();
-            amount = $('#Amount_total').val();
-            serFee = $('#SerFee_total').val();
-            vat    = $('#vat_total').val();
-            grandX  = parseFloat(amount) + parseFloat(serFee) + parseFloat(vat) - parseFloat(deposit);
-            $('#grand_total').val( grandX.toFixed(2));
-        }
-
         //Deposit
         $('#modal_theme_success').on('keyup','#deposit_total',function(){
-            deposit = $(this).val();
+            deposit      = $(this).val();
+            price_Total  = calculate_price(); 
+            exchage_riel = $('#exchange_riel').val();
+            grand_total_dollar  = parseFloat(price_Total) - parseFloat(deposit);
+            grand_total_riel    = parseFloat(grand_total_dollar) * parseFloat(exchage_riel);
+            $('#grand_dollar').val( grand_total_dollar.toFixed(2));
+            $('#drand_riel').val( grand_total_riel.toFixed(2));
+        });
 
-            Amount_Total = 0;
-            service_fee  = 0;
-            vat          = 0;      
+        //price change
+        $('#modal_theme_success').on('change keyup blur','.price',function(){            
+            deposit      = $('#deposit_total').val();
+            price_Total  = calculate_price();
+            exchage_riel = $('#exchange_riel').val();
+            grand_total_dollar  = parseFloat(price_Total) - parseFloat(deposit);
+            grand_total_riel    = parseFloat(price_Total) * parseFloat(exchage_riel);
+            
+            $('#Amount_total').val( price_Total.toFixed(2));
+            $('#grand_dollar').val( grand_total_dollar.toFixed(2));
+            $('#drand_riel').val( grand_total_riel.toFixed(2));
+        });
 
-            // Total Amount
-            $('.amount').each(function(){
-                if($(this).val() != '' ) Amount_Total += parseFloat( $(this).val());
-            });
-            // Total Service Fee
-            $('.service_fee').each(function(){
-                if($(this).val() != '' ) service_fee += parseFloat( $(this).val());
-            });
-            // Total VAT
-            $('.vat').each(function(){
-                if($(this).val() != '' ) vat += parseFloat( $(this).val());
-            });
-            total_grand = Amount_Total + service_fee + vat - deposit;
-            $('#grand_total').val(total_grand.toFixed(2));
+        // Service Fee
+        $('#modal_theme_success').on('change keyup blur','.service_fee',function(){
+            id_arr      = $(this).attr('id');
+            id          = id_arr.split("_");
+            value       = $(this).val();
+            
+            if( value!='') 
+                // VAT
+                vat = parseFloat(value) * parseFloat(0.1);
+                $('#vat_'+id[1]).val((vat).toFixed(2)); 
+
+                // ServiceFee + VAT
+                serviceFee_VAT = parseFloat(value) + parseFloat(vat);
+                $('#serviceFeeVat_'+id[1]).val((serviceFee_VAT).toFixed(2)); 
+                
+                // Sub Total
+                sub_Total = parseFloat($('#amount_'+id[1]).val()) + parseFloat(serviceFee_VAT);
+                $('#subTotal_'+id[1]).val((sub_Total).toFixed(2));
+                calculate_SerFee();
+                calculate_vat();
+        });
+
+        // exchange_riel
+        $('#modal_theme_success').on('change keyup blur','#exchange_riel',function(){
+            exchage_riel     = $(this).val();
+            price_Total      = calculate_price();
+            grand_total_riel = parseFloat(price_Total) * parseFloat(exchage_riel);
+            $('#drand_riel').val( grand_total_riel.toFixed(2));
         });
 
         // click one-by-one

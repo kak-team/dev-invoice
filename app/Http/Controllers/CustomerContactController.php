@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\CustomerList;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
