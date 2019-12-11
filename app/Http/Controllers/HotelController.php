@@ -22,7 +22,7 @@ class HotelController extends Controller
     public function index()
     {
         $hotel = DB::table('ctn_supplier_hotel AS A')
-        ->select('A.*', 'B.supplier_name','B.register_number','B.website','B.address','C.full_name', 'C.phone')            
+        ->select('A.*', 'B.name_en', 'B.name_kh','B.register_number','B.website','B.address','C.full_name', 'C.phone')            
         ->join('ctn_supplier AS B','B.id', '=', 'A.supplier_id')
         ->join('ctn_supplier_contact AS C', 'C.supplier_id', '=', 'B.id' )
         ->where('B.status', '!=', '2')
@@ -137,7 +137,8 @@ class HotelController extends Controller
         $supplier_id    = $request->supplier_id;
         $hotel_id       = $request->hotel_id;
         $data_supplier  = [
-        'supplier_name'     => $request->name,
+        'name_en'     => $request->name_en,
+        'name_kh'     => $request->name_kh,
         'register_number'   => $request->register_number,
         'website'           => $request->website,
         'address'           => $request->address
