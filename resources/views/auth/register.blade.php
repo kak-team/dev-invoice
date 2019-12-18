@@ -61,6 +61,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('User Role') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="role" id="">
+                                    @foreach($user_roles as $role)
+                                        {{ $role->name }}
+                                    @endforeach
+                                </select>
+                                <input id="role" type="text" class="form-control" name="role" required autocomplete="role">
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
