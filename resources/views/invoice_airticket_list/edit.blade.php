@@ -1,82 +1,11 @@
-<style>
-    table.table-create td{
-        padding: 0px 12px;
-    }
-    input.select-dropdown{
-        margin: 0px!important;
-        font-size: 12px!important;
-        
-    }
-    table.table-create input{
-        padding: 0px!important;
-        border:0px !important;  
-    }
-    table.table-create tr.table-active td{
-        white-space: nowrap;
-    }
-    .position-relative{
-        background: #f7f7f7;
-    }
-    .Tddisabled{
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        z-index: 1;
-
-    }
-    input[type='number'] {
-    -moz-appearance:textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-.custom-control-label::before,.custom-control-label::after{
-    left : -25px;
-}
-
-.mdb-autocomplete-wrap{
-    white-space: nowrap;
-    min-width: 315px;
-}
-
-.form-group-feedback-left .form-control{
-    padding-left: 5px;
-}
-.list-group{
-    padding:0px;
-    border:0px;
-}
-body.modal-open{
-    overflow:hidden;
-}
-.modal-open1 .modal {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-body.navbar-top.modal-open1 {
-    overflow: hidden;
-}
-.border-color{
-    border-color: #009688;
-}
-.totalInput {
-    font-size: 14px;
-    height: 32px;
-}
-.text-dark {
-    color: #526973!important;
-    text-transform: uppercase;
-    font-size: 11px;
-}
-.bgwhiteblue{
-    background: #e9f8fd!important;
-}
-</style>
-<form method="post" >
+<?php 
+    //  echo $invoices[0]['customers'][0]->name_kh;
+     //echo $invoices->customers()->contacts()->full_name;
+ ?>
+@foreach($invoices as $invoice)
+<form method="post" action="{{ action('Invoice_airticket_listController@update') }}">
+    @csrf
+    <input type="hidden" value="10" name="vat_value">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -86,96 +15,143 @@ body.navbar-top.modal-open1 {
                     </div>
 
                     <div class="d-flex mb-3">
-                        <div class="mr-auto p-2 col-lg-6">
-                            <div class="row mb-2">
-                                <div class="col d-flex align-items-center ">
-                                   <b> Customer Info : </b>
-                                </div>                                
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-lg-4 d-flex align-items-center ">
-                                     Company name / Customer
-                                </div>
-                                <div class="col d-flex">
-                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
-                                        <input type="text" class="form-control dashed" placeholder="Customer Name En" id="cusNameEn" required="" autocomplete="off">
-                                        <input type="hidden" id="customer_id" name="customer_id">
-                                        <div class="AutoDisplay_Customer"></div>
+                        <div class="mr-auto p-2 col-lg-4">
+
+                            <div class="card">
+								<div class="card-header bg-info header-elements-inline p-2">
+									<span class="card-title font-weight-semibold font-weight-bold">Customer Info :</span>
+									<div class="header-elements">
+										<div class="list-icons">
+					                		<a class="list-icons-item" data-action="collapse"></a>
+				                		</div>
+			                		</div>
+								</div>
+								<div class="card-body p-2">
+                                    
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 d-flex align-items-center ">
+                                            Customer Name
+                                        </div>
+                                        <div class="col d-flex">
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
+                                                <input type="text" value="{{ $invoice->customers->name_en }}" class="form-control dashed" placeholder="Customer Name En" id="cusNameEn" required="" autocomplete="off">
+                                                <input type="hidden" id="customer_id" name="customer_id">
+                                                <div class="AutoDisplay_Customer"></div>
+                                            </div>
+                                            <i class="icon-notification2 text-warning align-self-center" id="CustomerAutoStatus"></i>
+                                        </div>                                        
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center" id="CustomerAutoStatus"></i>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="row mb-2">
-                                <div class="col-lg-4 d-flex align-items-center ">
-                                     Contact Person :
-                                </div>
-                                <div class="col d-flex " id="contactPerson">
-                                    <select class="mdb-select md-form m-0 w-100 dashed mdbContact" >                                    
-                                        <option value="" disabled selected>No Contact</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-lg-4 d-flex align-items-center ">
-                                     Phone :
-                                </div>
-                                <div class="col d-flex ">                                
-                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
-                                        <input type="text" class="form-control dashed" placeholder="Customer Name En" id="phone" required="" autocomplete="off">
-                                        <div class="AutoDisplay"></div>
+                                    
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 d-flex align-items-center ">
+                                            Contact Person :
+                                        </div>
+                                        <div class="col d-flex " id="contactPerson">
+                                            <select class="mdb-select md-form m-0 w-100  mdbContact" name="contact_person" id="Econtact_person" >                                    
+                                                @foreach($contacts as $contact)
+                                                    <option value="{{ $contact->id }}" {{ ($invoice->contact_person_id == $contact->id ? 'selected':'no') }}>{{ $contact->full_name }}</option>
+                                                @endforeach
+                                            </select>   
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="row mb-2">
+                                        <div class="col-lg-4 d-flex align-items-center ">
+                                            Phone :
+                                        </div>
+                                        <div class="col d-flex ">                                
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
+                                                <input type="text" value="{{ $invoice->contact_phone }}" class="form-control dashed" placeholder="Customer Phone" name="phone" id="phone" required="" autocomplete="off">
+                                                <div class="AutoDisplay"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+								</div>
                             </div>
 
-                            <div class="row mb-2">
-                                <div class="col d-flex align-items-center ">
-                                   <b> Supplier Info : </b>
-                                </div>                                
-                            </div>
-                            <div class="row mt-1">
-                                <div class="col-lg-4 d-flex align-items-center ">
-                                    <span>Supplier</span>
-                                </div>
-                                <div class="col d-flex">
-                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold">
-                                        <input type="text" required="" class="form-control" placeholder="Type Supplier Name" id="supNameEn" autocomplete="off">
-                                        <input type="hidden" id="supplier_id" name="supplier_id">
-                                        <div class="AutoDisplaySup"></div>
+                            <div class="card">
+								<div class="card-header bg-info header-elements-inline p-2">
+									<span class="card-title font-weight-semibold font-weight-bold">Supplier Info :</span>
+									<div class="header-elements">
+										<div class="list-icons">
+					                		<a class="list-icons-item" data-action="collapse"></a>
+				                		</div>
+			                		</div>
+								</div>
+								<div class="card-body p-2">
+                                    <div class="col d-flex">
+                                        <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold w-100">
+                                            <input type="text" required="" class="form-control" placeholder="Supplier Name" id="supNameEn" autocomplete="off">
+                                            <input type="hidden" id="supplier_id" name="supplier_id">
+                                            <div class="AutoDisplaySup"></div>
+                                        </div>
+                                        <i class="icon-notification2 text-warning align-self-center" id="SupplierAutoStatus"></i>
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center" id="SupplierAutoStatus"></i>
-                                </div>
-                            </div>  
+								</div>
+                            </div>
+
+                             
 
                         </div>
-                        <div class="p-2">
-                            <div class="col d-flex align-items-center pl-0">
-                                <b> System Record: </b>
-                            </div>
-                            <!-- Invoice ID -->
-                            <div class="row">
-                                <div class="col d-flex align-items-center">
-                                    <p class="m-0"><span>Invoice No :</span> </p>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="text" class="form-control" disabled value="Draf Number" required="" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-lg-4 p-2">
+                            
+                            
 
-                            <!-- Invoice ID -->
-                            <div class="row mt-2">
-                                <div class="col d-flex align-items-center">
-                                    <p class="m-0"><span>Invoice Date :</span> </p>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                        <input type="date" class="form-control" placeholder="invoiceID" name="invoiceID" id="invoiceID" required="" autocomplete="off" value="<?php echo date('Y-m-d'); ?>">
+                            <div class="card">
+								<div class="card-header bg-info header-elements-inline p-2">
+									<span class="card-title font-weight-semibold font-weight-bold">System Record:</span>
+									<div class="header-elements">
+										<div class="list-icons">
+					                		<a class="list-icons-item" data-action="collapse"></a>
+				                		</div>
+			                		</div>
+								</div>
+								<div class="card-body p-2">
+                                    <!-- Invoice ID -->
+                                    <div class="row">
+                                        <div class="col d-flex align-items-center">
+                                            <p class="m-0"><span>Invoice No :</span> </p>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                                                <input type="text" class="form-control" disabled value="Draf Number" required="" autocomplete="off">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <!-- Invoice Date -->
+                                    <div class="row mt-2">
+                                        <div class="col d-flex align-items-center">
+                                            <p class="m-0"><span>Invoice Date :</span> </p>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group form-group-feedback form-group-feedback-left mb-0">
+                                                <input type="date" class="form-control" placeholder="invoice_date" name="invoice_date" id="invoice_date" required="" autocomplete="off" value="<?php echo date('Y-m-d'); ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+                            </div>                          
+
+                            <div class="card">
+								<div class="card-header bg-info header-elements-inline p-2">
+									<span class="card-title font-weight-semibold font-weight-bold">Payment Method:</span>
+									<div class="header-elements">
+										<div class="list-icons">
+					                		<a class="list-icons-item" data-action="collapse"></a>
+				                		</div>
+			                		</div>
+								</div>
+								<div class="card-body p-2">
+                                    <select class="mdb-select md-form m-0 w-100 payment_method" name="payment_method">                                    
+                                        <option value="0" selected>No Payment</option>
+                                        @foreach ($payment_methods as $method)
+                                            <option value="{{ $method->id }}" >{{ $method->name }}</option>
+                                        @endforeach
+                                    </select>
+								</div>
                             </div>
+                            
                         </div>
                         
                     </div>
@@ -184,7 +160,7 @@ body.navbar-top.modal-open1 {
                         <button type="button" class="btn btn-info btn-sm btn-rounded waves-effect waves-light new-row"><i class="icon-plus-circle2 pr-0 pt-0" aria-hidden="true"></i></button>
                         <button type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" id="delete" ><i class="icon-cancel-circle2 pr-0 pt-0" aria-hidden="true"></i></button>
                         <div class="custom-control custom-switch ml-auto d-flex align-items-end">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+                            <input type="checkbox" class="custom-control-input" name="grouping" id="customSwitch1">
                             <label class="custom-control-label" for="customSwitch1">Grouping</label>
                         </div>
                     </div>
@@ -225,7 +201,7 @@ body.navbar-top.modal-open1 {
                             <td class="text-center">
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" placeholder="airline name"></span>
+                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name"></span>
                                         <input type="hidden" name="airline_id[]" id="airlineId_1">
                                         <div id="autoDisplay_airlineName_1"></div>
                                     </div>
@@ -235,7 +211,7 @@ body.navbar-top.modal-open1 {
                             <td>
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" class="form-control m-0">                                    
+                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0">                                    
                                     </div>
                                     <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_1"></i>
                                 </div>                             
@@ -243,7 +219,7 @@ body.navbar-top.modal-open1 {
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="guestName_1" name="guest_name" class="form-control m-0">                                    
+                                    <input type="text" id="guestName_1" name="guest_name[]" class="form-control m-0">                                    
                                 </div>
                             </td>
                             <td>
@@ -279,7 +255,7 @@ body.navbar-top.modal-open1 {
                             <td class="position-relative">
                                 <div class="Dtdisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="text" id="serviceFeeVat_1" name="serviceFee_VAT" step="0.01"  class="form-control m-0 text-center serviceFee_VAT" value=0>                                    
+                                    <input type="text" id="serviceFeeVat_1" name="servicefee_vat[]" step="0.01"  class="form-control m-0 text-center serviceFee_VAT" value=0>                                    
                                 </div>
                             </td>
                         </tr>
@@ -290,16 +266,15 @@ body.navbar-top.modal-open1 {
                             <div class="col px-0">
                                 <label for="deposit_total" class="font-weight-bold text-dark mb-0">Routing</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" id="routing" required="" autocomplete="off">
+                                    <input type="text" class="form-control font-weight-bold totalInput border-color" id="routing" name="routing" required="" autocomplete="off">
                                 </div>
                             </div>
                             
                             <!--Description-->
                             <div class="md-form md-outline">
-                            <textarea id="form75" class="md-textarea form-control w-100" rows="5"></textarea>
+                            <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
                             <label for="form75">Description</label>
-                            </div>
-                            
+                            </div>                            
                         </div>
 
                         
@@ -309,13 +284,13 @@ body.navbar-top.modal-open1 {
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Total</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" id="SerFee_total" value="0.00" required="" autocomplete="off">    
+                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="servicefee_total" id="SerFee_total" value="0.00" required="" autocomplete="off">    
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="vat_total" class="font-weight-bold text-dark mb-0">Vat Total</label>
                                     <div class=" md-bg form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" id="vat_total" value="0.00" required="" autocomplete="off">
+                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="vat_total" id="vat_total" value="0.00" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -323,19 +298,19 @@ body.navbar-top.modal-open1 {
                                 <div class="col pr-1">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Deposit Total</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" class="form-control font-weight-bold totalInput border-color" id="deposit_total" value="0.00" required="" autocomplete="off">
+                                        <input type="number" step="0.01" class="form-control font-weight-bold totalInput border-color" id="deposit_total" name="deposit_total" value="0.00" required="" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col pr-1">
                                     <label for="Amount_total" class="font-weight-bold text-dark mb-0">Amount Total</label>
                                     <div class=" md-bg form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" id="Amount_total" value="0.00" required="" autocomplete="off">    
+                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="amount_total" id="Amount_total" value="0.00" required="" autocomplete="off">    
                                     </div>
                                 </div>
                                 <div class="col">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Exchage Riel</label>
                                     <div class=" md-bg form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" class=" form-control font-weight-bold totalInput border-color" id="exchange_riel" value="{{ $company_profile[0]->exchange_kh }}" required="" autocomplete="off">    
+                                        <input type="number" step="0.01" class=" form-control font-weight-bold totalInput border-color" name="exchange_riel" id="exchange_riel"  required="" autocomplete="off">    
                                     </div>
                                 </div>
                             </div>
@@ -344,13 +319,13 @@ body.navbar-top.modal-open1 {
                                 <div class="col pr-1">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Grand Total Dollar</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" id="grand_dollar" value="0.00" required="" autocomplete="off">
+                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="grand_dollar" id="grand_dollar" value="0.00" required="" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col pr-1">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Grand Total Riel</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" id="drand_riel" value="0.00" required="" autocomplete="off">
+                                        <input type="number" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="grand_riel" id="grand_riel" value="0.00" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -370,3 +345,4 @@ body.navbar-top.modal-open1 {
         </div>
     </div>
 </form>
+@endforeach

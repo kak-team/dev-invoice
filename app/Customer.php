@@ -13,4 +13,7 @@ class Customer extends Model
     {
         return $this->hasMany(Customer_contacts::Class);
     }
+    public function invoices(){
+        return $this->hasMany(Invoice::Class);
+    }
 }

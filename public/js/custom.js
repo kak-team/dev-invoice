@@ -13,7 +13,7 @@ $(document).ready(function(){
     // delete tr table by checkboxes
     $("#modal_theme_success,#modal_theme_info").on('click','#delete',function(){
         $(this).parents("tr").remove();
-      });
+    });
 
     // status
     $('.table-responsive').on('click','#btn-status',function(){
