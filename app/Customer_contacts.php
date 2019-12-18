@@ -14,6 +14,12 @@ class Customer_contacts extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::Class);
+        return $this->belongsTo(Customer::class);
     }
+
+    public function invoices()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
 }

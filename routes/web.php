@@ -62,12 +62,15 @@ Route::get('/transportation/transportation_contact/{id}', 'TransportationControl
 Route::post('/transportation/update', 'TransportationController@update');
 
 
-// invoice airticket
-Route::resource('invoice_airticket', 'Invoice_airticketController');
-Route::post('invoice_airticket/auto_ticket', 'Invoice_airticketController@auto_ticket');
-Route::post('invoice_airticket/auto_customer', 'Invoice_airticketController@auto_customer');
-Route::post('invoice_airticket/auto_supplier', 'Invoice_airticketController@auto_supplier');
-Route::post('invoice_airticket/auto_airline', 'Invoice_airticketController@auto_airline');
+// invoice airticket_list
+Route::resource('invoice_airticket_list', 'Invoice_airticket_listController');
+Route::post('invoice_airticket_list/update', 'Invoice_airticket_listController@update');
+Route::post('invoice_airticket_list/auto_ticket', 'Invoice_airticket_listController@auto_ticket');
+Route::post('invoice_airticket_list/auto_customer', 'Invoice_airticket_listController@auto_customer');
+Route::post('invoice_airticket_list/auto_supplier', 'Invoice_airticket_listController@auto_supplier');
+Route::post('invoice_airticket_list/auto_airline', 'Invoice_airticket_listController@auto_airline');
+Route::post('invoice_airticket_list/form_edit', 'Invoice_airticket_listController@form_edit');
+
 
 // Company Profile
 Route::resource('companyprofile', 'CompanyProfileController');
