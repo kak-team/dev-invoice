@@ -265,8 +265,8 @@
                             
                             <!--Description-->
                             <div class="md-form md-outline">
-                            <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
-                            <label for="form75">Description</label>
+                                <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
+                                <label for="form75">Description</label>
                             </div>                            
                         </div>
 
@@ -333,7 +333,7 @@
 
     <div class="modal-footer">
         <div class="form-group text-center">
-            <button class="btn btn-danger legitRipple waves-effect waves-light" type="button" data-dismiss="modal" id="iaSave">Cancel</button>
+            <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close" type="button" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-success legitRipple waves-effect waves-light">Save Change<i class="icon-circle-right2 ml-2"></i></button>
         </div>
     </div>

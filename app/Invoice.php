@@ -22,15 +22,18 @@ class Invoice extends Model
         'routing',
         'groupping',
         'description',
+        'cancel_description',
         'issue_date',
         'created_at',
-        'status'
+        'status_payment',
+        'status_invoice',
+        'status_vat'
     ];
     public $timestamps  = false;
 
     public function invoice_incomes()
     {
-        return $this->hasMany(Invoice_income::class);
+        return $this->hasMany(Invoice_income::class,'invoice_id','id');
     }
 
     public function customers()
@@ -38,9 +41,14 @@ class Invoice extends Model
         return $this->hasOne(Customer::class,'id','customer_id');
     }
 
+    public function suppliers()
+    {
+        return $this->hasOne(Supplier::class,'id','supplier_id');
+    }
+
     public function airticket_list()
     {
-        return $this->hasMany(Invoice_airticket_list::class);
+        return $this->hasMany(Invoice_airticket_list::class,'invoice_id','id');
     }
     public function contacts()
     {
