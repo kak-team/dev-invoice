@@ -43,6 +43,28 @@ class CompanyProfileController extends Controller
         ];
         
         return view('companyprofile.index', $data);
+        
+
+    }
+
+    public function print()
+    {
+        // View Company info
+        $companyProfile = CompanyProfile::all();
+        $company_email  = CompanyEmail::all();
+        $company_phone  = CompanyPhone::all();
+        $khcompany_address   =   CompanyAddress::all()->where('lang','kh');
+        $encompany_address    =   CompanyAddress::all()->where('lang','en');
+        $data = [
+            'values' => $companyProfile,
+            'emails'  => $company_email,
+            'phones'  => $company_phone,
+            'khaddress' =>   $khcompany_address,
+            'enaddress' =>   $encompany_address
+        ];
+        
+        return view('print.index', $data);
+        
 
     }
 
