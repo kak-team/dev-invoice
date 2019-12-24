@@ -94,3 +94,11 @@ Route::post('/paymentmethod/store', 'PaymentMethodController@store');
 Route::post('/paymentmethod/update', 'PaymentMethodController@update');
 Route::get('/paymentmethod/ajax/{id}', 'PaymentMethodController@ajax');
 Route::post('/paymentmethod/destroy', 'PaymentMethodController@destroy');
+
+
+// invoice Print
+Route::resource('print', 'PrintController');
+Route::post('receipt', 'PrintController@receipt');
+Route::get('report', function(){
+    return view('report.report');
+});
