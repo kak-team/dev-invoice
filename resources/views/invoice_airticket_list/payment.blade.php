@@ -31,7 +31,7 @@
 <div class="p-3">
     <div class="card">
         <div class="card-header bg-info header-elements-inline p-2">
-            <h6 class="card-title font-weight-semibold font-weight-bold">Create Payment: Current Balance $ {{ $current_price }}</h6>
+            <h6 class="card-title font-weight-semibold font-weight-bold">Create Payment: Balance Owed $ {{ $current_price }}</h6>
             <div class="header-elements">
                 <div class="list-icons">
                     <a class="list-icons-item" data-action="collapse"></a>
@@ -102,7 +102,7 @@
                 <td>No</td>
                 <th>Previous Balnace</th>
                 <th>Repay</th>
-                <th>Current Balance</th>
+                <th>Balance Owed</th>
                 <th>Repay Date</th>
                 <th> Method</th>
                 <th> Status</th>

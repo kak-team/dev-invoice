@@ -1,5 +1,9 @@
 $(document).ready(function(){
     
+    //print
+    $('#modal_print').on('click', '#print', function(){
+        window.print();
+    });
 
     // Parent ID action
     var parent = '#modal_theme_success,#modal_theme_info,#Modal_payment';

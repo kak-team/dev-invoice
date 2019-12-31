@@ -338,7 +338,7 @@
 					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>Create Invoice</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display: none;">
-						<li class="nav-item"><a href="{{ 'invoice_airticket' }}" class="nav-link active legitRipple">Air Ticket</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_airticket_list' }}" class="nav-link legitRipple">Air Ticket</a></li>
 
 					</ul>
 				</li>

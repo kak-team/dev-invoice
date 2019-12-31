@@ -96,6 +96,22 @@
         background: #e9f8fd!important;
     }
 </style>
+<style media="print">
+    .side-bar, .navbar, .page-header, 
+    .card, .top-print, .modal-footer{
+        display:none
+    }
+    .modal-dialog.cascading-modal.modal-avatar.modal-lg{
+        margin:0!important;
+    }
+    .print-wrap,.modal-body{
+        padding:0px!important;
+    }
+    .print-footer{
+        display:flex;
+        align-items:flex-end;
+    }
+</style>
 
 
 @if(session('success'))
@@ -134,6 +150,7 @@
         <div class="modal-body text-center mb-1">         
             
         </div>
+        
         <div class="modal-footer">
             <div class="form-group text-center">
                 <button class="btn btn-danger legitRipple waves-effect waves-light" type="button" data-dismiss="modal" id="iaSave">Cancel</button>
