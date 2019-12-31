@@ -25,7 +25,7 @@
                         <div class="col p-3">
                             <img class="img-fluid" src="{{ URL::asset('/images/'. $value->logo) }}"/>
                         </div>
-                        <div class="col col-md-10">
+                        <div class="col col-md-10 text-left">
                             <h2 class="company-name"> {{ $value->name }} </h2>
                             <h2 class="company-en-name font-wieght-600"> {{ $value->en_name }} </h2>   
                         </div>
@@ -35,8 +35,8 @@
                     <div class="row invoice-data">
                         
                         <div class="col-8">
-                            <p><strong>អតិថិជន / Customer:</strong></p>
-                            <table class="">
+                            <p class="text-left"><strong>អតិថិជន / Customer:</strong></p>
+                            <table class="text-left">
                                 <tr class="">
                                     <td>ឈ្មោះក្រុមហ៊ុន</td>
                                     <td>: </td>
@@ -116,52 +116,67 @@
                                             <th class="text-nowrap">បរិយាយមុខទំនិញ<br/>Description</th>
                                             <th class="text-nowrap">ថ្ងៃទំនិញរាយ<br/>Unit Price</th>
                                             <th class="text-nowrap">បរិមាណ<br/>Quantity</th>
-                                            <th class="text-nowrap">ថ្ងៃសេវាកម្ម<br/>Service Fee</th>
+                                            <th class="text-nowrap">តម្លៃសរុប<br/>Total Price</th>
                                             <th class="text-nowrap">អតប១០%<br/>VAT10%</th>
-                                            <th class="text-nowrap">ថ្ងៃសេវា និងអតប<br/>Service Fee & VAT</th>
-                                            <th class="text-nowrap">ថ្លៃសរុប<br/>Total price</th>
+                                            <th class="text-nowrap">តម្លៃសរុបរួមអតប<br/>Total Price Include VAT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>1</td>
-                                            <td>MDBootstrap Corporate License</td>
-                                            <td>$319</td>
+                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
+                                                Ticket No: MT00000000000<br/>
+                                                Routing: PP-BKK/BKK-PP
+                                            </td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                             <td>1</td>
-                                            <td>20</td>
-                                            <td>$73.37</td>
-                                            <td>2</td>
-                                            <td>$319</td>
+                                            <td>$ {{ number_format(319,2) }}</td>
+                                            <td></td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                         </tr>
                                         <tr>
                                             <td>2</td>
-                                            <td>Material Design for Wordpress</td>
-                                            <td>$69</td>
+                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
+                                                Ticket No: MT00000000000<br/>
+                                                Routing: PP-BKK/BKK-PP
+                                            </td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                             <td>1</td>
-                                            <td>$5</td>
-                                            <td>$31.74</td>
-                                            <td>4</td>
-                                            <td>$138</td>
+                                            <td>$ {{ number_format(319,2) }}</td>
+                                            <td></td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                         </tr>
                                         <tr>
                                             <td>3</td>
-                                            <td>MDBootstrap Portfolio Template Personal Licence</td>
-                                            <td>$69</td>
+                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
+                                                Ticket No: MT00000000000<br/>
+                                                Routing: PP-BKK/BKK-PP
+                                            </td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                             <td>1</td>
-                                            <td>$5</td>
-                                            <td>$31.74</td>
-                                            <td>4</td>
-                                            <td>$138</td>
+                                            <td>$ {{ number_format(319,2) }}</td>
+                                            <td></td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                         </tr>
                                         <tr>
                                             <td>4</td>
-                                            <td>MDBootstrap Magazine Corporate Licence</td>
-                                            <td>$69</td>
+                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
+                                                Ticket No: MT00000000000<br/>
+                                                Routing: PP-BKK/BKK-PP
+                                            </td>
+                                            <td>$ {{ number_format(319,2) }}</td>
                                             <td>1</td>
-                                            <td>$5</td>
-                                            <td>$31.74</td>
-                                            <td>5</td>
-                                            <td>$138</td>
+                                            <td>$ {{ number_format(319,2) }}</td>
+                                            <td></td>
+                                            <td>$ {{ number_format(319,2) }}</td>
+                                        </tr>
+                                        <!--Total row-->
+                                        <tr class="border-top-2 border-dark">
+                                            <td colspan="3" class="text-left">អត្រាប្ដូរប្រាក់ / Exchange Rate:USD 1 = KHR 4068</td>
+                                            <td></td>
+                                            <td>សរុបមុនអត<br><small class="text-nowrap">Total before VAT</small></td>
+                                            <td>សរុបអតប<br><small class="text-nowrap">Total VAT</small></td>
+                                            <td>សរុបរួមអតប<br><small class="text-nowrap">TOTAL Incl.VAT</small></td>
                                         </tr>
 
                                     </tbody>
@@ -169,91 +184,84 @@
                                 <!-- /.Item list -->
                             </div>
                         </div>
-                    </div>
-                    <!-- /.Second row -->
-
-                    <!-- Third row -->
-                    <div class="row mt-4">
-                        <div class="col-md-3 float-md-right ml-auto">
-                            <ul class="striped list-unstyled">
-                                <li><strong>សរុបមុនអត / Total befor VAT:</strong><span class="float-right">$755</span></li>
-                                <li><strong>សរុបអតប / Total VAT:</strong><span class="float-right">$173,65</span></li>
-                                <li><strong>សរុបរួមអតប / TOTAL Incl.VAT:</strong><span class="float-right">$755</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.Third row -->
+                    </div>                    
                 </div>
                 <!---footer invoice-->
-                <div class="col-md-12 footer-invoice pt-5 mt-5">
-                    <div class="row pt-5">
-                        <div class="col d-flex justify-content-center">
-                            <div class="col-md-7 text-center">
-                                <hr/>
-                                <h6 class="mt-3">ហត្ថលេខា និងឈ្មោះអ្នកទិញ​ <br/><small>Customer's Signature & Name</small></h6>
+                <div class="d-flex align-items-end w-100">
+                    <div class="col-md-12 footer-invoice pt-5 mt-5">
+                   
+                        <div class="row pt-5">
+                            <div class="col d-flex justify-content-center">
+                                <div class="col-md-7 text-center">
+                                    <h6 class="mt-3 pb-5 mb-5">ហត្ថលេខា និងឈ្មោះអ្នកទិញ​ <br/><small>Customer's Signature & Name</small></h6>
+                                    <p>&nbsp;</p>
+                                    <hr/>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                <div class="col-md-7 text-center">
+                                    <h6 class="mt-3 pb-5 mb-5">អ្នកផ្ដល់សេវា <br/><small>Service Provider</small></h6>
+                                    <p>&nbsp;</p>
+                                    <hr/>
+                                </div>
                             </div>
                         </div>
-                        <div class="col d-flex justify-content-center">
-                            <div class="col-md-7 text-center">
-                                <hr/>
-                                <h6 class="mt-3">ហត្ថលេខា និងឈ្មោះអ្នកលក់ <br/><small>Seller's Signature & Name</small></h6>
+                        <div class="row footer-note mt-5">
+                            <div class="col-md-12 ">
+                                <hr class="mt-1">
+                            </div>
+                            <div class="note​​ col-md-12">
+                                <small class="text-left">
+                                <p>សំគាល់៖ វិក័យប័ត្រពន្ធនេះមានសុពលភាពដរាបណាមានហត្ថលេខារបស់គណនេយ្យករ​ ឬ ក៏បុគ្គលិកផ្នែកទទួលបន្ទុក អមជាមួយនិងត្រាក្រុមហ៊ុន។</p>
+                                <p>Note: This Tax Invoice is valid only whne there is a signature of our company's cashier or reservation sfaff with company stamp.</p>
+                                </small>
+                            </div>    
+                            <div class="col-md-12">
+                                <hr class="mt-1 mb-1">
+                            </div>
+                            <div class="address col-md-12 text-center pb-3">
+                                <small class="companyinfo">
+                                    @foreach($value->company_address as $address)
+                                        @if($address->lang == 'kh')
+                                            <p>ផ្ទះលេខ{{ $address->house_number}}  ផ្លូវលេខ{{ $address->street_number}}  សង្កាត់{{ $address->commune}}  ខ័ណ្ឌ{{ $address->districk}}  រាជធានី{{ $address->province}}  កម្ពុជា / លេខទំនាក់ទំនង៖​ 
+                                                @foreach($value->company_phone as $phone) 
+                                                    {{$phone->phone }}
+                                                    @if(!$loop->last)
+                                                        /
+                                                    @endif
+                                                @endforeach
+                                                អុីម៉ែល៖ 
+                                                @foreach($value->company_email as $email) 
+                                                    {{$email->email }}
+                                                    @if(!$loop->last)
+                                                        /
+                                                    @endif
+                                                @endforeach
+                                            </p>
+                                        @else
+                                            <p>{{ $address->house_number}}, Street {{ $address->street_number}}, Sangkat {{ $address->commune}}, Khan {{ $address->districk}}, City {{ $address->province}}, Cambodia. Hoteline:
+                                            @foreach($value->company_phone as $phone) 
+                                                    {{$phone->phone }}
+                                                    @if(!$loop->last)
+                                                        /
+                                                    @endif
+                                                @endforeach
+                                                , E-mail:  
+                                                @foreach($value->company_email as $email) 
+                                                    {{$email->email }}
+                                                    @if(!$loop->last)
+                                                        /
+                                                    @endif
+                                                @endforeach
+                                            </p> 
+                                        @endif
+                                    @endforeach
+                                
+                                </small>
                             </div>
                         </div>
                     </div>
-                    <div class="row footer-note mt-5">
-                        <div class="note​​ col-md-12">
-                            <small>
-                               <p>សំគាល់៖ </p>
-                               <p>Note: </p>
-                            </small>
-                        </div>
-                        <div class="col-md-12">
-                            <hr>
-                        </div>    
-                        <div class="address col-md-12 text-center pb-3">
-                            <small class="companyinfo">
-                                @foreach($value->company_address as $address)
-									@if($address->lang == 'kh')
-										<p>ផ្ទះលេខ{{ $address->house_number}}  ផ្លូវលេខ{{ $address->street_number}}  សង្កាត់{{ $address->commune}}  ខ័ណ្ឌ{{ $address->districk}}  រាជធានី{{ $address->province}}  កម្ពុជា / លេខទំនាក់ទំនង៖​ 
-											@foreach($value->company_phone as $phone) 
-												{{$phone->phone }}
-												@if(!$loop->last)
-													/
-												@endif
-											@endforeach
-											អុីម៉ែល៖ 
-											@foreach($value->company_email as $email) 
-												{{$email->email }}
-												@if(!$loop->last)
-													/
-												@endif
-											@endforeach
-										</p>
-									@else
-										<p>{{ $address->house_number}}, Street {{ $address->street_number}}, Sangkat {{ $address->commune}}, Khan {{ $address->districk}}, City {{ $address->province}}, Cambodia. Hoteline:
-										@foreach($value->company_phone as $phone) 
-												{{$phone->phone }}
-												@if(!$loop->last)
-													/
-												@endif
-											@endforeach
-											, E-mail:  
-											@foreach($value->company_email as $email) 
-												{{$email->email }}
-												@if(!$loop->last)
-													/
-												@endif
-											@endforeach
-										</p> 
-									@endif
-                                @endforeach
-                               
-                            </small>
-                        </div>
-                    </div>
-
                 </div>
-
             @endforeach
             </section>
         </div>

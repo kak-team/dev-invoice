@@ -1,5 +1,8 @@
 @extends('master')
 @section('content')
+<div class="title">
+<h2>Issue invocie for: </h2>
+</div>
 <div class="row">
 <?php 
     $array_color = array(
@@ -7,7 +10,7 @@
             'bg'    => 'bg-teal-400',
             'icon'  => 'icon-airplane2',
             'title' => 'AIR TICKET',
-            'link'  => 'invoice_airticket'
+            'link'  => 'invoice_airticket_list'
         ),
         array(
             'bg'    => 'bg-green-400',
