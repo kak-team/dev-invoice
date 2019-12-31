@@ -97,6 +97,11 @@
     }
 </style>
 
+<style media="print">
+.modal-footer,.z-depth-1{
+    display:none;
+}
+</style>
 
 @if(session('success'))
     <script>

@@ -167,15 +167,13 @@
                                 </div>
                             </td>
                             <td>No</td>
-                            <td style="width:120px;">Airline</td>
-                            <td style="width:120px;">Ticket No</td>
-                            <td style="width: 170px;">Guest Name</td>                            
+                            <td style="width:220px;">Airline</td>
+                            <td style="width:220px;">Ticket No</td>
+                            <td style="width:220px;">Guest Name</td>                            
                             <td style="width: 120px;">Type</td>
                             <td>Qty</td>
-                            <td>Sell Price</td>
-                            <td>Service Fee</td>
-                            <td>VAT</td>
-                            <td>Service Fee + VAT</td>
+                            <td>Unit Price</td>
+                            
                                                     
                         </tr>
                         <tr>
@@ -194,7 +192,7 @@
                             <td class="text-center">
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name"></span>
+                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name" autocomplete="off"></span>
                                         <input type="hidden" name="airline_id[]" id="airlineId_1">
                                         <div id="autoDisplay_airlineName_1"></div>
                                     </div>
@@ -234,23 +232,7 @@
                                 </div>
                             </td>
                             
-                            <td>
-                                <div class="md-form m-0">
-                                    <input type="number" id="serviceFee_1" name="service_fee[]" step="0.01" class="form-control m-0 text-center service_fee" value=0>                                    
-                                </div>
-                            </td>
-                            <td class="position-relative">
-                                <div class="Dtdisabled"></div>
-                                <div class="md-form m-0">
-                                    <input type="number" id="vat_1" name="vat[]" class="form-control m-0 text-center vat" step="0.01" value=0>                                    
-                                </div>
-                            </td>
-                            <td class="position-relative">
-                                <div class="Dtdisabled"></div>
-                                <div class="md-form m-0">
-                                    <input type="text" id="serviceFeeVat_1" name="servicefee_vat[]" step="0.01"  class="form-control m-0 text-center serviceFee_VAT" value=0>                                    
-                                </div>
-                            </td>
+                           
                         </tr>
                     </table>
                     <div class="d-flex justify-content-between">
@@ -274,6 +256,12 @@
                         
                         <div class="col-lg-5 mt-3">
                             <div class="row">
+                                <div class="col-lg-4 pr-1">
+                                    <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Price</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
+                                        <input type="number" step="0.01" class="form-control font-weight-bold totalInput border-color" name="servicefee_total" id="SerFee_total" value="0.00" required="" autocomplete="off">    
+                                    </div>
+                                </div>
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Total</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
@@ -301,7 +289,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Exchage Riel</label>
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">KH Riel Exchange Rate</label>
                                     <div class=" md-bg form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
                                         <input type="number" step="0.01" class=" form-control font-weight-bold totalInput border-color" name="exchange_riel" id="exchange_riel" value="{{ $company_profile[0]->exchange_kh }}" required="" autocomplete="off">    
                                     </div>

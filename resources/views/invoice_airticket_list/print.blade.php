@@ -13,27 +13,9 @@
     font-weight: 600;
 }
 </style>
-<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 <div class="fixed-sn white-skin js-focus-visible">
-    <main class="">
+    <main class="pt-0">
         <div class="container-fluid">
-            <!-- First row -->
-            <div class="row white z-depth-1 mb-5">
-
-                <!-- Navigation -->
-                <div class="col-md-6">
-                    <h4 class="h4-responsive mt-3">Invoice #124190</h4>
-                </div>
-
-                <div class="col-md-6 text-md-right">
-                    <a href="#" class="btn btn-secondary waves-effect waves-light">Pay now</a>
-                    <a href="#" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print left"></i> Print</a>
-                </div>
-                <!-- /.Navigation -->
-
-            </div>
-            <!-- /.First row -->
-
             <section class="invoice font row mb-r">
             @foreach($company as $value)
                 <div class="col-md-12">

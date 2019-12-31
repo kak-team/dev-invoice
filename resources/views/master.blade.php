@@ -12,7 +12,7 @@
 	<!-- Global stylesheets -->
     <link href="{{ URL::asset('css/md.compile.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/mdbootstrap.fileupload.css') }}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Battambang|Roboto&display=swap" rel="stylesheet">
 	<link href="{{ URL::asset('css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap_limitless.min.css') }}" rel="stylesheet" type="text/css">

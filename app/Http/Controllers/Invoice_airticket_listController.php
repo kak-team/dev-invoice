@@ -358,6 +358,7 @@ class Invoice_airticket_listController extends Controller
             'created_at'        => $create_date,
             'status'            => $request->payment_status
         ];
+        
         Invoice_income::create($data);
 
         if($current_balance == 0):
