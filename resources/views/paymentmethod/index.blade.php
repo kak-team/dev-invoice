@@ -87,7 +87,7 @@ table#airline td {
             </div>
         
         </div>
-        @if($values->count() > $values->perPage())
+        @if($values->total() > $values->perPage())
             <div class="card card-body py-2 pagination-flat justify-content-center">
                 {{ $values->links() }}
             </div>

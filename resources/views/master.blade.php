@@ -424,18 +424,40 @@
 
 					<div class="header-elements d-none">
 						<div class="d-flex justify-content-center">
-							<a href="#" class="btn btn-link btn-float font-size-sm font-weight-semibold text-default">
-								<i class="icon-bars-alt text-pink-300"></i>
-								<span>Statistics</span>
-							</a>
-							<a href="#" class="btn btn-link btn-float font-size-sm font-weight-semibold text-default">
-								<i class="icon-calculator text-pink-300"></i>
-								<span>Invoices</span>
-							</a>
-							<a href="#" class="btn btn-link btn-float font-size-sm font-weight-semibold text-default">
-								<i class="icon-calendar5 text-pink-300"></i>
-								<span>Schedule</span>
-							</a>
+							<div class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
+								<div class="d-flex align-items-center mb-3 mb-md-0 p-3">
+									<a href="#" class="btn bg-transparent border-warning-400 text-warning-400 rounded-round border-2 btn-icon">
+										<i class="icon-coins"></i>
+									</a>
+									<div class="ml-3">
+										<h5 class="font-weight-semibold mb-0">{{ $invoices->total() }}</h5>
+										<span class="text-muted">{{ $total_invoice }}</span>
+									</div>
+								</div>
+
+								<div class="d-flex align-items-center mb-3 mb-md-0 p-3">
+									<a href="#" class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
+										<i class="icon-coin-dollar"></i>
+									</a>
+									<div class="ml-3">
+										<h5 class="font-weight-semibold mb-0">06:25:00</h5>
+										<span class="text-muted">{{ $service_fee }}</span>
+									</div>
+								</div>
+								<div class="d-flex align-items-center mb-3 mb-md-0 p-3">
+									<a href="#" class="btn bg-transparent border-success-400 text-success-400 rounded-round border-2 btn-icon">
+										<i class="icon-price-tag"></i>
+									</a>
+									<div class="ml-3">
+										<h5 class="font-weight-semibold mb-0">06:25:00</h5>
+										<span class="text-muted">{{ $tax }}</span>
+									</div>
+								</div>
+
+								<div>
+									<a href="#" class="btn bg-teal-400"><i class="icon-statistics mr-2"></i> Report</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

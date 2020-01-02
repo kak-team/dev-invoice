@@ -251,8 +251,7 @@
     </div>
 </div>
     
-
-@if($invoices->count() > $invoices->perPage())
+@if($invoices->total() > $invoices->perPage())
     <div class="card card-body py-2 pagination-flat justify-content-center">
         {{ $invoices->links() }}
     </div>
