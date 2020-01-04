@@ -113,6 +113,11 @@
     }
 </style>
 
+<style media="print">
+.modal-footer,.z-depth-1{
+    display:none;
+}
+</style>
 
 @if(session('success'))
     <script>
@@ -121,18 +126,39 @@
         });
     </script>
 @endif
-<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-<div class="modal fade" id="modal_theme_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <!--Content-->
-      <div class="modal-content" id="bodyModal">
-        <!--Body-->         
-        @include('invoice_airticket_list.create')
-        
+
+<div class="modal fade" id="modalOne" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default blowup" style="width: 190px;" role="document">
+        <div class="modal-content modal-background bg-white">
+            <div class="md-overlay">
+                <div class="text-center d-flex justify-content-center">
+                    <img src="{{ URL::asset('images/loading.gif') }}">
+                </div>
+            </div>
+            <div class="modal-body text-center p-0">         
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal_in_modal" id="modalTwo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-avatar modal-dialog-centered modal-default blowup" style="min-width: 190px;!important" role="document">
+      <div class="modal-content modal-background bg-white">
+        <div class="md-overlay">
+            <div class="text-center d-flex justify-content-center">
+                <img src="{{ URL::asset('images/loading.gif') }}">
+            </div>
+        </div>
+        <div class="modal-body text-center p-0">         
+            
+        </div>
+
       </div>
       <!--/.Content-->
     </div>
 </div>
+
 <div class="modal fade" id="modal_theme_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <!--Content-->
@@ -162,34 +188,18 @@
       <!--/.Content-->
     </div>
 </div>
-<div class="modal fade modal_in_modal" id="modal_netprice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
-      <!--Content-->
-      <div class="modal-content">
-        <!--Body-->
-        <div class="modal-body text-center mb-1">         
-          <div class="md-form ml-0 mr-0">
-            <input type="number" step="0.01" id="modalNF" class="form-control ml-0">
-          </div>
 
-          <div class="text-center mt-4">
-            <button class="btn btn-cyan waves-effect waves-light modal_fix_overflow" data-dismiss="modal">Save and Close
-              <i class="fas fa-sign-in ml-1"></i>
-            </button>
-          </div>
-        </div>
-
-      </div>
-      <!--/.Content-->
-    </div>
-</div>
 <div class="modal fade modal_in_modal" id="modal_paymentEdit" tabindex="-1" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar" role="document">
+    <div class="modal-dialog cascading-modal modal-avatar modal-default" role="document">
         <!--Content-->
         <div class="modal-content">
-            <!--Body-->
+            <div class="md-overlay">
+                <div class="text-center d-flex justify-content-center">
+                    <img src="{{ URL::asset('images/loading.gif') }}">
+                </div>
+            </div>
             <div class="modal-body text-center mb-1">         
-            
+                
             </div>
         </div>
       <!--/.Content-->
@@ -206,23 +216,33 @@
     </div>
 </div>
 <div class="modal fade" id="Modal_payment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" style="max-width:1100px" role="document">
-      <!--Content-->
-      <div class="modal-content">
-        <!--Body-->
-        <div class="modal-body text-center mb-1" id="bodyModal">         
-            
+    <div class="modal-dialog modal-dialog-centered modal-default" style="width: 190px;" role="document">
+        <div class="modal-content modal-background bg-white">
+            <div class="md-overlay">
+                <div class="text-center d-flex justify-content-center">
+                    <img src="{{ URL::asset('images/loading.gif') }}">
+                </div>
+            </div>
+            <div class="modal-body text-center mb-1" id="bodyModal">         
+                
+            </div>
         </div>
-      </div>
       <!--/.Content-->
     </div>
 </div>
 <div class="modal fade " id="modal_cancel_payment" tabindex="-1" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-            <div class="modal-content">
-                       
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="md-overlay">
+                <div class="text-center d-flex justify-content-center">
+                    <img src="{{ URL::asset('images/loading.gif') }}">
+                </div>
+            </div>
+            <div class="modal-body text-center mb-1" id="bodyModal">         
+                
             </div>
         </div>
+    </div>
 </div>
 
 <div class="row">
@@ -239,13 +259,20 @@
                     </div>
                 </div>
                 <div>
-                <button type="button" class="btn btn-outline bg-success-400 border-success-400 text-success-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modal_theme_success" id="btn-create"><i class="icon-plus-circle2"></i></button>
+                @if($user_status == 'vat')
+                <button type="button" class="btn btn-outline bg-success-400 border-success-400 text-success-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="vat" id="btn-create"><i class="icon-plus-circle2"></i></button>
+                @else
+                <button type="button" class="btn bg-success-400 border-success-400 text-success-800 btn-icon legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="vat"    id="btn-create">Invoice Vat</button>
+                <button type="button" class="btn bg-success-400 border-success-400 text-success-800 btn-icon legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="no-vat" id="btn-create">Invoice No-Vat</button>
+
+                @endif
                 <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple disabled waves-effect waves-light" id="deleteRow" data-target="#modal_theme_danger"><i class="icon-trash"></i></button>
                 </div>
             </div>
 
             <div class="table-responsive">
-                @include('invoice_airticket_list.table')
+                @php $route = explode('.',\Request::route()->getName()); @endphp
+                @include('invoice.table_'.$route[0])
             </div>
         </div>
     </div>
@@ -258,6 +285,7 @@
 @endif
        
   
+<script type="text/javascript" src="{{ URL::asset('js/default_invoice.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/airticket_list.js') }}"></script>
 
 

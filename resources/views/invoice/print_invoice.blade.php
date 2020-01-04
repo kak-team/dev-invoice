@@ -13,17 +13,8 @@
     font-weight: 600;
 }
 </style>
-<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 <div class="fixed-sn white-skin js-focus-visible">
-     <!-- First row -->
-     <div class="row top-print d-flext justify-content-end mb-5">
-        <div class="form-group text-center">
-            <button class="btn btn-danger legitRipple waves-effect waves-light" type="button" data-dismiss="modal" id="iaSave">Cancel</button>
-            <button type="button" id="print" class="btn btn-success legitRipple waves-effect waves-light">Print<i class="icon-circle-right2 ml-2"></i></button>
-        </div>
-    </div>
-    <!-- /.First row -->
-    <main class="print-wrap">
+    <main class="pt-0">
         <div class="container-fluid">
             <section class="invoice font row mb-r">
             @foreach($company as $value)

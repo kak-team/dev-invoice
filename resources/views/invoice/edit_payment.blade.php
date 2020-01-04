@@ -54,8 +54,8 @@
                             </div>  
                         </div>
                         <div class="col-lg-12">
-                            <button class="btn btn-danger legitRipple waves-effect waves-light modal_fix_overflow" type="button" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-success legitRipple waves-effect waves-light">Save Change<i class="icon-circle-right2 ml-2"></i></button>
+                            <button class="btn btn-danger legitRipple waves-effect waves-light modal_fix_overflow btn-close" type="button" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success legitRipple waves-effect waves-light btn-close">Save Change<i class="icon-circle-right2 ml-2"></i></button>
                         </div>
                     </div>
                 </form>

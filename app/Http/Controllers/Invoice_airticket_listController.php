@@ -32,7 +32,11 @@ class Invoice_airticket_listController extends Controller
     public function index()
     {
         
-        $invoice = Invoice::where('service_id',1)->where('status_vat','vat')->with('customers', 'contacts')->paginate(15);
+        $invoice = Invoice::where('service_id',1)
+        ->where('status_invoice','active')
+        ->where('status_vat','vat')
+        ->orderBy('id','desc')
+        ->with('customers', 'contacts','invoice_incomes')->paginate(15);
         //dd($invoice);
         $company_profile    = CompanyProfile::select('exchange_kh')->get();
         $airline            = Airline::all();
@@ -82,18 +86,33 @@ class Invoice_airticket_listController extends Controller
         return $json;
     }
 
-    public function form_edit(Request $request)
+    public function form_create_invoice(Request $request)
+    {
+        
+        $link               = $request->link;
+        $payment_method     = PaymentMethod::all()->where('status','=','1'); 
+        $passenger_type     = array('Adult','Child','Infant');      
+        $contacts           = Customer_contacts::all()->where('customer_id','=',$invoice[0]->customer_id);
+        
+        return view('invoice_airticket_list.create_'.$link,[
+            'payment_methods'   => $payment_method,
+            'contacts'          => $contacts,
+            'passenger_types'   => $passenger_type
+        ]);
+    }
+
+    public function form_edit_invoice(Request $request)
     {
         $id                 = $request->id;
         $payment_method     = PaymentMethod::all()->where('status','=','1'); 
         $passenger_type     = array('Adult','Child','Infant');      
         $invoice            = Invoice::where('id','=',$id)->with('customers','invoice_incomes','airticket_list.airline_code','contacts','suppliers', 'airticket_list')->get();
         $contacts           = Customer_contacts::all()->where('customer_id','=',$invoice[0]->customer_id);
-        //dd($invoice);
+        
         
         //print_r($invoice);
         //dd($invoice);
-        return view('invoice_airticket_list.edit',[
+        return view('invoice_airticket_list.edit_invoice',[
             'invoices'          => $invoice,
             'payment_methods'   => $payment_method,
             'contacts'          => $contacts,
@@ -212,7 +231,7 @@ class Invoice_airticket_listController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *i
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -239,7 +258,7 @@ class Invoice_airticket_listController extends Controller
         $invoice_number = date('Y').'-'.$number;
         
        
-       // dd($request->all());
+        //dd($request->all());
 
         // created_date        
         $created_date = date('Y-m-d h:i:s');
@@ -270,7 +289,8 @@ class Invoice_airticket_listController extends Controller
             'service_id'        => 1, // service (airticket)
             'invoice_number'    => $invoice_number,
             'total_amount'      => $request->amount_total,
-            'vat_value'         => $request->vat_value,
+            'service_fee_price' => $request->servicefee_price,
+            'vat_percent'       => $request->vat_value,
             'exchange_riel'     => $request->exchange_riel,
             'routing'           => $request->routing,
             'groupping'         => $grouping,
@@ -307,14 +327,11 @@ class Invoice_airticket_listController extends Controller
                 'passanger_type'    => $request->type[$i],
                 'quantity'          => $request->qty[$i],
                 'price'             => $request->price[$i],
-                'service_fee'       => $request->service_fee[$i],
-                'vat'               => $request->vat[$i],
-                'service_fee_vat'   => $request->servicefee_vat[$i],
             ];
         }   
 
         // insert invoice_income
-        if($request->payment_method != 0){
+        if($request->payment_method > 0){
             \App\Invoice_income::create($data_payment);
         }
         
@@ -328,45 +345,23 @@ class Invoice_airticket_listController extends Controller
     public function store_payment(Request $request)
     {
         // user id
-        $user_id = auth()->user()->id;
-
-        // issue date
-        $time = date('h:i:s');
-        $issue_date = $request->payment_date.' '.$time;
-        
-        // create date
+        $user_id     = auth()->user()->id;
+        $time        = date('h:i:s');
+        $issue_date  = $request->payment_date.' '.$time;
         $create_date = date('Y-m-d h:i:s');
-        
-        $invoice        = Invoice::select('total_amount')->where('id',$request->invoice_id)->get();
-        $invoice_income = Invoice_income::where('invoice_id', $request->invoice_id)->sum('new_payment');
-        
-        $previous_balance = $invoice[0]->total_amount - $invoice_income ;
-        $new_payment      = $request->payment_price;
-        $description      = $request->payment_description;
-        $current_balance  = $previous_balance - $new_payment;
-
-        // dd($description);
+        //dd($request->all());
         $data = [
             'user_id'           => $user_id,
             'invoice_id'        => $request->invoice_id,
             'payment_method_id' => $request->payment_method,
-            'previous_balance'  => $previous_balance,
-            'new_payment'       => $new_payment,
-            'current_balance'   => $current_balance,
-            'description'       => $description,
+            'new_payment'       => $request->payment_price,
+            'description'       => $request->description,
             'issue_date'        => $issue_date,
             'created_at'        => $create_date,
             'status'            => $request->payment_status
         ];
+        
         Invoice_income::create($data);
-
-        if($current_balance == 0):
-            Invoice::where('id',$request->invoice_id)->update(['status_payment' => 'paid']);
-        else:
-          Invoice::where('id',$request->invoice_id)->update(['status_payment' => 'deposit']);
-        endif;
-
-
         return redirect()->back()->withSuccess('IT WORKS!');
     }
 
@@ -424,6 +419,7 @@ class Invoice_airticket_listController extends Controller
             'contact_phone'     => $request->phone,
             'supplier_id'       => $request->supplier_id,
             'total_amount'      => $request->amount_total,
+            'service_fee_price' => $request->servicefee_price,
             'routing'           => $request->routing,
             'groupping'         => $grouping,
             'description'       => $request->description,
@@ -444,9 +440,6 @@ class Invoice_airticket_listController extends Controller
                 'passanger_type'    => $request->e_type[$i],
                 'quantity'          => $request->e_qty[$i],
                 'price'             => $request->e_price[$i],
-                'service_fee'       => $request->e_service_fee[$i],
-                'vat'               => $request->e_vat[$i],
-                'service_fee_vat'   => $request->e_servicefee_vat[$i],
             ];
 
             Invoice_airticket_list::where('id', $request->invoice_list_id[$i])->update($data_update_airticket_list);
@@ -465,9 +458,6 @@ class Invoice_airticket_listController extends Controller
                     'passanger_type'    => $request->type[$i],
                     'quantity'          => $request->qty[$i],
                     'price'             => $request->price[$i],
-                    'service_fee'       => $request->service_fee[$i],
-                    'vat'               => $request->vat[$i],
-                    'service_fee_vat'   => $request->servicefee_vat[$i],
                 ];
             }   
             if(!empty($request->n_p)):
@@ -480,37 +470,21 @@ class Invoice_airticket_listController extends Controller
 
     public function update_payment(Request $request)
     {
-       // user id
-       $user_id = auth()->user()->id;
 
-       // issue date
-       $time = date('h:i:s');
-       $issue_date = $request->payment_date.' '.$time;
-       
-       $new_payment      = $request->payment_price;
-       $previous_balance = Invoice_income::where('id', $request->payment_list_id)->get();
-       //dd($previous_balance);
-       $current_balance  = $previous_balance[0]->previous_balance - $new_payment;
+       $time            = date('h:i:s');
+       $issue_date      = $request->payment_date.' '.$time;
+       $new_payment     = $request->payment_price;
        
        $data = [
            'payment_method_id' => $request->payment_method,
            'new_payment'       => $new_payment,
-           'current_balance'   => $current_balance,
            'description'       => $request->payment_description,
            'issue_date'        => $issue_date,
            'status'            => $request->payment_status
        ];
 
        $invoice_income = Invoice_income::where('id',$request->payment_list_id)->update($data);
-       
-       if($current_balance == 0):
-          Invoice::where('id',$previous_balance[0]->invoice_id)->update(['status_payment' => 'paid']);
-       else:
-        Invoice::where('id',$previous_balance[0]->invoice_id)->update(['status_payment' => 'deposit']);
-       endif;
        return redirect()->back()->withSuccess('IT WORKS!');
-
-
     }
 
     public function delete_payment(Request $request)

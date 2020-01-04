@@ -11,10 +11,7 @@ class Invoice_income extends Model
         'user_id',
         'invoice_id',
         'payment_method_id',
-        'previous_balance',
         'new_payment',
-        'current_balance',
-        'description',
         'issue_date',
         'created_at',
         'status'
