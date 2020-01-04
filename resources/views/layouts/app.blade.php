@@ -20,6 +20,7 @@
 	<link href="{{ URL::asset('css/components.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/colors.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/custome.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet" type="text/css">
 	
 	<!-- Theme JS files -->
 	<script type="text/javascript" src="{{ URL::asset('js/jquery-3.4.0.min.js') }}"></script>

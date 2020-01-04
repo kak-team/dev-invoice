@@ -5,7 +5,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <form method="POST">
+            <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <div class="modal-body">
                     <div class="card mb-0">
@@ -14,32 +14,51 @@
                                 <h5 class="mb-0 font-weight-bold">FORM CREATE</h5>
                                 <span class="d-block text-muted">Enter your user detail below</span>
                             </div>
-
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="text" class="form-control" placeholder="fullname" name="fullname" id="c_fullname">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <div class="form-control-feedback">
                                     <i class="icon-magazine text-muted"></i>
                                 </div>
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="text" class="form-control" placeholder="username" name="username" id="c_username" autocomplete="off">
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autofocus>
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <div class="form-control-feedback">
                                     <i class="icon-user text-muted"></i>
                                 </div>
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="password" class="form-control" placeholder="password" name="password" id="c_password">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <div class="form-control-feedback">
-                                    <i class="icon-lock2 text-muted"></i>
+                                    <i class="icon-envelop4 text-muted"></i>
                                 </div>
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="email" class="form-control" placeholder="email" name="email" id="c_email">
+                                <input id="password1" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 <div class="form-control-feedback">
-                                    <i class="icon-envelop4 text-muted"></i>
+                                    <i class="icon-lock2 text-muted"></i>
                                 </div>
                             </div>                         
 
@@ -49,17 +68,16 @@
                                         Choose Level
                                     </label>
                                     <div class="form-check">
-                                        <label class="form-check-label">
-                                            <div class="uniform-checker border-primary-600 text-primary-800"><span>
-                                            <input type="checkbox" class="form-check-input-styled-primary" checked="" data-fouc=""></span></div>
-                                            Admin
-                                        </label>
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="radio" class="custom-control-input" id="defaultUnchecked1" value="admin" name="role" checked>
+                                            <label class="custom-control-label" for="defaultUnchecked1">Admin</label>
+                                        </div>
                                     </div>
                                     <div class="form-check ml-3">
-                                        <label class="form-check-label">
-                                            <div class="uniform-checker border-primary-600 text-primary-800"><span><input type="checkbox" class="form-check-input-styled-primary" checked="" data-fouc=""></span></div>
-                                            Staff
-                                        </label>
+                                    <div class="custom-control custom-checkbox" id="btnCheck_single1">
+                                            <input type="radio" class="custom-control-input" id="defaultUnchecked2" value="staff" name="role">
+                                            <label class="custom-control-label" for="defaultUnchecked2">Staff</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,84 +95,6 @@
         </div>
     </div>
 </div>
-
-<div id="modal_theme_info" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <form method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="card mb-0">
-                        <div class="card-body">
-                            <div class="text-center mb-3">
-                                <h5 class="mb-0 font-weight-bold">FORM EDIT</h5>
-                                <span class="d-block text-muted">Enter your user detail below</span>
-                            </div>
-
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="text" class="form-control" placeholder="fullname" name="fullname" id="fullname">
-                                <div class="form-control-feedback">
-                                    <i class="icon-magazine text-muted"></i>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="text" class="form-control" placeholder="username" name="username" id="username" autocomplete="off">
-                                <div class="form-control-feedback">
-                                    <i class="icon-user text-muted"></i>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="password" class="form-control" placeholder="password" name="password" id="password">
-                                <div class="form-control-feedback">
-                                    <i class="icon-lock2 text-muted"></i>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input type="email" class="form-control" placeholder="email" name="email" id="email">
-                                <div class="form-control-feedback">
-                                    <i class="icon-envelop4 text-muted"></i>
-                                </div>
-                            </div>                         
-
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <div class="row m-0">
-                                    <label class="form-check-label mr-3  text-muted">
-                                        Choose Level
-                                    </label>
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <div class="uniform-checker border-primary-600 text-primary-800"><span>
-                                            <input type="checkbox" class="form-check-input-styled-primary" checked="" data-fouc=""></span></div>
-                                            Admin
-                                        </label>
-                                    </div>
-                                    <div class="form-check ml-3">
-                                        <label class="form-check-label">
-                                            <div class="uniform-checker border-primary-600 text-primary-800"><span><input type="checkbox" class="form-check-input-styled-primary" checked="" data-fouc=""></span></div>
-                                            Staff
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="modal-footer">
-                    <div class="form-group text-center">
-                        <button class="btn btn-danger legitRipple" type="button" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success legitRipple">Save Change<i class="icon-circle-right2 ml-2"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div id="modal_theme_danger" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -184,7 +124,7 @@
     <div class="col-lg-12">
     <div class="card">
         <div class="card-header header-elements-sm-inline py-2">
-            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> SUPPLIER LIST</h6>
+            <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> USER LIST</h6>
             <div>
                 <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
                     <input type="text" class="form-control" placeholder="Search...">
