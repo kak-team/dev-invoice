@@ -13,6 +13,7 @@
     <link href="{{ URL::asset('css/md.compile.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/mdbootstrap.fileupload.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Battambang|Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 	<link href="{{ URL::asset('css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap_limitless.min.css') }}" rel="stylesheet" type="text/css">
@@ -58,13 +59,19 @@
 		}
 
 	</script>
-
+	@if($user_status == 'no_vat')
+	<style>
+		.bg-indigo{ background-color: #009688;}
+	</style>
+	@endif
 
 	<!-- /theme JS files -->
 
 </head>
-
-<body class="navbar-top">
+@php
+    $route = explode('.',\Request::route()->getName());
+@endphp
+<body class="navbar-top" data-vat="{{ $company[0]->vat }}" data-link="{{ $route[0] }}">
 	<!-- Main navbar -->
 	<div class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
 		<div class="navbar-brand">

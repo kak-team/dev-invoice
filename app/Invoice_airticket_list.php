@@ -16,10 +16,8 @@ class Invoice_airticket_list extends Model
         'passanger_name',
         'passanger_type',
         'quantity',
-        'price',
-        'service_fee',
-        'vat',
-        'service_fee_vat'];
+        'price'
+        ];
     public $timestamps = false;
 
     public function Invoices()

@@ -1,6 +1,10 @@
 <style>
+.modal-default{
+    max-width: 110px!important;
+    min-width: 70%!important;
+}
 #tbl_paymentHistory td{
-    padding:5px;
+    height: 40px;
 }
 #tbl_paymentHistory th{
     font-weight:400;
@@ -18,20 +22,19 @@
     border: 1px solid #ddd;
 }
 </style>
-<?php
-    if(!$payments_history->isEmpty()):
-        $current_price = $payments_history->last()->current_balance;
-    else:
-        $current_price = $amount;
-    endif
-?>
-
+@php
+    $balance_owed = $amount - $payments_history->sum('new_payment');
+    $current = 0;
+@endphp
 <h4 class="font-weight-bold text-uppercase mb-0 mt-3">Payment Invoice</h4>
 <span>Invoice Number: </span> <span class="invoice-number"></span>
-<div class="p-3">
-    <div class="card">
+<div class="px-3">
+    @if( $balance_owed > 0)
+    <div class="card mb-5">
         <div class="card-header bg-info header-elements-inline p-2">
-            <h6 class="card-title font-weight-semibold font-weight-bold">Create Payment: Balance Owed $ {{ $current_price }}</h6>
+            <h6 class="card-title font-weight-semibold font-weight-bold">Create Payment: Balance Owed $ 
+                {{ $balance_owed }}
+            </h6>
             <div class="header-elements">
                 <div class="list-icons">
                     <a class="list-icons-item" data-action="collapse"></a>
@@ -39,8 +42,8 @@
             </div>
         </div>
         
-        @if( $current_price > 0)
-            <div class="card-body p-2" style="">
+        
+        <div class="card-body p-2" style="">
                 <form method="post" action="{{ action('Invoice_airticket_listController@store_payment') }}">
                     @csrf
                     <input type="hidden" name="invoice_id" value="{{ $id }}">
@@ -48,7 +51,7 @@
                         <div class="col">
                             <!-- Medium input -->
                             <div class="md-form text-left md-top-2">
-                                <input type="number" min="1" max="{{ $current_price }}" id="p_paymentPrice" class="form-control font-weight-bold" name="payment_price" value="0.00" step="0.01">
+                                <input type="number" min="1" max="{{ $balance_owed }}" id="p_paymentPrice" class="form-control font-weight-bold" name="payment_price" value="0.00" step="0.01">
                                 <label for="p_paymentPrice" class="text-nowrap active">Payment Price</label>
                             </div>
                         </div>
@@ -89,15 +92,19 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        
-        @endif
+        </div>
     </div>
+    @else
+        <div class="alert alert-primary border-0 alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+            <span class="font-weight-semibold">Completed!</span> This invoice has been paid successfully.
+        </div>
+    @endif
 
     
     
     <h6 class="text-left col-lg-12 font-weight-bold pl-0">Paymenet History</h6>
-        <table class="table border table-create table-bordered" id="tbl_paymentHistory">
+        <table class="table border table-create table-bordered table-striped table-hover" id="tbl_paymentHistory">
             <tr class="table-active table-border-double text-center">
                 <td>No</td>
                 <th>Previous Balnace</th>
@@ -111,12 +118,21 @@
             </tr>
             @if(!$payments_history->isEmpty())
                 @foreach($payments_history as $history)
-
+                
                 <tr class="font-weight-bold">
                     <td>{{ $loop->iteration}}</td>
-                    <td>$ {{ number_format($history->previous_balance,2)}}</td>
-                    <td>$ {{ number_format($history->new_payment,2)}}</td>
-                    <td>$ {{ number_format($history->current_balance,2)}}</td>
+                    @if($loop->iteration == 1)
+                        @php $current = $amount - $history->new_payment @endphp
+                        <td>$ {{ number_format($amount,2) }}</td>
+                        <td>$ {{ number_format($history->new_payment,2) }}</td>
+                        <td>$ {{ number_format($amount - $history->new_payment,2) }}</td>
+                    @else
+                        <td>$ {{ number_format($current,2) }}</td>
+                        <td>$ {{ number_format($history->new_payment,2) }}</td>
+                        <td>$ {{ number_format($current - $history->new_payment,2) }}</td>
+                        @php $current = $current - $history->new_payment @endphp
+                    @endif
+                    
                     <td>{{ date('d M Y',strtotime($history->issue_date)) }}</td>
                     <td>{{ $history->payment_method[0]->name }}</td>
                     <td>{{ $history->status }}</td>
@@ -134,7 +150,7 @@
                                 </button>
                             </span>
                         @else
-                            --
+                        
                         @endif
                     </td>
                 </tr>
@@ -143,13 +159,13 @@
                 <tr>
                     <td colspan=11 class="p-3">No Payment Record...</td>
                 </tr>
-            @endif;
+            @endif
         </table>
 
 
-    <div class="modal-footer pt-5 pr-0">
+    <div class="pt-5 pr-0 text-center">
             <div class="form-group text-center">
-                <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-dismiss="modal">Close</button>
             </div>
         </div>
 </div>

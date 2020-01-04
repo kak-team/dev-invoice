@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\CompanyProfile;
 use Illuminate\Support\Facades\Schema; //NEW: Import Schema
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191); //NEW: Increase StringLength
+        $company = CompanyProfile::select('vat')->get();
+       view::share([
+           'company' => $company,
+        ]);
+
     }
 }
