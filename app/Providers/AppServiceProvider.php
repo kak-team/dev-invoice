@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Invoice;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\CompanyProfile;
 use Illuminate\Support\Facades\Schema; //NEW: Import Schema
-use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +35,15 @@ class AppServiceProvider extends ServiceProvider
            'company' => $company,
         ]);
 
+        
+        //total count invoice
+        $invoice = Invoice::where('service_id',1)->where('status_vat','vat')->paginate(15);
+        $data = [
+            'total_invoice'  => 'Total Invoice',
+            'service_fee'  => 'Total Service Fee',
+            'tax'  => 'Total VAT',
+            'invoices'  => $invoice
+        ];
+        View::share($data);
     }
 }

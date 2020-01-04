@@ -120,7 +120,7 @@ table#supplier_contact td {
         
         </div>
 
-        @if($hotels->count() > $hotels->perPage())
+        @if($hotels->total() > $hotels->perPage())
             <div class="card card-body py-2 pagination-flat justify-content-center">
                 {{ $hotels->links() }}
             </div>

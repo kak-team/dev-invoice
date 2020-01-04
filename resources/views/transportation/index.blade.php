@@ -119,9 +119,11 @@ table#supplier_contact td {
             </div>
         
         </div>
-        <div class="card card-body py-2 pagination-flat justify-content-center">
-        {{ $transportations->links() }}
-        </div>
+        @if($transportations->total() > $transportations->perPage())
+            <div class="card card-body py-2 pagination-flat justify-content-center">
+            {{ $transportations->links() }}
+            </div>
+        @endif 
     </div>
    
 </div>
