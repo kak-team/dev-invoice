@@ -5,7 +5,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <form method="POST" action="{{ route('register') }}">
+            <!-- <form method="POST" action="{{ action('UserController@create') }}"> -->
+            <form method="POST" action=" {{ route('register') }}">
                 @csrf
                 <div class="modal-body">
                     <div class="card mb-0">
@@ -14,20 +15,19 @@
                                 <h5 class="mb-0 font-weight-bold">FORM CREATE</h5>
                                 <span class="d-block text-muted">Enter your user detail below</span>
                             </div>
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                            <div class="form-group md-form form-group-feedback form-group-feedback-left">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="off">
+                                <label for="name"><i class="icon-magazine text-muted"></i> Full Name</label>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <div class="form-control-feedback">
-                                    <i class="icon-magazine text-muted"></i>
-                                </div>
+                               
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autofocus>
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="" required autocomplete="off">
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="" required autocomplete="off">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input id="password1" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password1" type="password" class="form-control @error('password') is-invalid @enderror" value="" name="password" required autocomplete="off" >
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -60,7 +60,18 @@
                                 <div class="form-control-feedback">
                                     <i class="icon-lock2 text-muted"></i>
                                 </div>
-                            </div>                         
+                            </div>    
+                            <div class="form-group form-group-feedback form-group-feedback-left">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                @error('comfirm-password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div>
+                            </div>               
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
                                 <div class="row m-0">
@@ -72,6 +83,7 @@
                                             <input type="radio" class="custom-control-input" id="defaultUnchecked1" value="admin" name="role" checked>
                                             <label class="custom-control-label" for="defaultUnchecked1">Admin</label>
                                         </div>
+                                        <input type="hidden" class="custom-control-input" value="vat" name="status" checked>
                                     </div>
                                     <div class="form-check ml-3">
                                     <div class="custom-control custom-checkbox" id="btnCheck_single1">
@@ -149,10 +161,9 @@
                         <td class="text-blue-800 font-weight-bold">USERNAME</td>
                         <td class="text-blue-800 font-weight-bold">LEVEL</td>
                         <td class="text-blue-800 font-weight-bold">EMAIL</td>
-                        <td class="text-blue-800 font-weight-bold">STATUS</td>
                         <td class="text-blue-800 font-weight-bold">SETTING</td>
                     </tr>
-                    <?php for($a=0;$a<=4;$a++): ?>
+                    @foreach($users as $user)                  
                         <tr>
                             <td><div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkself"></span></div></td>
                             <td>
@@ -163,39 +174,30 @@
                                         </a>
                                     </div>
                                     <div>
-                                        <a class="text-default font-weight-semibold">SETDONA KOL</a>
+                                        <a class="text-default font-weight-semibold">{{ $user->name }}</a>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div>
-                                    <a class="text-default font-weight-semibold">Mr.Dona </a>
-                                    <div class="text-muted font-size-sm">
-                                        Tel : 012 423 858 
-                                    </div>
+                                    <a class="text-default font-weight-semibold">{{ $user->username }} </a>
                                 </div>
                             </td>
-                            <td><span class="text-default font-weight-semibold">admin</span></td>
-                            <td><span class="text-default font-weight-semibold">kolsaiddona@gmail.com</span></td>
-                            <td><a id="btn-status" class="active"><span class="badge bg-blue">Active</span></a></td>
+                            <td><span class="text-default font-weight-semibold">{{ $user->role }}</span></td>
+                            <td><span class="text-default font-weight-semibold">{{ $user->email }}</span></td>
                             <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>
                         </tr>
-                        <?php endfor; ?>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         
         </div>
-        <div class="card card-body py-2">
-            <ul class="pagination-flat justify-content-center twbs-page-start pagination ">
-                <li class="page-item prev disabled"><a href="#" class="page-link">Prev</a></li>
-                <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                <li class="page-item"><a href="#" class="page-link">4</a></li>
-                <li class="page-item next"><a href="#" class="page-link">Next</a></li>
-            </ul>
-        </div>
+        @if($users->total() > $users->perPage())
+            <div class="card card-body py-2 pagination-flat justify-content-center">
+                {{ $users->links() }}
+            </div>
+        @endif
     </div>
    
 </div>
@@ -238,4 +240,4 @@
 
 
 </script>
-@stop
+@endsection

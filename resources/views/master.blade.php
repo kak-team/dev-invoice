@@ -59,12 +59,7 @@
 		}
 
 	</script>
-	@if($user_status == 'no_vat')
-	<style>
-		.bg-indigo{ background-color: #009688;}
-	</style>
-	@endif
-
+	
 	<!-- /theme JS files -->
 
 </head>
