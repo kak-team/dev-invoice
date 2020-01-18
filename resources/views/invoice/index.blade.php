@@ -1,5 +1,6 @@
 @extends('master')
 @section('content')
+@php $route = explode('.',\Request::route()->getName()); @endphp
 <style>
     table#airline td {
         padding: 5px;
@@ -143,7 +144,7 @@
 </div>
 
 <div class="modal fade modal_in_modal" id="modalTwo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-dialog-centered modal-default blowup" style="min-width: 190px;!important" role="document">
+    <div class="modal-dialog cascading-modal modal-avatar modal-dialog-centered modal-default blowup" style="min-width: 190px;max-width: 190px;" role="document">
       <div class="modal-content modal-background bg-white">
         <div class="md-overlay">
             <div class="text-center d-flex justify-content-center">
@@ -158,125 +159,74 @@
       <!--/.Content-->
     </div>
 </div>
-
-<div class="modal fade" id="modal_theme_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <!--Content-->
-      <div class="modal-content" id="bodyModal">
-
-      </div>
-      <!--/.Content-->
-    </div>
-</div>
-<div class="modal fade " id="modal_print" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-lg" role="document">
-      <!--Content-->
-      <div class="modal-content">
-        <!--Body-->
-        <div class="modal-body text-center mb-1">         
-            
-        </div>
+<div class="card-body p-0">
+    <ul class="nav nav-tabs nav-tabs-highlight justify-content-left m-0">
+        <li class="nav-item"><a href="#centered-tab1" class="nav-link active" data-toggle="tab">Active</a></li>
+        <li class="nav-item"><a href="#centered-tab2" class="nav-link" data-toggle="tab">Search Active</a></li>
         
-        <div class="modal-footer">
-            <div class="form-group text-center">
-                <button class="btn btn-danger legitRipple waves-effect waves-light" type="button" data-dismiss="modal" id="iaSave">Cancel</button>
-                <button type="button" id="print" class="btn btn-success legitRipple waves-effect waves-light">Print<i class="icon-circle-right2 ml-2"></i></button>
-            </div>
-        </div>
+    </ul>
 
-      </div>
-      <!--/.Content-->
-    </div>
-</div>
-
-<div class="modal fade modal_in_modal" id="modal_paymentEdit" tabindex="-1" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog cascading-modal modal-avatar modal-default" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <div class="md-overlay">
-                <div class="text-center d-flex justify-content-center">
-                    <img src="{{ URL::asset('images/loading.gif') }}">
-                </div>
-            </div>
-            <div class="modal-body text-center mb-1">         
-                
-            </div>
-        </div>
-      <!--/.Content-->
-    </div>
-</div>
-<div class="modal fade modal_in_modal" id="modal_paymentDelete" tabindex="-1" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <!--Content-->
-        <div class="modal-content">
-            <!--Body-->
-                  
-        </div>
-      <!--/.Content-->
-    </div>
-</div>
-<div class="modal fade" id="Modal_payment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-default" style="width: 190px;" role="document">
-        <div class="modal-content modal-background bg-white">
-            <div class="md-overlay">
-                <div class="text-center d-flex justify-content-center">
-                    <img src="{{ URL::asset('images/loading.gif') }}">
-                </div>
-            </div>
-            <div class="modal-body text-center mb-1" id="bodyModal">         
-                
-            </div>
-        </div>
-      <!--/.Content-->
-    </div>
-</div>
-<div class="modal fade " id="modal_cancel_payment" tabindex="-1" style="z-index:100000;" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="md-overlay">
-                <div class="text-center d-flex justify-content-center">
-                    <img src="{{ URL::asset('images/loading.gif') }}">
-                </div>
-            </div>
-            <div class="modal-body text-center mb-1" id="bodyModal">         
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header header-elements-sm-inline py-2">
-                <h6 class="card-title font-weight-bold"> <i class="icon-users4 pr-2"></i> INVOICE AIR-TICKET LIST</h6>
-                <div>
-                    <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <div class="form-control-feedback">
-                            <i class="icon-search4"></i>
+    <div class="tab-content p-0">
+        <div class="tab-pane fade show active" id="centered-tab1">
+            <div class="card">
+                <div class="card-header header-elements-sm-inline py-2">
+                    <h6 class="card-title font-weight-bold text-uppercase"> <i class="icon-users4 pr-2"></i> {{ $route[0] }}</h6>
+                    <div>
+                        <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <div class="form-control-feedback">
+                                <i class="icon-search4"></i>
+                            </div>
                         </div>
                     </div>
+                    <div>
+                    <ul class="list-inline d-sm-flex flex-sm-wrap mb-0">
+                        <li class="list-inline-item text-info-800 font-weight-bold text-uppercase p-1 mr-1 border"><a data-toggle="modal" data-target="#modalOne" data-vat="vat"    id="btn-create"><i class="icon-bookmark mr-2"></i>new invoice</a></li>
+                        <li class="list-inline-item text-warning-800 font-weight-bold text-uppercase p-1 border"><a data-toggle="modal" data-target="#modalOne" data-vat="no_vat" id="btn-create"><i class="icon-bookmark mr-2"></i>new invoice NO-VAT</a></li>
+                        
+                    </ul>
+                    </div>
+                    
                 </div>
-                <div>
-                @if($user_status == 'vat')
-                <button type="button" class="btn btn-outline bg-success-400 border-success-400 text-success-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="vat" id="btn-create"><i class="icon-plus-circle2"></i></button>
-                @else
-                <button type="button" class="btn bg-success-400 border-success-400 text-success-800 btn-icon legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="vat"    id="btn-create">Invoice Vat</button>
-                <button type="button" class="btn bg-success-400 border-success-400 text-success-800 btn-icon legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" data-vat="no-vat" id="btn-create">Invoice No-Vat</button>
 
-                @endif
-                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple disabled waves-effect waves-light" id="deleteRow" data-target="#modal_theme_danger"><i class="icon-trash"></i></button>
+                <div class="table-responsive">
+                    
+                    @include($route[0].'.table')
                 </div>
-            </div>
-
-            <div class="table-responsive">
-                @php $route = explode('.',\Request::route()->getName()); @endphp
-                @include('invoice.table_'.$route[0])
             </div>
         </div>
+
+        <div class="tab-pane fade" id="centered-tab2">
+            <div class="card">
+                <div class="card-header header-elements-sm-inline py-2">
+                    <h6 class="card-title font-weight-bold text-uppercase"> <i class="icon-users4 pr-2"></i> INVOICE {{$route[0]}}</h6>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><input type="date" class="form-control" id="rangeDemoStart" placeholder="Start date"></p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p><input type="date" class="form-control" id="rangeDemoFinish" placeholder="Finish date" disabled="disabled"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                    
+                    </div>
+                    
+                </div>
+
+                <div class="table-responsive">
+                   
+                </div>
+            </div>
+        </div>  
+
     </div>
 </div>
+
     
 @if($invoices->total() > $invoices->perPage())
     <div class="card card-body py-2 pagination-flat justify-content-center">
@@ -285,8 +235,10 @@
 @endif
        
   
-<script type="text/javascript" src="{{ URL::asset('js/default_invoice.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/airticket_list.js') }}"></script>
 
+<script type="text/javascript" src="{{ URL::asset('js/default_invoice.js') }}"></script>
+@if(in_array($route[0],$servicelist))
+    <script type="text/javascript" src="{{ URL::asset('js/'.$route[0].'.js') }}"></script>
+@endif
 
 @stop

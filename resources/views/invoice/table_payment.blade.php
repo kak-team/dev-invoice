@@ -1,5 +1,5 @@
 <style>
-.modal-default{
+#modalOne .modal-default{
     max-width: 110px!important;
     min-width: 70%!important;
 }
@@ -44,7 +44,7 @@
         
         
         <div class="card-body p-2" style="">
-                <form method="post" action="{{ action('Invoice_airticket_listController@store_payment') }}">
+                <form method="post" action="{{ action('InvoiceController@exe_form_create_payment') }}">
                     @csrf
                     <input type="hidden" name="invoice_id" value="{{ $id }}">
                     <div class="row">
@@ -140,12 +140,12 @@
                     <td>
                         @if(count($payments_history) == $loop->iteration)
                             <span data-toggle="tooltip" data-placement="top" data-original-title="Edit Invoice">
-                                <button type="button" class="btn btn-sm btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light modal2" data-toggle="modal" data-target="#modal_paymentEdit" id="btn-edit" value="{{ $history->id }}">
+                                <button type="button" class="btn btn-sm btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light modal2" data-toggle="modal" data-target="#modalTwo" id="btn-edit" value="{{ $history->id }}">
                                     <i class="icon-quill4"></i>
                                 </button>
                             </span>
                             <span data-toggle="tooltip" data-placement="top" data-original-title="Edit Invoice">
-                                <button type="button" class="btn btn-sm btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modal_paymentDelete" id="btn-delete" value="{{ $history->id }}">
+                                <button type="button" class="btn btn-sm btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalTwo" id="btn-delete" value="{{ $history->id }}">
                                     <i class="icon-trash"></i>
                                 </button>
                             </span>
@@ -165,7 +165,7 @@
 
     <div class="pt-5 pr-0 text-center">
             <div class="form-group text-center">
-                <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-dismiss="modal">Close</button>
+                <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-dismiss="modal" data-modal="#modalOne">Close</button>
             </div>
         </div>
 </div>

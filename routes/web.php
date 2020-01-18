@@ -65,38 +65,40 @@ Route::post('/transportation/update', 'TransportationController@update');
 
 // invoice
 Route::resource('invoice_airticket_list', 'InvoiceController');
+Route::resource('invoice_hotel_list', 'InvoiceController');
+Route::resource('invoice_visa_list', 'InvoiceController');
+Route::resource('invoice_tour_list', 'InvoiceController');
+Route::resource('invoice_transportation_list', 'InvoiceController');
+Route::resource('invoice_insurance_list', 'InvoiceController');
 
-    // form create 
-    Route::post('invoice_airticket_list/form_create_invoice', 'InvoiceController@form_create_invoice');
+    // form invoice
+    Route::post('invoice/form_create_invoice', 'InvoiceController@form_create_invoice');
+    Route::post('invoice/form_edit_invoice',   'InvoiceController@form_edit_invoice');
+    Route::post('invoice/form_print_invoice',  'InvoiceController@form_print_invoice');
+    Route::post('invoice/form_cancel_invoice',  'InvoiceController@form_cancel_invoice');
 
-    // form edit
-    Route::post('invoice_airticket_list/form_edit_invoice', 'InvoiceController@form_edit_invoice');
 
+    // form Payment
+    Route::post('invoice/table_payment',      'InvoiceController@table_payment');
+    Route::post('invoice/form_edit_payment',  'InvoiceController@form_edit_payment');
+    Route::post('invoice/form_delete_payment','InvoiceController@form_delete_payment');
 
     // autocomplete 
     Route::post('invoice/auto_customer', 'InvoiceController@auto_customer');
     Route::post('invoice/auto_supplier', 'InvoiceController@auto_supplier');
     Route::post('invoice/auto_airline',  'InvoiceController@auto_airline');
     Route::post('invoice/auto_ticket',   'InvoiceController@auto_ticket');
+    Route::post('invoice/auto_transportation', 'InvoiceController@auto_transportation');
 
     // Execute
-    Route::post('invoice/store_invoice', 'InvoiceController@store_invoice');
-
-
-Route::post('invoice_airticket_list/store_payment', 'Invoice_airticket_listController@store_payment');
-Route::post('invoice_airticket_list/update', 'Invoice_airticket_listController@update');
-Route::post('invoice_airticket_list/update_payment', 'Invoice_airticket_listController@update_payment');
-Route::post('invoice_airticket_list/delete_payment', 'Invoice_airticket_listController@delete_payment');
-
-
-Route::post('invoice_airticket_list/form_print_invoice', 'Invoice_airticket_listController@form_print_invoice');
-Route::post('invoice_airticket_list/form_cancel_invoice', 'Invoice_airticket_listController@form_cancel_invoice');
-
-Route::post('invoice_airticket_list/form_payment', 'Invoice_airticket_listController@form_payment');
-Route::post('invoice_airticket_list/form_edit_payment', 'Invoice_airticket_listController@form_edit_payment');
-Route::post('invoice_airticket_list/form_delete_payment', 'Invoice_airticket_listController@form_delete_payment');
-Route::post('invoice_airticket_list/cancel_invoice', 'Invoice_airticket_listController@cancel_invoice');
-
+        // invoice
+        Route::post('invoice/exe_form_create_invoice', 'InvoiceController@exe_form_create_invoice');
+        Route::post('invoice/exe_form_edit_invoice',   'InvoiceController@exe_form_edit_invoice');
+        Route::post('invoice/exe_form_cancel_invoice', 'InvoiceController@exe_form_cancel_invoice');
+        // payment
+        Route::post('invoice/exe_form_create_payment', 'InvoiceController@exe_form_create_payment');
+        Route::post('invoice/exe_form_edit_payment',   'InvoiceController@exe_form_edit_payment');
+        Route::post('invoice/exe_form_delete_payment', 'InvoiceController@exe_form_delete_payment');
 
 
 // Company Profile

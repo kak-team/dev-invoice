@@ -1,11 +1,14 @@
 <style>
 #modalOne .modal-default{max-width: 110px!important;min-width: 90%!important;}
-
+#modalOne .table td{
+    padding:10px;
+}
 </style>
 @foreach($invoices as $invoice)
-<form method="post" action="{{ action('Invoice_airticket_listController@update') }}">
+<form method="post" action="{{ action('InvoiceController@exe_form_edit_invoice') }}">
     @csrf
     <input type="hidden" value="{{ $invoice->id }}" name="id">
+    <input type="hidden" value="invoice_transportation_list" name="route">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -113,13 +116,8 @@
                                         </div>
                                     </div>
 								</div>
-                            </div>                          
-
-                           
-                            
+                            </div>                         
                         </div>
-                        
-                        
                     </div>
                     
                     <div class="my-2 d-flex">                    
@@ -130,74 +128,48 @@
                             <label class="custom-control-label" for="customSwitch2">Grouping</label>
                         </div>
                     </div>
+
+
                     @if($invoice->status_vat == 'vat')
-                    <table class="table border table-create table-bordered">
+                    <table class="table border table-create table-create1 table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2">
+                            <td class="p-2" style="width:45px;">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td>No</td>
-                            <td style="width:220px;">Airline</td>
-                            <td style="width:220px;">Ticket No</td>
-                            <td style="width:220px;">Guest Name</td>                            
-                            <td style="width: 120px;">Type</td>
-                            <td>Qty</td>
-                            <td>Unit Price</td>
-                                                    
+                            <td style="width:45px">No</td>
+                            <td style="width:220px;">Full Name</td>                           
+                            <td style="width: 120px;">Qty</td>
+                            <td style="width: 120px;">Unit Price</td>             
                         </tr>
-                        @foreach($invoice->airticket_list as $airticket_list)
+                        @foreach($invoice->transportation_list as $transportation)
                             <tr>
                                 <td class="position-relative text-center hidMode">                                    
-                                    <input type="hidden" name="invoice_list_id[]" value="{{ $airticket_list->id}}">
+                                    <input type="hidden" name="transportation_id[]" value="{{ $transportation->id }}">
                                 </td>                                
                                 <td class="position-relative text-center" id="hidMode_{{ $loop->iteration }}E">
                                     <div class="Dtdisabled"></div>
-                                    <input type="hidden" name="e_n_p[]" id="np_{{ $loop->iteration }}E" value="{{ $airticket_list->net_price }}">
+                                    <input type="hidden" name="e_n_p[]" id="np_{{ $loop->iteration }}E" value="{{ $transportation->net_price }}">
                                     <span></span>
                                 </td>
-                                <td class="text-center">
-                                    <div class="d-flex">
-                                        <div class="md-form m-0">
-                                            <input type="text" value="{{ $airticket_list->airline_code[0]->name }}" class="airlineId_{{ $loop->iteration }}E form-control m-0" id="airlineName_{{ $loop->iteration }}E" required placeholder="airline name" autocomplete="off"></span>
-                                            <input type="hidden" value="{{ $airticket_list->airline_id }}"  name="e_airline_id[]" id="airlineId_{{ $loop->iteration }}E">
-                                            <div id="autoDisplay_airlineName_{{ $loop->iteration }}E"></div>
-                                        </div>
-                                        <i class="icon-checkmark3 text-success align-self-center pl-1" id="iconAirline_{{ $loop->iteration }}E"></i>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="md-form m-0">
-                                            <input type="text" value="{{ $airticket_list->ticket_number }}" id="ticketNo_{{ $loop->iteration }}E" name="e_ticket_no[]" placeholder="ticket no" required class="form-control m-0">                                    
-                                        </div>
-                                        <i class="icon-checkmark3 text-success align-self-center pl-1" id="iconTicketNo_{{ $loop->iteration }}E"></i>
-                                    </div>                             
-
-                                </td>
+                               
                                 <td>
                                     <div class="md-form m-0">
-                                        <input type="text" value="{{ $airticket_list->passanger_name }}" id="guestName_{{ $loop->iteration }}E" name="e_guest_name[]" class="form-control m-0">                                    
-                                    </div>
+                                        <input type="text" value="{{ $transportation->full_name }}"  name="e_full_name[]" placeholder="Full name" required class="form-control m-0" autocomplete="off">                                    
+                                    </div>                
                                 </td>
-                                <td>
-                                <select class="mdb-select md-form m-0 type" name="e_type[]">   
-                                    @foreach($passenger_types as $passenger_type)                            
-                                        <option value="{{ $passenger_type }}" {{ ($passenger_type == $airticket_list->passanger_type ? 'selected':'') }} >{{ $passenger_type }}</option>
-                                    @endforeach
-                                </select>
-                                </td>
+                                
                                 <td class="position-relative">
                                     <div class="Tddisabled"></div>
                                     <div class="md-form m-0">
-                                        <input type="number" name="e_qty[]" id="qty_{{ $loop->iteration }}E" class="form-control m-0 text-center qty" readonly value="{{ $airticket_list->quantity }}">                                    
+                                        <input type="number" name="e_qty[]" id="qty_{{ $loop->iteration }}E" class="form-control m-0 text-center qty" readonly value="{{ $transportation->quantity }}">                                    
                                     </div>
                                 </td>
                                 <td>
                                     <div class="md-form m-0">
-                                        <input type="number" name="e_price[]" id="price_{{ $loop->iteration }}E" step="0.01" class="form-control m-0 text-center price" value="{{ $airticket_list->price }}">                                    
+                                        <input type="number" name="e_price[]" id="price_{{ $loop->iteration }}E" step="0.01" class="form-control m-0 text-center price" value="{{ $transportation->price }}">                                    
                                     </div>
                                 </td>
                                 
@@ -205,93 +177,79 @@
                         @endforeach
                     </table>
                     @else
-                    <table class="table border table-create table-bordered">
+                    <table class="table border table-create table-create1 table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2">
+                            <td class="p-2" style="width:45px;">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td>No</td>
-                            <td style="width:220px;">Airline</td>
-                            <td style="width:220px;">Ticket No</td>
-                            <td style="width:220px;">Guest Name</td>                            
-                            <td style="width: 120px;">Type</td>
-                            <td style="width: 120px;">Qty</td>
-                            <td style="width: 120px;">Net Price</td>
-                            <td style="width: 120px;">Unit Price</td>
+                            <td style="width:45px;">No</td>
+                            <td>Full Name</td>
+                            <td style="width: 150px;">Qty</td>
+                            <td style="width: 150px;">Net Price</td>
+                            <td style="width: 150px;">Unit Price</td>
+                            
                                                     
                         </tr>
-                        @foreach($invoice->airticket_list as $airticket_list)
-                            <tr>
-                                <td class="position-relative text-center hidMode">                                    
-                                    <input type="hidden" name="invoice_list_id[]" value="{{ $airticket_list->id}}">
-                                </td>                                
-                                <td class="position-relative text-center">
-                                    <div class="Dtdisabled"></div>
-                                    <span></span>
-                                </td>
-                                <td class="text-center">
-                                    <div class="d-flex">
-                                        <div class="md-form m-0">
-                                            <input type="text" value="{{ $airticket_list->airline_code[0]->name }}" class="airlineId_{{ $loop->iteration }}E form-control m-0" id="airlineName_{{ $loop->iteration }}E" required placeholder="airline name" autocomplete="off"></span>
-                                            <input type="hidden" value="{{ $airticket_list->airline_id }}"  name="e_airline_id[]" id="airlineId_{{ $loop->iteration }}E">
-                                            <div id="autoDisplay_airlineName_{{ $loop->iteration }}E"></div>
-                                        </div>
-                                        <i class="icon-checkmark3 text-success align-self-center pl-1" id="iconAirline_{{ $loop->iteration }}E"></i>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex">
-                                        <div class="md-form m-0">
-                                            <input type="text" value="{{ $airticket_list->ticket_number }}" id="ticketNo_{{ $loop->iteration }}E" name="e_ticket_no[]" placeholder="ticket no" required class="form-control m-0">                                    
-                                        </div>
-                                        <i class="icon-checkmark3 text-success align-self-center pl-1" id="iconTicketNo_{{ $loop->iteration }}E"></i>
-                                    </div>                             
-
-                                </td>
-                                <td>
-                                    <div class="md-form m-0">
-                                        <input type="text" value="{{ $airticket_list->passanger_name }}" id="guestName_{{ $loop->iteration }}E" name="e_guest_name[]" class="form-control m-0">                                    
-                                    </div>
-                                </td>
-                                <td>
-                                <select class="mdb-select md-form m-0 type" name="e_type[]">   
-                                    @foreach($passenger_types as $passenger_type)                            
-                                        <option value="{{ $passenger_type }}" {{ ($passenger_type == $airticket_list->passanger_type ? 'selected':'') }} >{{ $passenger_type }}</option>
-                                    @endforeach
-                                </select>
-                                </td>
-                                <td class="position-relative">
-                                    <div class="Tddisabled"></div>
-                                    <div class="md-form m-0">
-                                        <input type="number" name="e_qty[]" id="qty_{{ $loop->iteration }}E" class="form-control m-0 text-center qty" readonly value="{{ $airticket_list->quantity }}">                                    
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="md-form m-0">
-                                        <input type="text" class="form-control m-0" name="e_n_p[]" id="np_{{ $loop->iteration }}E" value="{{ $airticket_list->net_price }}">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="md-form m-0">
-                                        <input type="number" name="e_price[]" id="price_{{ $loop->iteration }}E" step="0.01" class="form-control m-0 text-center price" value="{{ $airticket_list->price }}">                                    
-                                    </div>
-                                </td>
-                                
-                            </tr>
+                        @foreach($invoice->transportation_list as $transportation)
+                        <tr>
+                            <td class="position-relative text-center hidMode"> 
+                                <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                    <input type="checkbox" class="custom-control-input Bchk" id="c_{{ $loop->index }}">                                    
+                                    <label class="custom-control-label" for="c_{{ $loop->index }}"></label>
+                                </div>
+                            </td>
+                            <td class="position-relative text-center">
+                                <div class="Dtdisabled"></div>
+                                <span></span>
+                                <input type="hidden" value="{{ $transportation->id }}" name="transportation_list_id[]">
+                            </td>
+                            <td class="text-center">                                
+                                <div class="md-form m-0">
+                                    <input type="text" value="{{ $transportation->full_name }}"  id="fullname_{{ $loop->index }}" name="e_full_name[]" class="fullname_{{ $loop->index }} form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
+                                </div>
+                            </td>
+                            <td class="position-relative">
+                                <div class="Tddisabled"></div>
+                                <div class="md-form m-0">
+                                    <input type="number" name="e_qty[]" id="qty_{{ $loop->index }}" class="form-control m-0 text-center qty" readonly  value="{{ $transportation->quantity }}">                                    
+                                </div>
+                            </td>
+                            <td>
+                                <div class="md-form m-0">
+                                    <input type="number" value="{{ $transportation->net_price }}" name="e_n_p[]" class="form-control m-0 text-center qty" id="np_{{ $loop->index }}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="md-form m-0">
+                                    <input type="number" name="e_price[]" id="price_{{ $loop->index }}" step="0.01" class="form-control m-0 text-center price" value="{{ $transportation->price }}">                                    
+                                </div>
+                            </td>
+                            
+                           
+                        </tr>
                         @endforeach
                     </table>
                     @endif
 
                     <div class="d-flex justify-content-between">
 
-                        <div class="col-lg-5 mt-3">
-                            <div class="col px-0">
-                                <label for="deposit_total" class="font-weight-bold text-dark mb-0">Routing</label>
-                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                    <input type="text" value="{{ $invoice->routing }}" class="form-control font-weight-bold totalInput border-color" id="routing" name="routing" required="" autocomplete="off">
+                        <div class="col-lg-4 mt-3">
+                            <div class="row">
+                                <div class="col-lg-6 pl-0">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">From Date</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date" name="from_date" required="" value="{{ date('Y-m-d',strtotime($invoice->transportation->from_date)) }}" autocomplete="off">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">To Date</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date" name="to_date" required="" value="{{ date('Y-m-d',strtotime($invoice->transportation->to_date)) }}" autocomplete="off">
+                                    </div>
                                 </div>
                             </div>
                             
@@ -302,9 +260,67 @@
                             </div>                            
                         </div>
 
+                        <div class="col-lg-4 mt-3 border">
+                            <div class="row">
+                            <p class="text-center p-1 w-100 text-uppercase font-weight-bold" style="background:#ddd">Car Type</p>
+                            </div>
+                            
+                            <div class="respond-car">
+                            
+                            <?php 
+                            //dd($invoice->suppliers->supplier_transportation);   
+                            echo '<table class="table border table-create table-bordered">';
+
+                                $data_invoice_transportation = $invoice->transportation->car_type;
+                                if(!empty($data_invoice_transportation)):
+                                    $data_invoice_transportation = explode(',',$data_invoice_transportation);
+                                else:
+                                    $data_invoice_transportation = array();
+                                endif;
+                                //dd($data_invoice_transportation);
+                                $transportation = $invoice->suppliers->supplier_transportation;                               
+                                    $car_type = json_decode($transportation->car_type);
+                                    $car = array();
+                                    $loop = 0;
+                                    $for = 1;
+                                    foreach($car_type AS $a):
+                                        if(count($data_invoice_transportation) >= $for AND count($data_invoice_transportation) != 0 ):
+                                        $tran  = explode('-',$data_invoice_transportation[$loop]);
+                                        $car   = $tran[0];
+                                        $total = $tran[1];
+                                        else:
+                                            $car = '';
+                                            $total = 0;
+                                        endif;
+
+                                        foreach($a AS $b):
+                                           
+                                            echo'   
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" class="custom-control-input" id="'.$b.'" name="car_type[]" value="'.$b.'" >'.$b.'
+                                                </td>
+                                            
+                                                <td class="text-center">                                
+                                                    <div class="md-form m-0">
+                                                        <input type="number" name="total_car[]" value="'.($car == $b ? $total : 0).'" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
+                                                    </div>
+                                                </td>
+                                                
+                                            ';
+                                            
+                                        endforeach;
+                                        $loop++;
+                                        $for++;
+                                    endforeach;
+                               
+                                echo '</table>';
+                                ?>
+                            </div>
+                        </div>
                         
                         
-                        <div class="col-lg-5 mt-3">
+                        <div class="col-lg-4 mt-3">
                             @if($invoice->status_vat == 'vat')
                             <div class="row">
                                 <div class="col-lg-4 pr-1">
@@ -316,13 +332,13 @@
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Total</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                        <input type="number" value="{{ $invoices[0]->service_fee_price*$invoice->airticket_list->count('id') }}" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="servicefee_total" id="SerFee_total" value="0.00" required="" autocomplete="off">    
+                                        <input type="number" value="{{ $invoices[0]->service_fee_price*$invoice->transportation->count('id') }}" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="servicefee_total" id="SerFee_total" value="0.00" required="" autocomplete="off">    
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="vat_total" class="font-weight-bold text-dark mb-0">Vat Total</label>
                                     <div class=" md-bg form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="number" value="{{ ($invoices[0]->service_fee_price*$invoice->airticket_list->count('id'))/$invoice->vat_percent }}" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="vat_total" id="vat_total" value="0.00" required="" autocomplete="off">
+                                        <input type="number" value="{{ ($invoices[0]->service_fee_price*$invoice->transportation->count('id'))/$invoice->vat_percent }}" step="0.01" readonly class="bgwhiteblue form-control font-weight-bold totalInput border-color" name="vat_total" id="vat_total" value="0.00" required="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -380,7 +396,7 @@
 
     <div class="modal-footer">
         <div class="form-group text-center">
-            <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-dismiss="modal" >Cancel</button>
+            <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-dismiss="modal" data-modal="#modalOne">Cancel</button>
             <button type="submit" class="btn btn-success legitRipple waves-effect waves-light btn-close" >Save Change<i class="icon-circle-right2 ml-2"></i></button>
         </div>
     </div>

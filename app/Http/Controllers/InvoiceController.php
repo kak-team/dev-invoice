@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 
-use App\Invoice_airticket_list;
+
 use App\Invoice;
 use App\Invoice_income;
+use App\Invoice_airticket_list;
+use App\Invoice_visa;
+use App\Invoice_visa_list;
+use App\Invoice_insurance;
+use App\Invoice_insurance_list;
+use App\Invoice_transportation;
+use App\Invoice_transportation_list;
 use App\Airline;
 use App\Customer;
 use App\CustomerList;
@@ -14,32 +21,29 @@ use App\CompanyProfile;
 use App\CompanyAddress;
 use App\PaymentMethod;
 use App\Customer_contacts;
+use App\Transportation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 
 class InvoiceController extends Controller
 {
+    protected $route;
     public function __construct()
     {
         $this->middleware('auth');
+        return $this->route = explode('.',\Request::route()->getName());
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-    
-        $route              = explode('.',\Request::route()->getName());
         $company_profile    = CompanyProfile::select('exchange_kh')->get();
         $airline            = Airline::all();
         $payment_method     = PaymentMethod::all()->where('status','=','1');
-        $user_status = auth()->user()->status;
-
+        $user_status        = auth()->user()->status;
+        
         //invoice_airticket_list
-        if($route[0] == 'invoice_airticket_list'):
+        if($this->route[0] == 'invoice_airticket_list'):
             if($user_status == 'vat'):
                 $invoice = Invoice::where('service_id',1)
                 ->where('status_invoice','active')
@@ -61,14 +65,79 @@ class InvoiceController extends Controller
                     'payment_methods'   => $payment_method 
                 ]);
             
-        elseif($route[0] == 'invoice_hotel_list'):
-
+        
+        // invoice_visa_list
+        elseif($this->route[0] == 'invoice_visa_list'):
+            $invoice = Invoice::where('service_id',2)
+                ->where('status_invoice','active')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(5);
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_insurance_list
+        elseif($this->route[0] == 'invoice_insurance_list'):
+            $invoice = Invoice::where('service_id',3)
+                ->where('status_invoice','active')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_transportation_list
+        elseif($this->route[0] == 'invoice_transportation_list'):
+            
+            $invoice = Invoice::where('service_id',4)
+                ->where('status_invoice','active')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_hotel_list
+        elseif($this->route[0] == 'invoice_hotel_list'):
+                $invoice = Invoice::where('service_id',5)
+                    ->where('status_invoice','active')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+                return view('invoice.index',[ 
+                    'user_status'       => $user_status,
+                    'invoices'          => $invoice, 
+                    'airlines'          => $airline,
+                    'company_profile'   => $company_profile,
+                    'payment_methods'   => $payment_method 
+                ]);
+            elseif($this->route[0] == 'invoice_tour_list'):
+                $invoice = Invoice::where('service_id',6)
+                    ->where('status_invoice','active')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+                return view('invoice.index',[ 
+                    'user_status'       => $user_status,
+                    'invoices'          => $invoice, 
+                    'airlines'          => $airline,
+                    'company_profile'   => $company_profile,
+                    'payment_methods'   => $payment_method 
+                ]);        
         endif;
     }
 
-    
-
-// -----------------------------------------------------------------------------------
+// Autocomplete -----------------------------------------------------------------------------------
 
     public function auto_customer(Request $request)
     {
@@ -84,7 +153,76 @@ class InvoiceController extends Controller
             }
         return $json;   
     }
-
+    public function auto_supplier(Request $request)
+    {
+        $all            = $request->all();
+        $html           = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
+        if($request->link =='invoice_transportation_list'):
+            $supplier_name  = $all['supplier_name'];
+            $service = 4;
+            if(!empty($supplier_name)):
+                $query_supplier = Supplier::select('name_en','id')
+                ->where('name_en','LIKE', $supplier_name.'%')
+                ->where('status', '=', '1')
+                ->where('service_id', 'like', '%'.$service.'%')
+                ->limit(5)
+                ->get();
+                if(!empty($query_supplier[0])){
+                    
+                    foreach($query_supplier as $supplier){
+                        $html .= '<li supplier_id="'.$supplier->id.'"  class="supplier list-group-item list-group-item-action" id="acceptSupplier">'.$supplier->name_en.'</li>';
+                    }                    
+                }
+            endif;
+        else:
+            $supplier_name  = $all['supplier_name'];
+            if(!empty($supplier_name)){
+                $query_supplier = Supplier::select('name_en','id')
+                ->where('name_en','LIKE', $supplier_name.'%')
+                ->where('status', '=', '1')
+                ->with('supplier_transportation')
+                ->limit(5)
+                ->get();
+                if(!empty($query_supplier[0])){
+                    foreach($query_supplier as $supplier){
+                        $html .= '<li supplier_id="'.$supplier->id.'"  class="supplier list-group-item list-group-item-action" id="acceptSupplier">'.$supplier->name_en.'</li>';
+                    }                    
+                }
+            }
+        endif;
+        $html .= '</ul>';  
+        return $html;
+       
+        
+    }
+    public function auto_transportation(Request $request)
+    {
+         $transportations = Transportation::where('supplier_id',$request->supplier_id)->get();
+         echo '<table class="table border table-create table-bordered">';
+         foreach($transportations AS $transportation):
+            $car_type = json_decode($transportation->car_type);
+            $car = array();
+            foreach($car_type AS $a):
+                foreach($a AS $b):
+                    echo'   
+                    <tr>
+                        <td>
+                            <input type="hidden" class="custom-control-input Bchk" id="'.$b.'" name="car_type[]" value="'.$b.'">'.$b.'
+                        </td>                      
+                        <td class="text-center">                                
+                            <div class="md-form m-0">
+                                <input type="number" name="total_car[]" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    ';
+                endforeach;
+            endforeach;
+         endforeach;
+         echo '</table>';
+         //dd($transportation[0]->supplier_transportation);
+        // echo 1;
+    }
     public function auto_airline(Request $request)
     {
         $all = $request->all();
@@ -120,18 +258,17 @@ class InvoiceController extends Controller
         return $json;
     }
 
-// -----------------------------------------------------------------------------------
+// Invoice -----------------------------------------------------------------------------------
 
     public function form_create_invoice(Request $request)
     {
         $user_status        = auth()->user()->status;
-        $link               = $request->link;
         $payment_method     = PaymentMethod::all()->where('status','=','1'); 
         $passenger_type     = array('Adult','Child','Infant'); 
         $company_profile    = CompanyProfile::select('exchange_kh')->get();
 
-        
-        return view('invoice.create_'.$link,[
+        //dd($request->all());
+        return view($request->link.'.create',[
             'user_status'       => $user_status,
             'vat'               => $request->invoice_type,
             'payment_methods'   => $payment_method,
@@ -139,29 +276,56 @@ class InvoiceController extends Controller
             'passenger_types'   => $passenger_type
         ]);
     }
-
     public function form_edit_invoice(Request $request)
     {
-        $link               = $request->link;
         $id                 = $request->id;
         $payment_method     = PaymentMethod::all()->where('status','=','1'); 
-        $passenger_type     = array('Adult','Child','Infant');   
-        if($link == 'invoice_airticket_list'):   
+        $passenger_type     = array('Adult','Child','Infant'); 
+          
+        if($request->link == 'invoice_airticket_list'):   
             $invoice  = Invoice::where('id','=',$id)->with('customers','invoice_incomes','airticket_list.airline_code','contacts','suppliers', 'airticket_list')->get();
+        
+        elseif($request->link == 'invoice_visa_list'):
+            $invoice  = Invoice::where('id','=',$id)
+            ->with('customers','invoice_incomes','contacts','suppliers', 'visa_list', 'visa')->get();
+        elseif($request->link == 'invoice_insurance_list'):
+            $invoice  = Invoice::where('id','=',$id)
+            ->with('customers','invoice_incomes','contacts','suppliers', 'insurance_list', 'insurance')->get();
+        elseif($request->link == 'invoice_transportation_list'):
+            $invoice  = Invoice::where('id','=',$id)
+            ->with('customers','invoice_incomes','contacts','suppliers','suppliers.supplier_transportation', 'transportation_list', 'transportation','suppliers.supplier_transportation')->get();
+           //dd($invoice[0]->suppliers->supplier_transportation);
         endif;
+
         $contacts = Customer_contacts::all()->where('customer_id','=',$invoice[0]->customer_id);
         
-        return view('invoice.edit_'.$link,[
+        return view($request->link.'.edit',[
             'invoices'          => $invoice,
             'payment_methods'   => $payment_method,
             'contacts'          => $contacts,
             'passenger_types'   => $passenger_type
         ]);
     }
-
-    public function form_payment(Request $request)
+    
+    public function form_cancel_invoice(Request $request)
     {
-        //dd($request->all());
+        $id = $request->id;
+        return view('invoice.cancel_invoice',['id'=>$id]);
+    }
+
+    public function form_print_invoice(Request $request)
+    {
+        $companyprofile = CompanyProfile::with('company_address','company_email','company_phone')->get();
+        $data = [
+            'company' => $companyprofile,
+        ];
+        return view('invoice.print_invoice', $data);
+    }
+
+// Payment -----------------------------------------------------------------------------------
+
+    public function table_payment(Request $request)
+    {
         $amount = $request->amount;
         $payment_history = Invoice_income::with('payment_method')->where('invoice_id','=',$request->id)->get();
         $payment_method  = PaymentMethod::all();
@@ -172,9 +336,8 @@ class InvoiceController extends Controller
             'id'               => $request->id
         ];
         //dd($data);
-        return view('invoice.payment', $data);
+        return view('invoice.table_payment', $data);
     }
-
     public function form_edit_payment(Request $request)
     {
         //dd($request->all());
@@ -188,69 +351,17 @@ class InvoiceController extends Controller
         //dd($data);
         return view('invoice.edit_payment', $data);
     }
-
     public function form_delete_payment(Request $request)
     {
+        //dd($request->all());
         $payment_list_id = $request->id;
         return view('invoice.delete_payment',['payment_list_id' => $payment_list_id]);
     }
 
-    public function form_cancel_invoice(Request $request)
-    {
-        $id = $request->id;
-        return view('invoice.cancel_invoice',['id'=>$id]);
-    }
+// Execute -----------------------------------------------------------------------------------
 
-    public function cancel_invoice(Request $request)
-    {
-        //dd($request->all());
-        $data = [
-            'status_invoice' => 'cancel',
-            'cancel_description' => $request->description
-        ];
-        Invoice::where('id',$request->id)->update($data);
-        return redirect()->back()->withSuccess('IT WORKS!');
-
-    }
-
-    public function print(Request $request)
-    {
-        //dd($request->all());
-        //$company = CompanyProfile::all()->with('CompanyEmail','CompanyPhone','CompanyAddress');
-        // dd($company);
-        $companyprofile = CompanyProfile::with('company_address','company_email','company_phone')->get();
-        // dd($companyprofile);
-        $data = [
-            'company' => $companyprofile,
-        ];
-        return view('invoice.print', $data);
-    }
-
-    public function auto_supplier(Request $request)
-    {
-        $all            = $request->all();
-        $html           = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
-            $supplier_name  = $all['supplier_name'];
-            if(!empty($supplier_name)){
-                $query_supplier = Supplier::select('name_en','id')
-                ->where('name_en','LIKE', $supplier_name.'%')
-                ->where('status', '=', '1')
-                ->limit(5)
-                ->get();
-                if(!empty($query_supplier[0])){
-                    foreach($query_supplier as $supplier){
-                        $html .= '<li supplier_id="'.$supplier->id.'" class="supplier list-group-item list-group-item-action" id="acceptSupplier">'.$supplier->name_en.'</li>';
-                    }                    
-                }
-            }
-        $html .= '<ul>';  
-        return $html;
-       
-        
-    }
-
-  
-    public function store_invoice(Request $request)
+    // invoice
+    public function exe_form_create_invoice(Request $request)
     {
         
         // user id
@@ -262,7 +373,7 @@ class InvoiceController extends Controller
         
         $invoice_number = date('Y').'-'.$number;
         
-       
+    
         //dd($request->all());
 
         // created_date        
@@ -291,20 +402,20 @@ class InvoiceController extends Controller
             'contact_person_id' => $request->contact_person,
             'contact_phone'     => $request->phone,
             'supplier_id'       => $request->supplier_id,
-            'service_id'        => 1, // service (airticket)
+            'service_id'        => $request->service_id,
             'invoice_number'    => $invoice_number,
             'total_amount'      => $request->amount_total,
             'service_fee_price' => $request->servicefee_price,
             'vat_percent'       => $request->vat_value,
             'exchange_riel'     => $request->exchange_riel,
-            'routing'           => $request->routing,
+            'routing'           => (isset($request->routing) ? $request->routing : '' ),
             'groupping'         => $grouping,
             'description'       => $request->description,
             'issue_date'        => $issue_date,
             'created_at'        => $created_date,
             'status_payment'    => $status,
             'status_invoice'    => 'active',
-            'status_vat'        => 'vat'
+            'status_vat'        => $request->status_vat
         ];
 
         // insert invoice
@@ -317,37 +428,332 @@ class InvoiceController extends Controller
             'previous_balance'  => $request->amount_total,
             'new_payment'       => $request->deposit_total,
             'current_balance'   => ($request->amount_total - $request->deposit_total),
-            'description'       => '',
+            'description'       => $request->description,
             'issue_date'        => $issue_date,
             'created_at'        => $created_date,
         ];
-
-        for ($i = 0; $i < count($request->n_p); $i++) {
-            $data[] = [
-                'invoice_id'        => $insert_invoice->id,
-                'net_price'         => $request->n_p[$i],
-                'airline_id'        => $request->airline_id[$i],
-                'ticket_number'     => $request->ticket_no[$i],
-                'passanger_name'    => $request->guest_name[$i],
-                'passanger_type'    => $request->type[$i],
-                'quantity'          => $request->qty[$i],
-                'price'             => $request->price[$i],
-            ];
-        }   
 
         // insert invoice_income
         if($request->payment_method > 0){
             \App\Invoice_income::create($data_payment);
         }
+
         
-        // insert invoice
-        \App\Invoice::insert($data);
+         // invoice_airticket_list
+        if($request->route == 'invoice_airticket_list'):
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'airline_id'        => $request->airline_id[$i],
+                    'ticket_number'     => $request->ticket_no[$i],
+                    'passanger_name'    => $request->guest_name[$i],
+                    'passanger_type'    => $request->type[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            \App\Invoice_airticket_list::insert($data);
+        
+        // invoice_visa_list
+        elseif($request->route == 'invoice_visa_list'):
+
+            $data_visa = [
+                'invoice_id'        =>$insert_invoice->id,
+                'application_date'  =>$request->application_date,
+                'pickup_date'       =>$request->pick_date
+            ];
+
+            Invoice_visa::create($data_visa);
+
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_visa_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'nationality'       => $request->nationality[$i],
+                    'passport_number'   => $request->passport_number[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_visa_list::insert($data_visa_list);
+
+        // invoice_insurance_list
+        elseif($request->route == 'invoice_insurance_list'):
+            $data_insurance = [
+                'invoice_id' =>$insert_invoice->id,
+                'from_date'  =>$request->from_date,
+                'to_date'    =>$request->to_date
+            ];
+
+            Invoice_insurance::create($data_insurance);
+
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_insurance_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_insurance_list::insert($data_insurance_list);
+        // invoice_transportation_list
+        elseif($request->route == 'invoice_transportation_list'):
+            //dd($request->all());
+            if(!empty($request->car_type)):
+                $b = array();
+                foreach($request->car_type as $key => $a):
+                    $b[] = $a.'-'.$request->total_car[$key];
+                endforeach;
+                $b = implode(',',$b);
+            else:
+                $b = '';
+            endif;
+           
+            $total_car = array_sum($request->total_car);
+            $data_transportation = [
+                'invoice_id' =>$insert_invoice->id,
+                'from_date'  =>$request->from_date,
+                'to_date'    =>$request->to_date,
+                'total_car'  =>$total_car,
+                'car_type'   =>$b
+            ];
+
+             Invoice_transportation::create($data_transportation);
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_insurance_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_transportation_list::insert($data_insurance_list);
+
+        endif;
+        
+        
+        
 
         return redirect()->back()->withSuccess('IT WORKS!');
 
     }
+    public function exe_form_edit_invoice(Request $request)
+    {
+        // user id
+        $user_id = auth()->user()->id;
 
-    public function store_payment(Request $request)
+        // groupping
+        if(isset($request->e_grouping)):
+            $grouping = 1;
+        else: 
+            $grouping = 0;
+        endif;
+
+        // issue date
+        $time = date('h:i:s');
+        $issue_date = $request->invoice_date.' '.$time;
+      ;
+
+        // data invoice
+        $ctn_invoice = [
+            'customer_id'       => $request->customer_id,
+            'contact_person_id' => $request->contact_person,
+            'contact_phone'     => $request->phone,
+            'supplier_id'       => $request->supplier_id,
+            'total_amount'      => $request->amount_total,
+            'service_fee_price' => $request->servicefee_price,
+            'routing'           => $request->routing,
+            'groupping'         => $grouping,
+            'description'       => $request->description,
+            'issue_date'        => $issue_date,
+        ];
+        
+        Invoice::where('id',$request->id)->update($ctn_invoice);
+
+         //dd($request->all());
+
+        if($request->route == 'invoice_airticket_list'){
+
+            // data update invovice-list-airticket
+            for ($i = 0; $i < count($request->e_n_p); $i++) {
+                $data_update = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'airline_id'        => $request->e_airline_id[$i],
+                    'ticket_number'     => $request->e_ticket_no[$i],
+                    'passanger_name'    => $request->e_guest_name[$i],
+                    'passanger_type'    => $request->e_type[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice::where('id', $request->invoice_list_id[$i])->update($data_update);
+            } 
+            // data insert invoice-list-airticket
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_insert[]= [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => $request->n_p[$i],
+                        'airline_id'        => $request->airline_id[$i],
+                        'ticket_number'     => $request->ticket_no[$i],
+                        'passanger_name'    => $request->guest_name[$i],
+                        'passanger_type'    => $request->type[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+                if(!empty($request->n_p)):
+                    Invoice::insert($data_insert);
+                endif;
+            endif;
+
+        }
+        elseif($request->route == 'invoice_visa_list'){
+
+            // update sale_visa
+            $data_visa = [
+                'application_date'  =>$request->application_date,
+                'pickup_date'       =>$request->pick_date
+            ];
+            Invoice_visa::where('invoice_id',$request->id)->update($data_visa);
+
+            // data update invoice-visa-list
+            for ($i = 0; $i < count($request->e_n_p); $i++):
+                $e_data_visa_list = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'full_name'         => $request->e_full_name[$i],
+                    'nationality'       => $request->e_nationality[$i],
+                    'passport_number'   => $request->e_passport_number[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice_visa_list::where('id', $request->visa_list_id[$i])->update($e_data_visa_list);
+
+            endfor;
+            // data insert invoice-visa-list
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_visa_list[] = [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => $request->n_p[$i],
+                        'full_name'         => $request->full_name[$i],
+                        'nationality'       => $request->nationality[$i],
+                        'passport_number'   => $request->passport_number[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+                Invoice_visa_list::insert($data_visa_list);
+            endif;
+            
+        }
+        elseif($request->route == 'invoice_insurance_list'){
+
+                // update sale_insurance
+                $data_insurance = [
+                    'from_date'  =>$request->from_date,
+                    'to_date'    =>$request->to_date
+                ];
+                Invoice_insurance::where('invoice_id',$request->id)->update($data_insurance);
+    
+                // data update invoice-insurance-list
+                for ($i = 0; $i < count($request->e_n_p); $i++):
+                    $e_data_insurance_list = [
+                        'net_price'         => $request->e_n_p[$i],
+                        'full_name'         => $request->e_full_name[$i],
+                        'quantity'          => $request->e_qty[$i],
+                        'price'             => $request->e_price[$i],
+                    ];
+                    Invoice_insurance_list::where('id', $request->insurance_list_id[$i])->update($e_data_insurance_list);
+    
+                endfor;
+                // data insert invoice-insurance-list
+                if(!empty($request->n_p)):
+                    for ($i = 0; $i < count($request->n_p); $i++) {
+                        $data_insurance_list[] = [
+                            'invoice_id'        => $request->id,
+                            'net_price'         => $request->n_p[$i],
+                            'full_name'         => $request->full_name[$i],
+                            'quantity'          => $request->qty[$i],
+                            'price'             => $request->price[$i],
+                        ];
+                    }   
+                    Invoice_insurance_list::insert($data_insurance_list);
+                endif;
+               
+        }
+        elseif($request->route == 'invoice_transportation_list'){
+
+            if(!empty($request->car_type)):
+                $b = array();
+                foreach($request->total_car as $key => $a):         
+                    $b[] = $request->car_type[$key].'-'.$a;                        
+                endforeach;
+                $b = implode(',',$b);
+            else:
+                $b = '';
+            endif;
+
+            $total_car = array_sum($request->total_car);
+           
+            // update sale_transportation
+            $data_transportation = [
+                'from_date'  =>$request->from_date,
+                'to_date'    =>$request->to_date,
+                'total_car'  =>$total_car,
+                'car_type'   =>$b
+
+            ];
+           
+            Invoice_transportation::where('invoice_id',$request->id)->update($data_transportation);
+
+            // data update invoice-transportation-list
+            for ($i = 0; $i < count($request->e_n_p); $i++):
+                $e_data_transportation_list = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'full_name'         => $request->e_full_name[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice_transportation_list::where('id', $request->transportation_list_id[$i])->update($e_data_transportation_list);
+
+            endfor;
+            // data insert invoice-transportation-list
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_transportation_list[] = [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
+                        'full_name'         => $request->full_name[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+            Invoice_transportation_list::insert($data_transportation_list);
+            endif;
+           
+        }
+        
+        
+
+        return redirect()->back()->withSuccess('IT WORKS!');
+    }
+    public function exe_form_cancel_invoice(Request $request)
+    {
+        //dd($request->all());
+        $data = [
+            'status_invoice' => 'cancel',
+            'cancel_description' => $request->description
+        ];
+        Invoice::where('id',$request->id)->update($data);
+        return redirect()->back()->withSuccess('IT WORKS!');
+
+    }
+    // payment
+    public function exe_form_create_payment(Request $request)
     {
         // user id
         $user_id     = auth()->user()->id;
@@ -367,6 +773,32 @@ class InvoiceController extends Controller
         ];
         
         Invoice_income::create($data);
+        return redirect()->back()->withSuccess('IT WORKS!');
+    }
+    public function exe_form_edit_payment(Request $request)
+    {
+
+       $time            = date('h:i:s');
+       $issue_date      = $request->payment_date.' '.$time;
+       $new_payment     = $request->payment_price;
+       
+       $data = [
+           'payment_method_id' => $request->payment_method,
+           'new_payment'       => $new_payment,
+           'description'       => $request->payment_description,
+           'issue_date'        => $issue_date,
+           'status'            => $request->payment_status
+       ];
+
+       $invoice_income = Invoice_income::where('id',$request->payment_list_id)->update($data);
+       return redirect()->back()->withSuccess('IT WORKS!');
+    }
+    public function exe_form_delete_payment(Request $request)
+    {   
+        // update status-payment in invoice
+        $invoice_income = Invoice_income::where('id',$request->payment_list_id)->get(); 
+        Invoice::where('id',$invoice_income[0]->invoice_id)->update(['status_payment' => 'deposit']);
+        Invoice_income::where('id',$request->payment_list_id)->delete();
         return redirect()->back()->withSuccess('IT WORKS!');
     }
 
@@ -399,107 +831,6 @@ class InvoiceController extends Controller
      * @param  \App\Invoice_airticket  $invoice_airticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
-    {
-        // user id
-        $user_id = auth()->user()->id;
-
-        // groupping
-        if(isset($request->e_grouping)):
-            $grouping = 1;
-        else: 
-            $grouping = 0;
-        endif;
-
-        // issue date
-        $time = date('h:i:s');
-        $issue_date = $request->invoice_date.' '.$time;
-        //dd($grouping);
-        //dd($request->all());
-
-        // data invoice
-        $ctn_invoice = [
-            'customer_id'       => $request->customer_id,
-            'contact_person_id' => $request->contact_person,
-            'contact_phone'     => $request->phone,
-            'supplier_id'       => $request->supplier_id,
-            'total_amount'      => $request->amount_total,
-            'service_fee_price' => $request->servicefee_price,
-            'routing'           => $request->routing,
-            'groupping'         => $grouping,
-            'description'       => $request->description,
-            'issue_date'        => $issue_date,
-        ];
-        
-        Invoice::where('id',$request->id)->update($ctn_invoice);
-
-         //dd($request->all());
-
-        // data update invovice-list-airticket
-        for ($i = 0; $i < count($request->e_n_p); $i++) {
-            $data_update = [
-                'net_price'         => $request->e_n_p[$i],
-                'airline_id'        => $request->e_airline_id[$i],
-                'ticket_number'     => $request->e_ticket_no[$i],
-                'passanger_name'    => $request->e_guest_name[$i],
-                'passanger_type'    => $request->e_type[$i],
-                'quantity'          => $request->e_qty[$i],
-                'price'             => $request->e_price[$i],
-            ];
-
-            Invoice::where('id', $request->invoice_list_id[$i])->update($data_update);
-          
-        }  
-        
-        // data insert invoice-list-airticket
-        if(!empty($request->n_p)):
-            for ($i = 0; $i < count($request->n_p); $i++) {
-                $data_insert[]= [
-                    'invoice_id'        => $request->id,
-                    'net_price'         => $request->n_p[$i],
-                    'airline_id'        => $request->airline_id[$i],
-                    'ticket_number'     => $request->ticket_no[$i],
-                    'passanger_name'    => $request->guest_name[$i],
-                    'passanger_type'    => $request->type[$i],
-                    'quantity'          => $request->qty[$i],
-                    'price'             => $request->price[$i],
-                ];
-            }   
-            if(!empty($request->n_p)):
-                Invoice::insert($data_insert);
-            endif;
-        endif;
-
-        return redirect()->back()->withSuccess('IT WORKS!');
-    }
-
-    public function update_payment(Request $request)
-    {
-
-       $time            = date('h:i:s');
-       $issue_date      = $request->payment_date.' '.$time;
-       $new_payment     = $request->payment_price;
-       
-       $data = [
-           'payment_method_id' => $request->payment_method,
-           'new_payment'       => $new_payment,
-           'description'       => $request->payment_description,
-           'issue_date'        => $issue_date,
-           'status'            => $request->payment_status
-       ];
-
-       $invoice_income = Invoice_income::where('id',$request->payment_list_id)->update($data);
-       return redirect()->back()->withSuccess('IT WORKS!');
-    }
-
-    public function delete_payment(Request $request)
-    {   
-        // update status-payment in invoice
-        $invoice_income = Invoice_income::where('id',$request->payment_list_id)->get(); 
-        Invoice::where('id',$invoice_income[0]->invoice_id)->update(['status_payment' => 'deposit']);
-        Invoice_income::where('id',$request->payment_list_id)->delete();
-        return redirect()->back()->withSuccess('IT WORKS!');
-    }
 
     /**
      * Remove the specified resource from storage.

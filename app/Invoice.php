@@ -50,6 +50,37 @@ class Invoice extends Model
     {
         return $this->hasMany(Invoice_airticket_list::class,'invoice_id','id');
     }
+
+    public function visa()
+    {
+        return $this->hasOne(Invoice_visa::class,'invoice_id','id');
+    }
+
+    public function visa_list()
+    {
+        return $this->hasMany(Invoice_visa_list::class,'invoice_id','id');
+    }
+
+    public function insurance()
+    {
+        return $this->hasOne(Invoice_insurance::class,'invoice_id','id');
+    }
+
+    public function insurance_list()
+    {
+        return $this->hasMany(Invoice_insurance_list::class,'invoice_id','id');
+    }
+
+    public function transportation()
+    {
+        return $this->hasOne(Invoice_transportation::class,'invoice_id','id');
+    }
+
+    public function transportation_list()
+    {
+        return $this->hasMany(Invoice_transportation_list::class,'invoice_id','id');
+    }
+
     public function contacts()
     {
         return $this->hasOne(Customer_contacts::Class,'id','contact_person_id');

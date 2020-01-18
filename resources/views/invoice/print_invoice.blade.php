@@ -1,4 +1,5 @@
 <style>
+#modalOne .modal-default{max-width: 110px!important;min-width: 90%!important;}
 .font {
     font-family: battambang, Roboto,-apple-system,BlinkMacSystemFont;
 }

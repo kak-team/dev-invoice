@@ -59,7 +59,7 @@
 		}
 
 	</script>
-	@if($user_status == 'no_vat')
+	@if(auth()->user()->status == 'no_vat')
 	<style>
 		.bg-indigo{ background-color: #009688;}
 	</style>

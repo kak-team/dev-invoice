@@ -2,28 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Invoice_airticket_list;
-use App\Invoice;
-use App\Invoice_income;
-use App\Airline;
-use App\Customer;
-use App\CustomerList;
-use App\Supplier;
-use App\CompanyProfile;
-use App\CompanyAddress;
-use App\PaymentMethod;
-use App\Customer_contacts;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 
-class Invoice_airticket_listController extends Controller
+class invoice_hotel_listController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -31,13 +13,12 @@ class Invoice_airticket_listController extends Controller
      */
     public function index()
     {
-        
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
-     *i
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -53,17 +34,16 @@ class Invoice_airticket_listController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
-
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoice_airticket  $invoice_airticket
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }
@@ -71,10 +51,10 @@ class Invoice_airticket_listController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Invoice_airticket  $invoice_airticket
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
         //
     }
@@ -83,20 +63,21 @@ class Invoice_airticket_listController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invoice_airticket  $invoice_airticket
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-       
+        //
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoice_airticket  $invoice_airticket
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
         //
     }

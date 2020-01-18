@@ -1,3 +1,6 @@
+<style>
+#modalTwo .modal-default{max-width: 110px!important;min-width: 60%!important;}
+</style>
 <div class="card">
         <div class="card-header bg-info header-elements-inline p-2">
             <h6 class="card-title font-weight-semibold font-weight-bold">Create Payment: Current Balance $ {{ $payments_history[0]->previous_balance }}</h6>
@@ -10,7 +13,7 @@
         
         
             <div class="card-body p-2" style="">
-                <form method="post" action="{{ action('Invoice_airticket_listController@update_payment') }}">
+                <form method="post" action="{{ action('InvoiceController@exe_form_edit_payment') }}">
                     @csrf
                     <input type="hidden" name="payment_list_id" value="{{ $payment_list_id }}">
                     <div class="row">
@@ -54,7 +57,7 @@
                             </div>  
                         </div>
                         <div class="col-lg-12">
-                            <button class="btn btn-danger legitRipple waves-effect waves-light modal_fix_overflow btn-close" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-danger legitRipple waves-effect waves-light modal_fix_overflow btn-close" type="button" data-dismiss="modal" data-modal="#modalTwo">Cancel</button>
                             <button type="submit" class="btn btn-success legitRipple waves-effect waves-light btn-close">Save Change<i class="icon-circle-right2 ml-2"></i></button>
                         </div>
                     </div>

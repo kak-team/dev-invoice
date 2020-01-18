@@ -6,9 +6,11 @@
 <div class="modal-header bg-primary p-2  d-flex justify-content-center">
     <span class="modal-title text-center">NEW INVOICE</span>
 </div>
-<form method="post" action="{{ action('InvoiceController@store_invoice') }}">
+<form method="post" action="{{ action('InvoiceController@exe_form_create_invoice') }}">
     @csrf
     <input type="hidden" value="{{ $company[0]->vat }}" name="vat_value">
+    <input type="hidden" value="invoice_airticket_list" name="route">
+    <input type="hidden" value="1" name="service_id">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -162,6 +164,7 @@
                         </div>
                     </div>
                 @if($vat == 'vat')
+                    <input type="hidden" name="status_vat" value="vat">
                     <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
                             <td class="p-2">
@@ -239,6 +242,7 @@
                         </tr>
                     </table>
                 @else
+                <input type="hidden" name="status_vat" value="no_vat">
                 <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
                             <td class="p-2">
@@ -402,7 +406,7 @@
 
     <div class="modal-footer">
         <div class="form-group text-center">
-            <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button">Cancel</button>
+            <button class="btn btn-danger legitRipple waves-effect waves-light modal_modal_close btn-close" type="button" data-modal="#modalOne">Cancel</button>
             <button type="submit" class="btn btn-success legitRipple waves-effect waves-light btn-close">Save Change<i class="icon-circle-right2 ml-2"></i></button>
         </div>
     </div>

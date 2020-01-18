@@ -78,11 +78,11 @@ table#supplier_contact td {
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
                                         <a href="#" class="btn bg-primary-400 rounded-round btn-icon btn-sm legitRipple">
-                                        <span class="text-icon">{{ $transportation->supplier_name[0] }}</span>
+                                        <span class="text-icon">{{ $transportation->name_en[0] }}</span>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#" class="text-default font-weight-semibold">{{ $transportation->supplier_name }}</a>
+                                        <a href="#" class="text-default font-weight-semibold">{{ $transportation->name_en }}</a>
                                         <div class="text-muted font-size-sm">
                                             Register Numer: {{ $transportation->register_number }}
                                         </div>
@@ -91,7 +91,7 @@ table#supplier_contact td {
                             </td>
                             <td>
                                 <div>
-                                    <a href="#" class="text-default font-weight-semibold">{{ $transportation->supplier_name }}</a>
+                                    <a href="#" class="text-default font-weight-semibold">{{ $transportation->name_en }}</a>
                                     <div class="text-muted font-size-sm">
                                         Tel : {{ $transportation->phone }}
                                     </div>
@@ -106,7 +106,7 @@ table#supplier_contact td {
                                 <a id="btn-status" data="{{ $transportation->id }}"><span class="badge bg-warning">Disabled</span></a>  
                                 @endif                              
                                 </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" transportation_id="{{ $transportation->id }}" supplier_id="{{ $transportation->supplier_id }}" company_name="{{ $transportation->supplier_name }}" register_number="{{ $transportation->register_number }}" website="{{ $transportation->website }}" address="{{ $transportation->address }}" star_rate="{{ $transportation->star_rate }}" description="{{ $transportation->description }}" car_type="{{ $transportation->car_type }}"><i class="icon-quill4"></i></button></td>
+                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" transportation_id="{{ $transportation->id }}" supplier_id="{{ $transportation->supplier_id }}" company_name="{{ $transportation->name_en }}" register_number="{{ $transportation->register_number }}" website="{{ $transportation->website }}" address="{{ $transportation->address }}" star_rate="{{ $transportation->star_rate }}" description="{{ $transportation->description }}" car_type="{{ $transportation->car_type }}"><i class="icon-quill4"></i></button></td>
                         </tr>
                     @endforeach
                 @else

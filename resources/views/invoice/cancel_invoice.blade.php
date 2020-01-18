@@ -1,4 +1,7 @@
-<form method="post" action="{{ action('Invoice_airticket_listController@cancel_invoice') }}">
+<style>
+#modalOne .modal-default{max-width: 110px!important;min-width: 40%!important;}
+</style>
+<form method="post" action="{{ action('InvoiceController@exe_form_cancel_invoice') }}">
     @csrf
     <input type="hidden" value="{{ $id }}" name="id">
     <div class="modal-header bg-danger p-2 pr-3">

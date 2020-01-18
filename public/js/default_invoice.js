@@ -39,7 +39,9 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
     $('.mdb-select').materialSelect();
 
-    // btn create_invoice
+    //----------------------- Invoice -----------------------------
+
+    // btn create invoice
     $('.card').on('click','#btn-create',function(){
 
         parent_private = $(this).data('target');
@@ -53,7 +55,7 @@ $(document).ready(function(){
         $.ajax({
             type : 'post',
             data : { link : link, invoice_type : invoice_type },
-            url : link+'/form_create_invoice',
+            url : 'invoice/form_create_invoice',
             success : function(respond){
                 setTimeout(function(){             
                     $(parent_private+' .md-overlay').hide();
@@ -62,19 +64,90 @@ $(document).ready(function(){
                     $(parent_private+' #contact_person').materialSelect();
                     $(parent_private+' #payment_method').materialSelect();
                     $(parent_private+' .type').materialSelect();
+                    $(parent_private+' .new-row').val(invoice_type);
                     App.initCardActions();
                 }, 1000);
             }
         });
     });
 
-     // close modal blowdown
-     $(parent_private).on('click','.btn-close',function(){
-        $(parent_private+' .modal-default').addClass('out');
-        setTimeout(function(){  
-            $(parent_private).modal('hide');
-        }, 300);
+     // btn edit invoice
+     $('.table-responsive').on('click','#btn-edit',function(){
+        id      = $(this).val();
+        link    = $('body').data('link');
+        invoice_type = $(this).data('status-vat');
+        $(parent_private+' .md-overlay').show();
+        $(parent_private+' .modal-default').removeClass('blowup out');
+        $(parent_private+' .modal-body').html('');
+
+        $.ajax({
+            type : 'post',
+            data : {id : id, link : link},
+            url  : 'invoice/form_edit_invoice',
+            success : function(respond){
+                setTimeout(function(){             
+                    $(parent_private+' .md-overlay').hide();
+                    $(parent_private+' .modal-default').addClass('blowup');
+                    $(parent_private+' .modal-body').html(respond);
+                    $(parent_private+' #contact_person').materialSelect();
+                    $(parent_private+' #payment_method').materialSelect();
+                    $(parent_private+' .type').materialSelect();
+                    $(parent_private+' .new-row').val(invoice_type);
+                    App.initCardActions();
+                }, 1000);
+            }
+        });
     });
+
+    
+    // btn print invoice
+    $('.table-responsive').on('click','#btn-print',function(){
+        id      = $(this).val();
+        number  = $(this).attr('data-invoice-number');
+
+        $(parent_private+' .md-overlay').show();
+        $(parent_private+' .modal-default').removeClass('blowup out');
+        $(parent_private+' .modal-body').html('');
+
+        $.ajax({
+            type : 'post',
+            data : {id : id},
+            url  : 'invoice/form_print_invoice',
+            success : function(respond){
+                setTimeout(function(){ 
+                    $(parent_private+' .md-overlay').hide();
+                    $(parent_private+' .modal-default').addClass('blowup');
+                    $(parent_private+' .modal-body').html(respond);
+                }, 1000);
+            }
+        });
+    });
+
+    // btn cancel invoice
+    $('.table-responsive').on('click','#btn-cancel-invoice',function(){
+        id      = $(this).val();
+        number  = $(this).attr('data-invoice-number');
+
+        $(parent_private+' .md-overlay').show();
+        $(parent_private+' .modal-default').removeClass('blowup out');
+        $(parent_private+' .modal-body').html('');
+
+        $.ajax({
+            type : 'post',
+            data : {id : id},
+            url  : 'invoice/form_cancel_invoice',
+            success : function(respond){
+                setTimeout(function(){ 
+                    $(parent_private+' .md-overlay').hide();
+                    $(parent_private+' .modal-default').addClass('blowup');
+                    $(parent_private+' .modal-body').html(respond);
+                }, 1000);
+            }
+        });
+    });
+     
+
+    //----------------------- Auto Complete -----------------------------
 
     // AutoComplete Customer
     $(parent_private).on('keyup','#cusNameEn',function(){
@@ -139,6 +212,7 @@ $(document).ready(function(){
     // AutoComplete Supplier
     $(parent_private).on('keyup','#supNameEn',function(){
         var supplier_name = $(this).val();
+        link              = $('body').data('link');
 
         // Clear 
         $(parent_private+' #supplier_id').val('');
@@ -147,7 +221,7 @@ $(document).ready(function(){
         // Ajax
         $.ajax({
             type : 'post',
-            data : {supplier_name : supplier_name},
+            data : {supplier_name : supplier_name,link : link},
             url  : 'invoice/auto_supplier',
             success : function(respond){    
                 $(parent_private+' .AutoDisplaySup').html(respond);
@@ -163,11 +237,18 @@ $(document).ready(function(){
         });
     });
 
+    // -------------------------- Addon Script ------------------------------
+
     //to check all checkboxes
      $(parent_private).on('click','#btnCheck_all',function(){
-        alert(parent_private);
+        //alert(parent_private);
         $(this).toggleClass('check_false');
         check_all(parent_private);
+        Btndelete();
+    });
+
+    // click one-by-one
+    $('.table-responsive').on('click','#btnCheck_single',function(){        
         Btndelete();
     });
     
@@ -238,19 +319,100 @@ $(document).ready(function(){
 
     });
 
-    // btn update
-    $('.table-responsive').on('click','#btn-edit',function(){
-        parent_private = $(this).data('target');
+    // close modal blowdown
+    $('.modal').on('click','.btn-close',function(){
+        parent = $(this).data('modal');
+       $(parent+' .modal-default').addClass('out');
+       setTimeout(function(){  
+           $(parent).modal('hide');
+       }, 300);
+       loop = 1;
+   });
+
+
+
+    // -------------------------- Payment ---------------------------------
+
+     // btn payment data-table & create
+     $('.table-responsive').on('click','#btn-payment',function(){
+        id      = $(this).val();
+        amount  = $(this).attr('data-amount');
+        number  = $(this).attr('data-invoice-number');
+
+        // Show Overlay
+        $(parent_private+' .md-overlay').show();
+
+        // clear modal data
+        $(parent_private+' .modal-default').removeClass('blowup out');
+        $(parent_private+' .modal-body').html('');
+
+        $.ajax({
+            type : 'post',
+            data : {id : id, amount : amount},
+            url  : 'invoice/table_payment',
+            success : function(respond){
+                setTimeout(function(){                    
+                    // Show Overlay
+                    $(parent_private+' .md-overlay').hide();
+
+                    $(parent_private+' .modal-default').addClass('blowup');
+                    $(parent_private+' .modal-body').html(respond);
+                    $(parent_private+' #P_paymentMethod').materialSelect();
+                    $(parent_private+' #P_payment_method').materialSelect();
+                    App.initCardActions();
+                    $(parent_private+' .invoice-number').text(number);
+
+                }, 1000);
+            }
+        });
     });
 
-    // btn payment
-    $('.table-responsive').on('click','#btn-payment',function(){
-        parent_private  = $(this).data('target');
+    // btn payment edit 
+    $(parent_private).on('click','#btn-edit',function(){
+        id = $(this).val();
+        modal = '#modalTwo';
+        // Show Overlay
+        $(modal+' .md-overlay').show();
+        // clear modal data
+        $(modal+' .modal-default').removeClass('blowup out');
+        $(modal+' .modal-body').html('');
+        $.ajax({
+            type : 'post',
+            data : {id : id},
+            url  : 'invoice/form_edit_payment',
+            success : function(respond){
+                setTimeout(function(){                    
+                    // Show Overlay
+                    $(modal+' .md-overlay').hide();
+                    $(modal+' .modal-default').addClass('blowup');
+                    $(modal+' .modal-body').html(respond);
+                    $(modal+' #PE_payment_method').materialSelect();
+                    App.initCardActions();
+                }, 1000);
+            }
+        });
     });
 
-    // btn payment edit
-    $('#Modal_payment').on('click','#btn-edit',function(){
-        parent_private  = $(this).data('target');
+    // btn payment delete
+    $(parent_private).on('click','#btn-delete',function(){
+        id = $(this).val();
+        modal = '#modalTwo';
+        $(modal+' .md-overlay').show();
+        $(modal+' .modal-default').removeClass('blowup out');
+        $(modal+' .modal-body').html('');
+        $.ajax({
+            type : 'post',
+            data : {id : id},
+            url  : 'invoice/form_delete_payment',
+            success : function(respond){
+                setTimeout(function(){                   
+                    $(modal+' .md-overlay').hide();
+                    $(modal+' .modal-default').addClass('blowup');
+                    $(modal+' .modal-body').html(respond);
+                    App.initCardActions();
+                }, 1000);
+            }
+        });
     });
 
     // ------------------------------------------------------------ calculation
@@ -317,138 +479,16 @@ $(document).ready(function(){
         $(parent_private+' #grand_riel').val( grand_total_riel.toFixed(2));
     });
 
-    // click one-by-one
-    $('.table-responsive').on('click','#btnCheck_single',function(){        
-        Btndelete();
-    });
+    
 
-    // btn edit invoice
-    $('.table-responsive').on('click','#btn-edit',function(){
-        id      = $(this).val();
-        link    = $('body').data('link');
+   
+   
 
-        $(parent_private+' .md-overlay').show();
-        $(parent_private+' .modal-default').removeClass('blowup out');
-        $(parent_private+' .modal-body').html('');
+    
 
-        $.ajax({
-            type : 'post',
-            data : {id : id, link : link},
-            url  : link+'/form_edit_invoice',
-            success : function(respond){
-                setTimeout(function(){             
-                    $(parent_private+' .md-overlay').hide();
-                    $(parent_private+' .modal-default').addClass('blowup');
-                    $(parent_private+' .modal-body').html(respond);
-                    $(parent_private+' #contact_person').materialSelect();
-                    $(parent_private+' #payment_method').materialSelect();
-                    $(parent_private+' .type').materialSelect();
-                    App.initCardActions();
-                }, 1000);
-            }
-        });
-    });
+    
 
-    // btn payment
-    $('.table-responsive').on('click','#btn-payment',function(){
-        id      = $(this).val();
-        amount  = $(this).attr('data-amount');
-        number  = $(this).attr('data-invoice-number');
-
-        // Show Overlay
-        $(parent_private+' .md-overlay').show();
-
-        // clear modal data
-        $(parent_private+' .modal-default').removeClass('blowup out');
-        $(parent_private+' #bodyModal').html('');
-
-        $.ajax({
-            type : 'post',
-            data : {id : id, amount : amount},
-            url  : root+'/form_payment',
-            success : function(respond){
-                setTimeout(function(){                    
-                    // Show Overlay
-                    $(parent_private+' .md-overlay').hide();
-
-                    $(parent_private+' .modal-default').addClass('blowup');
-                    $(parent_private+' #bodyModal').html(respond);
-                    $(parent_private+' #P_paymentMethod').materialSelect();
-                    $(parent_private+' #P_payment_method').materialSelect();
-                    App.initCardActions();
-                    $(parent_private+' .invoice-number').text(number);
-
-                }, 1000);
-            }
-        });
-    });
-
-    // btn cancel invoice
-    $('.table-responsive').on('click','#btn-cancel-invoice',function(){
-        id      = $(this).val();
-        number  = $(this).attr('data-invoice-number');
-        $.ajax({
-            type : 'post',
-            data : {id : id},
-            url  : root+'/form_cancel_invoice',
-            success : function(respond){
-                $('#modal_cancel_payment .modal-content').html(respond);
-            }
-        });
-    });
-
-    // btn print invoice
-    $('.table-responsive').on('click','#btn-print',function(){
-        id      = $(this).val();
-        number  = $(this).attr('data-invoice-number');
-        $.ajax({
-            type : 'post',
-            data : {id : id},
-            url  : root+'/print',
-            success : function(respond){
-                $('#modal_print .modal-body').html(respond);
-            }
-        });
-    });
-
-    // btn edit payment
-    $(parent_private).on('click','#btn-edit',function(){
-        id = $(this).val();
-        // Show Overlay
-        $(parent_private+' .md-overlay').show();
-
-        // clear modal data
-        $(parent_private+' .modal-default').removeClass('blowup out');
-        $(parent_private+' #bodyModal').html('');
-
-        $.ajax({
-            type : 'post',
-            data : {id : id},
-            url  : root+'/form_edit_payment',
-            success : function(respond){
-                setTimeout(function(){                    
-                    // Show Overlay
-                    $(parent_private+' .md-overlay').hide();
-                    $(parent_private+' .modal-body').html(respond);
-                    $(parent_private+' #PE_payment_method').materialSelect();
-                    App.initCardActions();
-                }, 1000);
-            }
-        });
-    });
-
-    // btn delete payment history
-    $('#Modal_payment').on('click','#btn-delete',function(){
-        id = $(this).val();
-        $.ajax({
-            type : 'post',
-            data : {id : id},
-            url  : root+'/form_delete_payment',
-            success : function(respond){
-                $('#modal_paymentDelete .modal-content').html(respond);
-            }
-        });
-    });
+    
 
 
    
