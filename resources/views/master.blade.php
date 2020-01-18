@@ -65,6 +65,7 @@
 	</style>
 	@endif
 
+	
 	<!-- /theme JS files -->
 
 </head>
@@ -244,10 +245,14 @@
 				</li>
 
 				<li class="nav-item">
-					<a href="#" class="navbar-nav-link">
+					<a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="navbar-nav-link">
 						<i class="icon-switch2"></i>
 						<span class="d-md-none ml-2">Logout</span>
-					</a>
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+							@csrf
+						</form>
+					</a>	
 				</li>
 			</ul>
 		</div>
