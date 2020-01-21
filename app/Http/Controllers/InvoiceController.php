@@ -13,6 +13,8 @@ use App\Invoice_insurance;
 use App\Invoice_insurance_list;
 use App\Invoice_transportation;
 use App\Invoice_transportation_list;
+use App\Invoice_hotel;
+use App\Invoice_hotel_list;
 use App\Airline;
 use App\Customer;
 use App\CustomerList;
@@ -22,6 +24,7 @@ use App\CompanyAddress;
 use App\PaymentMethod;
 use App\Customer_contacts;
 use App\Transportation;
+use App\Hotel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -155,32 +158,23 @@ class InvoiceController extends Controller
     }
     public function auto_supplier(Request $request)
     {
-        $all            = $request->all();
-        $html           = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';
-        if($request->link =='invoice_transportation_list'):
-            $supplier_name  = $all['supplier_name'];
-            $service = 4;
-            if(!empty($supplier_name)):
+        $link           = array(
+            'invoice_airticket_list' => 1,
+            'invoice_visa_list' => 2,
+            'invoice_insurance_list' => 3,
+            'invoice_transportation_list' => 4,
+            'invoice_hotel_list' => 5,
+            'invoice_tour_list' => 6,
+            'invoice_other_list' => 7
+        );
+        $html           = '<div class="list-group bg-white"><ul class="mdb-autocomplete-wrap">';        
+        
+        if(array_key_exists($request->link,$link)):          
+            if(!empty($request->supplier_name)){
                 $query_supplier = Supplier::select('name_en','id')
-                ->where('name_en','LIKE', $supplier_name.'%')
+                ->where('name_en','LIKE', $request->supplier_name.'%')
+                ->where('service_id', 'LIKE', '%'.$link[$request->link].'%')
                 ->where('status', '=', '1')
-                ->where('service_id', 'like', '%'.$service.'%')
-                ->limit(5)
-                ->get();
-                if(!empty($query_supplier[0])){
-                    
-                    foreach($query_supplier as $supplier){
-                        $html .= '<li supplier_id="'.$supplier->id.'"  class="supplier list-group-item list-group-item-action" id="acceptSupplier">'.$supplier->name_en.'</li>';
-                    }                    
-                }
-            endif;
-        else:
-            $supplier_name  = $all['supplier_name'];
-            if(!empty($supplier_name)){
-                $query_supplier = Supplier::select('name_en','id')
-                ->where('name_en','LIKE', $supplier_name.'%')
-                ->where('status', '=', '1')
-                ->with('supplier_transportation')
                 ->limit(5)
                 ->get();
                 if(!empty($query_supplier[0])){
@@ -211,7 +205,7 @@ class InvoiceController extends Controller
                         </td>                      
                         <td class="text-center">                                
                             <div class="md-form m-0">
-                                <input type="number" name="total_car[]" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
+                                <input type="number" name="total_car[]" value="0" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
                             </div>
                         </td>
                     </tr>
@@ -222,6 +216,32 @@ class InvoiceController extends Controller
          echo '</table>';
          //dd($transportation[0]->supplier_transportation);
         // echo 1;
+    }
+    public function auto_hotel(Request $request)
+    {
+         $hotels = Hotel::where('supplier_id',$request->supplier_id)->get();
+         echo '<table class="table border table-create table-bordered">';
+         foreach($hotels AS $hotel):
+            $room_type = json_decode($hotel->room_type);
+            $room = array();
+            foreach($room_type AS $a):
+                foreach($a AS $b):
+                    echo'
+                    <tr>
+                        <td class="text-nowrap">
+                            <input type="hidden" class="custom-control-input Bchk" id="'.$b.'" name="room_type[]" value="'.$b.'">'.$b.'
+                        </td>                      
+                        <td class="text-center">                                
+                            <div class="md-form m-0">
+                                <input type="number" name="total_room[]" value="0" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    ';
+                endforeach;
+            endforeach;
+         endforeach;
+         echo '</table>';
     }
     public function auto_airline(Request $request)
     {
@@ -294,7 +314,9 @@ class InvoiceController extends Controller
         elseif($request->link == 'invoice_transportation_list'):
             $invoice  = Invoice::where('id','=',$id)
             ->with('customers','invoice_incomes','contacts','suppliers','suppliers.supplier_transportation', 'transportation_list', 'transportation','suppliers.supplier_transportation')->get();
-           //dd($invoice[0]->suppliers->supplier_transportation);
+        elseif($request->link == 'invoice_hotel_list'):
+            $invoice  = Invoice::where('id','=',$id)
+            ->with('customers','invoice_incomes','contacts','suppliers','suppliers.supplier_hotel', 'hotel_list', 'hotel','suppliers.supplier_transportation')->get();       
         endif;
 
         $contacts = Customer_contacts::all()->where('customer_id','=',$invoice[0]->customer_id);
@@ -440,7 +462,7 @@ class InvoiceController extends Controller
 
         
          // invoice_airticket_list
-        if($request->route == 'invoice_airticket_list'):
+        if($request->route == 'invoice_airticket_list'){
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data[] = [
                     'invoice_id'        => $insert_invoice->id,
@@ -454,9 +476,9 @@ class InvoiceController extends Controller
                 ];
             }   
             \App\Invoice_airticket_list::insert($data);
-        
+        }
         // invoice_visa_list
-        elseif($request->route == 'invoice_visa_list'):
+        elseif($request->route == 'invoice_visa_list'){
 
             $data_visa = [
                 'invoice_id'        =>$insert_invoice->id,
@@ -469,7 +491,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_visa_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'nationality'       => $request->nationality[$i],
                     'passport_number'   => $request->passport_number[$i],
@@ -478,9 +500,9 @@ class InvoiceController extends Controller
                 ];
             }   
             Invoice_visa_list::insert($data_visa_list);
-
+        }
         // invoice_insurance_list
-        elseif($request->route == 'invoice_insurance_list'):
+        elseif($request->route == 'invoice_insurance_list'){
             $data_insurance = [
                 'invoice_id' =>$insert_invoice->id,
                 'from_date'  =>$request->from_date,
@@ -499,13 +521,14 @@ class InvoiceController extends Controller
                 ];
             }   
             Invoice_insurance_list::insert($data_insurance_list);
+        }
         // invoice_transportation_list
-        elseif($request->route == 'invoice_transportation_list'):
+        elseif($request->route == 'invoice_transportation_list'){
             //dd($request->all());
             if(!empty($request->car_type)):
                 $b = array();
-                foreach($request->car_type as $key => $a):
-                    $b[] = $a.'-'.$request->total_car[$key];
+                foreach($request->total_car as $key => $a):         
+                    $b[] = $request->car_type[$key].'-'.$a;                        
                 endforeach;
                 $b = implode(',',$b);
             else:
@@ -523,7 +546,7 @@ class InvoiceController extends Controller
 
              Invoice_transportation::create($data_transportation);
             for ($i = 0; $i < count($request->n_p); $i++) {
-                $data_insurance_list[] = [
+                $data_transportation_list[] = [
                     'invoice_id'        => $insert_invoice->id,
                     'net_price'         => $request->n_p[$i],
                     'full_name'         => $request->full_name[$i],
@@ -531,9 +554,68 @@ class InvoiceController extends Controller
                     'price'             => $request->price[$i],
                 ];
             }   
-            Invoice_transportation_list::insert($data_insurance_list);
+            Invoice_transportation_list::insert($data_transportation_list);
 
-        endif;
+        }
+        // invoice_hotel_list
+        elseif($request->route == 'invoice_hotel_list'){
+            //dd($request->all());
+            if(!empty($request->room_type)):
+                $b = array();
+                foreach($request->total_room as $key => $a):         
+                    $b[] = $request->room_type[$key].'-'.$a;                        
+                endforeach;
+                $b = implode(',',$b);
+            else:
+                $b = '';
+            endif;
+           
+            $total_room = array_sum($request->total_room);
+            $data_hotel = [
+                'invoice_id' =>$insert_invoice->id,
+                'checking_date'  =>$request->checking_date,
+                'checkout_date'    =>$request->checkout_date,
+                'total_room'  =>$total_room,
+                'room_type'   =>$b
+            ];
+
+             Invoice_hotel::create($data_hotel);
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_hotel_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_hotel_list::insert($data_hotel_list);
+
+        }
+        // invoice_tour_list
+        elseif($request->route == 'invoice_tour_list'){
+           
+            $data_tour = [
+                'invoice_id' => $insert_invoice->id,
+                'from_date'  => $request->from_date,
+                'to_date'    => $request->to_date,
+            ];
+
+            Invoice_tour::create($data_tour);
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_tour_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'total_adult'       => $request->total_adult[$i],
+                    'total_child'       => $request->total_child[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_tour_list::insert($data_tour_list);
+
+        }
         
         
         
@@ -581,7 +663,7 @@ class InvoiceController extends Controller
             // data update invovice-list-airticket
             for ($i = 0; $i < count($request->e_n_p); $i++) {
                 $data_update = [
-                    'net_price'         => $request->e_n_p[$i],
+                    'net_price'         => (!empty($request->e_n_p[$i]) ? $request->e_n_p[$i] : 0),
                     'airline_id'        => $request->e_airline_id[$i],
                     'ticket_number'     => $request->e_ticket_no[$i],
                     'passanger_name'    => $request->e_guest_name[$i],
@@ -589,14 +671,14 @@ class InvoiceController extends Controller
                     'quantity'          => $request->e_qty[$i],
                     'price'             => $request->e_price[$i],
                 ];
-                Invoice::where('id', $request->invoice_list_id[$i])->update($data_update);
+                Invoice_airticket_list::where('id', $request->invoice_list_id[$i])->update($data_update);
             } 
             // data insert invoice-list-airticket
             if(!empty($request->n_p)):
                 for ($i = 0; $i < count($request->n_p); $i++) {
                     $data_insert[]= [
                         'invoice_id'        => $request->id,
-                        'net_price'         => $request->n_p[$i],
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                         'airline_id'        => $request->airline_id[$i],
                         'ticket_number'     => $request->ticket_no[$i],
                         'passanger_name'    => $request->guest_name[$i],
@@ -606,7 +688,7 @@ class InvoiceController extends Controller
                     ];
                 }   
                 if(!empty($request->n_p)):
-                    Invoice::insert($data_insert);
+                    Invoice_airticket_list::insert($data_insert);
                 endif;
             endif;
 
@@ -623,7 +705,7 @@ class InvoiceController extends Controller
             // data update invoice-visa-list
             for ($i = 0; $i < count($request->e_n_p); $i++):
                 $e_data_visa_list = [
-                    'net_price'         => $request->e_n_p[$i],
+                    'net_price'         => (!empty($request->e_n_p[$i]) ? $request->e_n_p[$i] : 0),
                     'full_name'         => $request->e_full_name[$i],
                     'nationality'       => $request->e_nationality[$i],
                     'passport_number'   => $request->e_passport_number[$i],
@@ -638,7 +720,7 @@ class InvoiceController extends Controller
                 for ($i = 0; $i < count($request->n_p); $i++) {
                     $data_visa_list[] = [
                         'invoice_id'        => $request->id,
-                        'net_price'         => $request->n_p[$i],
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                         'full_name'         => $request->full_name[$i],
                         'nationality'       => $request->nationality[$i],
                         'passport_number'   => $request->passport_number[$i],
@@ -736,6 +818,58 @@ class InvoiceController extends Controller
             endif;
            
         }
+        elseif($request->route == 'invoice_hotel_list'){
+
+            if(!empty($request->room_type)):
+                $b = array();
+                foreach($request->total_room as $key => $a):         
+                    $b[] = $request->room_type[$key].'-'.$a;                        
+                endforeach;
+                $b = implode(',',$b);
+            else:
+                $b = '';
+            endif;
+
+            $total_room = array_sum($request->total_room);
+           
+            // update sale_hotel
+            $data_hotel = [
+                'checking_date' =>$request->checking_date,
+                'checkout_date' =>$request->checkout_date,
+                'total_room'    =>$total_room,
+                'room_type'     =>$b
+
+            ];
+           
+            Invoice_hotel::where('invoice_id',$request->id)->update($data_hotel);
+
+            // data update invoice-hotel-list
+            for ($i = 0; $i < count($request->e_n_p); $i++):
+                $e_data_hotel_list = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'full_name'         => $request->e_full_name[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice_hotel_list::where('id', $request->hotel_list_id[$i])->update($e_data_hotel_list);
+
+            endfor;
+            // data insert invoice-hotel-list
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_hotel_list[] = [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
+                        'full_name'         => $request->full_name[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+            Invoice_hotel_list::insert($data_hotel_list);
+            endif;
+           
+        }
+
         
         
 

@@ -11,8 +11,6 @@ class Invoice_transportation_list extends Model
         'invoice_id',
         'net_price',
         'full_name',
-        'from_date',
-        'to_date',
         'quantity',
         'price'
     ];

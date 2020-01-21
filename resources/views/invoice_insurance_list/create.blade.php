@@ -215,17 +215,17 @@
                         </tr>
                     </table>
                 @else
-                <input type="hidden" name="status_vat" value="no-vat">
+                <input type="hidden" name="status_vat" value="no_vat">
                 <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2">
+                            <td class="p-2" style="width:45px">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td>No</td>
-                            <td style="width:220px;">Full Name</td>
+                            <td style="width: 45px;">No</td>
+                            <td style="width:320px;">Full Name</td>
                             <td style="width: 120px;">Qty</td>
                             <td style="width: 120px;">Net Price</td>
                             <td style="width: 120px;">Unit Price</td>

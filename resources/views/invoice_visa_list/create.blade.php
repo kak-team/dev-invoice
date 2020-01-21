@@ -167,6 +167,7 @@
                         </div>
                     </div>
                 @if($vat == 'vat')
+                    <input type="hidden" name="status_vat" value="vat">
                     <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
                             <td class="p-2" style="width:45px;">
@@ -226,6 +227,7 @@
                         </tr>
                     </table>
                 @else
+                <input type="hidden" name="status_vat" value="no_vat">
                 <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
                             <td class="p-2">

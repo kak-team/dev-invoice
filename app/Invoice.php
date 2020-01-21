@@ -81,6 +81,16 @@ class Invoice extends Model
         return $this->hasMany(Invoice_transportation_list::class,'invoice_id','id');
     }
 
+    public function hotel()
+    {
+        return $this->hasOne(Invoice_hotel::class,'invoice_id','id');
+    }
+
+    public function hotel_list()
+    {
+        return $this->hasMany(Invoice_hotel_list::class,'invoice_id','id');
+    }
+
     public function contacts()
     {
         return $this->hasOne(Customer_contacts::Class,'id','contact_person_id');

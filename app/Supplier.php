@@ -19,4 +19,9 @@ class Supplier extends Model
     {
         return $this->hasOne(Transportation::class,'supplier_id','id');
     }
+
+    public function supplier_hotel()
+    {
+        return $this->hasOne(Hotel::class,'supplier_id','id');
+    }
 }

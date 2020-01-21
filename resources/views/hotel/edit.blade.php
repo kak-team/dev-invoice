@@ -33,7 +33,7 @@
                         
                         <div class="row">
                             <div class="col form-group form-group-feedback form-group-feedback-left">
-                                <input type="text" class="form-control" placeholder="Company Name" name="name" id="company_name" autocomplete="off" required >
+                                <input type="text" class="form-control" placeholder="Company Name" name="name_en" id="company_name" autocomplete="off" required >
                                 <div class="form-control-feedback">
                                     <i class="icon-magazine text-muted"></i>
                                 </div>

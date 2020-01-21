@@ -15,7 +15,7 @@ $(document).ready(function(){
                 html += '<td> <div class="md-form m-0"> <input type="text" id="nationality_'+loop+'" name="nationality[]" placeholder="Passport Number" required="" class="form-control m-0" autocomplete="off"> </div></td>';
                 html += '<td> <div class="md-form m-0"> <input type="text" id="passport_number_'+loop+'" name="passport_number[]" placeholder="Passport Number" required="" class="form-control m-0" autocomplete="off"> </div> </td>';
                 html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty" readonly value="1"></div></td>';
-                html += '<td><div class="md-form m-0"><input type="number" class="form-control m-0" name="n_p[]" autocomplete="off"></div></td>';
+                html += '<td><div class="md-form m-0"><input type="number" class="form-control m-0 text-center" name="n_p[]" autocomplete="off"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" name="price[]" id="price_'+loop+'" step="0.01" class="form-control m-0 text-center price" value="0"></div></td>';
                 html += '</tr>'; 
         }

@@ -22,7 +22,7 @@
                                         <div class="header-elements">
                                             <div class="list-icons">
                                                 <a class="list-icons-item" data-action="collapse"></a>
-                                            </div>
+                                            </div>  
                                         </div>
                                     </div>
                                     <div class="card-body row p-2">
@@ -222,33 +222,33 @@
                             </td>
                             <td class="text-center">                                
                                 <div class="md-form m-0">
-                                    <input type="text"  id="fullname_1" name="full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
+                                    <input type="text"  value="{{ $visa->full_name }}" id="fullname_1" name="e_full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="nationality_1" name="nationality[]" placeholder="Passport Number" required class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text" value="{{ $visa->nationality }}" id="nationality_1" name="e_nationality[]" placeholder="Passport Number" required class="form-control m-0" autocomplete="off">                                    
                                 </div>                
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="passport_number_1" name="passport_number[]" placeholder="Passport Number" required class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text" value="{{ $visa->passport_number }}" id="passport_number_1" name="e_passport_number[]" placeholder="Passport Number" required class="form-control m-0" autocomplete="off">                                    
                                 </div>                
                             </td> 
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="number" name="qty[]" id="qty_1" class="form-control m-0 text-center qty" readonly value=1>                                    
+                                    <input type="number" value="{{ $visa->quantity }}" name="e_qty[]" id="qty_1" class="form-control m-0 text-center qty" readonly >                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="n_p[]" class="form-control m-0 text-center qty" id="np_1">
+                                    <input type="number" value="{{ $visa->net_price }}" name="e_n_p[]" class="form-control m-0 text-center qty" id="np_1">
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="price[]" id="price_1" step="0.01" class="form-control m-0 text-center price" value=0>                                    
+                                    <input type="number" value="{{ $visa->price }}" name="e_price[]" id="price_1" step="0.01" class="form-control m-0 text-center price" value=0>                                    
                                 </div>
                             </td>
                             

@@ -2,6 +2,9 @@
 #modalOne .modal-default{max-width: 110px!important;min-width: 90%!important;}
 .deposit input{height: 32px!important;border:0px solid #ddd !important;}
 .deposit .caret{top: 10px!important;right: 10px!important}
+#modalOne .table td{
+    padding:10px;
+}
 </style>
 <div class="modal-header bg-primary p-2  d-flex justify-content-center">
     <span class="modal-title text-center">NEW INVOICE</span>
@@ -9,6 +12,8 @@
 <form method="post" action="{{ action('InvoiceController@exe_form_create_invoice') }}">
     @csrf
     <input type="hidden" value="{{ $company[0]->vat }}" name="vat_value">
+    <input type="hidden" value="invoice_hotel_list" name="route">
+    <input type="hidden" value="5" name="service_id">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -163,23 +168,19 @@
                     </div>
                 @if($vat == 'vat')
                     <input type="hidden" name="status_vat" value="vat">
-                    <table class="table border table-create table-bordered">
+                    <table class="table border table-create table-create1 table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2">
+                            <td class="p-2" style="width:45px;">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td>No</td>
-                            <td style="width:220px;">Airline</td>
-                            <td style="width:220px;">Ticket No</td>
-                            <td style="width:220px;">Guest Name</td>                            
-                            <td style="width: 120px;">Type</td>
-                            <td>Qty</td>
-                            <td>Unit Price</td>
-                            
-                                                    
+                            <td style="width:45px">No</td>
+                            <td style="width:220px;">Full Name</td>
+                                                       
+                            <td style="width: 120px;">Qty</td>
+                            <td style="width: 120px;">Unit Price</td>             
                         </tr>
                         <tr>
                             <td class="position-relative text-center hidMode"> 
@@ -193,37 +194,13 @@
                                 <input type="hidden" name="n_p[]" id="np_1">
                                 <span>1</span>
                             </td>
-                            <td class="text-center">
-                                <div class="d-flex">
-                                    <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name" autocomplete="off"></span>
-                                        <input type="hidden" name="airline_id[]" id="airlineId_1">
-                                        <div id="autoDisplay_airlineName_1"></div>
-                                    </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_1"></i>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex">
-                                    <div class="md-form m-0">
-                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
-                                    </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_1"></i>
-                                </div>                             
-
-                            </td>
-                            <td>
+                            <td class="text-center">                                
                                 <div class="md-form m-0">
-                                    <input type="text" id="guestName_1" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text"  id="fullname_1" name="full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
                                 </div>
                             </td>
-                            <td>
-                            <select class="mdb-select md-form m-0 type" name="type[]">                                
-                                <option value="Adult">Adult</option>
-                                <option value="Child">Child</option>
-                                <option value="Infant">Infant</option>
-                            </select>
-                            </td>
+                                  
+                
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
@@ -241,19 +218,16 @@
                     </table>
                 @else
                 <input type="hidden" name="status_vat" value="no_vat">
-                <table class="table border table-create table-bordered">
+                <table class="table border table-create table-create1 table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2">
+                            <td class="p-2" style="width:45px;">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td>No</td>
-                            <td style="width:220px;">Airline</td>
-                            <td style="width:220px;">Ticket No</td>
-                            <td style="width:220px;">Guest Name</td>                            
-                            <td style="width: 120px;">Type</td>
+                            <td style="width:45px;">No</td>
+                            <td style="width:220px;">Full Name</td>
                             <td style="width: 120px;">Qty</td>
                             <td style="width: 120px;">Net Price</td>
                             <td style="width: 120px;">Unit Price</td>
@@ -271,37 +245,12 @@
                                 <div class="Dtdisabled"></div>
                                 <span>1</span>
                             </td>
-                            <td class="text-center">
-                                <div class="d-flex">
-                                    <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name" autocomplete="off"></span>
-                                        <input type="hidden" name="airline_id[]" id="airlineId_1">
-                                        <div id="autoDisplay_airlineName_1"></div>
-                                    </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_1"></i>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex">
-                                    <div class="md-form m-0">
-                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
-                                    </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_1"></i>
-                                </div>                             
-
-                            </td>
-                            <td>
+                            <td class="text-center">                                
                                 <div class="md-form m-0">
-                                    <input type="text" id="guestName_1" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text"  id="fullname_1" name="full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
                                 </div>
                             </td>
-                            <td>
-                            <select class="mdb-select md-form m-0 type" name="type[]">                                
-                                <option value="Adult">Adult</option>
-                                <option value="Child">Child</option>
-                                <option value="Infant">Infant</option>
-                            </select>
-                            </td>
+                            
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
@@ -325,14 +274,22 @@
                 @endif
                     <div class="d-flex justify-content-between">
 
-                        <div class="col-lg-5 mt-3">
-                            <div class="col px-0">
-                                <label for="deposit_total" class="font-weight-bold text-dark mb-0">Routing</label>
-                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" id="routing" name="routing" required="" autocomplete="off">
+                        <div class="col-lg-4 mt-3">
+                            <div class="row">
+                                <div class="col-lg-6 pl-0">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Checking Date</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="checking_date" name="checking_date" required="" value="{{ date('Y-m-d') }}" autocomplete="off">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Checkout Date</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="checkout_date" name="checkout_date" required="" autocomplete="off">
+                                    </div>
                                 </div>
                             </div>
-                            
                             <!--Description-->
                             <div class="md-form md-outline">
                                 <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
@@ -340,7 +297,15 @@
                             </div>                            
                         </div>
 
-                        
+                        <div class="col-lg-3 mt-3 border">
+                            <div class="row">
+                            <p class="text-center p-1 w-100 text-uppercase font-weight-bold" style="background:#ddd">Room Type</p>
+                            </div>
+                            
+                            <div class="respond-car">
+
+                            </div>
+                        </div>
                         
                         <div class="col-lg-5 mt-3">
                             <div class="row">
