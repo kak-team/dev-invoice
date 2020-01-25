@@ -17,8 +17,12 @@ class UserController extends Controller
     //
     public function index()
     {
-        $users = User::paginate(15);
-        return view('user.create', ['users'=>$users]);
+        $users = User::paginate(15)->get();
+        dd($users);
+        $data = [
+            'users'=>$users,
+        ];
+        return view('user.create', $data);
     }
 
     // Create new user

@@ -16,37 +16,37 @@
             'bg'    => 'bg-green-400',
             'icon'  => 'icon-vcard',
             'title' => 'VISA SERVICE',
-            'link'  => 'invoice_visa'
+            'link'  => 'invoice_visa_list'
         ),
         array(
             'bg'    => 'bg-blue-400',
             'icon'  => 'icon-camera',
             'title' => 'TOURS BOOKING',
-            'link'  => 'invoice_tour'
+            'link'  => 'invoice_tour_list'
         ),
         array(
             'bg'    => 'bg-warning-400',
             'icon'  => 'icon-bed2',
             'title' => 'HOTEL BOOKING',
-            'link'  => 'invoice_hotel'
+            'link'  => 'invoice_hotel_list'
         ),
         array(
             'bg'    => 'bg-pink-400',
             'icon'  => 'icon-folder-heart',
             'title' => 'INSURANCE SAVING',
-            'link'  => 'invoice_insurance'
+            'link'  => 'invoice_insurance_list'
         ),
         array(
             'bg'    => 'bg-info-400',
             'icon'  => 'icon-car2',
             'title' => 'TRANSPORTATION',
-            'link'  => 'invoice_transportation'
+            'link'  => 'invoice_transportation_list'
         ),
         array(
             'bg'    => 'bg-orange-400',
             'icon'  => 'icon-grid4',
             'title' => 'OTHER',
-            'link'  => 'invoice_other'
+            'link'  => 'invoice_other_list'
         )
     
     );

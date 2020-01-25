@@ -182,8 +182,9 @@
                     <div>
                     <ul class="list-inline d-sm-flex flex-sm-wrap mb-0">
                         <li class="list-inline-item text-info-800 font-weight-bold text-uppercase p-1 mr-1 border"><a data-toggle="modal" data-target="#modalOne" data-vat="vat"    id="btn-create"><i class="icon-bookmark mr-2"></i>new invoice</a></li>
-                        <li class="list-inline-item text-warning-800 font-weight-bold text-uppercase p-1 border"><a data-toggle="modal" data-target="#modalOne" data-vat="no_vat" id="btn-create"><i class="icon-bookmark mr-2"></i>new invoice NO-VAT</a></li>
-                        
+                        @if(auth()->user()->status == 'no_vat')
+                            <li class="list-inline-item text-warning-800 font-weight-bold text-uppercase p-1 border"><a data-toggle="modal" data-target="#modalOne" data-vat="no_vat" id="btn-create"><i class="icon-bookmark mr-2"></i>new invoice NO-VAT</a></li>
+                        @endif
                     </ul>
                     </div>
                     
@@ -234,7 +235,7 @@
     </div>
 @endif
        
-  
+ 
 
 <script type="text/javascript" src="{{ URL::asset('js/default_invoice.js') }}"></script>
 @if(in_array($route[0],$servicelist))

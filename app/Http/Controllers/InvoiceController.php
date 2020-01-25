@@ -15,6 +15,9 @@ use App\Invoice_transportation;
 use App\Invoice_transportation_list;
 use App\Invoice_hotel;
 use App\Invoice_hotel_list;
+use App\Invoice_tour;
+use App\Invoice_tour_list;
+use App\Invoice_other_list;
 use App\Airline;
 use App\Customer;
 use App\CustomerList;
@@ -47,32 +50,26 @@ class InvoiceController extends Controller
         
         //invoice_airticket_list
         if($this->route[0] == 'invoice_airticket_list'):
-            if($user_status == 'vat'):
-                $invoice = Invoice::where('service_id',1)
-                ->where('status_invoice','active')
-                ->where('status_vat','vat')
-                ->orderBy('id','desc')
-                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
-            else:
-                $invoice = Invoice::where('service_id',1)
-                ->where('status_invoice','active')
-                ->orderBy('id','desc')
-                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
-            endif;    
-                
-                return view('invoice.index',[ 
-                    'user_status'       => $user_status,
-                    'invoices'          => $invoice, 
-                    'airlines'          => $airline,
-                    'company_profile'   => $company_profile,
-                    'payment_methods'   => $payment_method 
-                ]);
+            $invoice = Invoice::where('service_id',1)
+            ->where('status_invoice','active')
+            ->where('status_vat', $user_status)
+            ->orderBy('id','desc')
+            ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
             
         
         // invoice_visa_list
         elseif($this->route[0] == 'invoice_visa_list'):
             $invoice = Invoice::where('service_id',2)
                 ->where('status_invoice','active')
+                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(5);
             return view('invoice.index',[ 
@@ -87,6 +84,7 @@ class InvoiceController extends Controller
         elseif($this->route[0] == 'invoice_insurance_list'):
             $invoice = Invoice::where('service_id',3)
                 ->where('status_invoice','active')
+                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(15);
             return view('invoice.index',[ 
@@ -102,6 +100,7 @@ class InvoiceController extends Controller
             
             $invoice = Invoice::where('service_id',4)
                 ->where('status_invoice','active')
+                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(15);
             return view('invoice.index',[ 
@@ -116,6 +115,7 @@ class InvoiceController extends Controller
         elseif($this->route[0] == 'invoice_hotel_list'):
                 $invoice = Invoice::where('service_id',5)
                     ->where('status_invoice','active')
+                    ->where('status_vat', $user_status)
                     ->orderBy('id','desc')
                     ->with('customers', 'contacts','invoice_incomes')->paginate(15);
                 return view('invoice.index',[ 
@@ -125,18 +125,37 @@ class InvoiceController extends Controller
                     'company_profile'   => $company_profile,
                     'payment_methods'   => $payment_method 
                 ]);
-            elseif($this->route[0] == 'invoice_tour_list'):
-                $invoice = Invoice::where('service_id',6)
-                    ->where('status_invoice','active')
-                    ->orderBy('id','desc')
-                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
-                return view('invoice.index',[ 
-                    'user_status'       => $user_status,
-                    'invoices'          => $invoice, 
-                    'airlines'          => $airline,
-                    'company_profile'   => $company_profile,
-                    'payment_methods'   => $payment_method 
-                ]);        
+        // invoice_tuour_list
+        elseif($this->route[0] == 'invoice_tour_list'):
+            $invoice = Invoice::where('service_id',6)
+                ->where('status_invoice','active')
+                ->where('status_vat', $user_status)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+               
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]); 
+
+        // invoice_other_list
+        elseif($this->route[0] == 'invoice_other_list'):
+            
+            $invoice = Invoice::where('service_id',7)
+                ->where('status_invoice','active')
+                ->where('status_vat', $user_status)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+           // dd($invoice);
+            return view('invoice.index',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice,                 
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);        
         endif;
     }
 
@@ -317,6 +336,13 @@ class InvoiceController extends Controller
         elseif($request->link == 'invoice_hotel_list'):
             $invoice  = Invoice::where('id','=',$id)
             ->with('customers','invoice_incomes','contacts','suppliers','suppliers.supplier_hotel', 'hotel_list', 'hotel','suppliers.supplier_transportation')->get();       
+        elseif($request->link == 'invoice_tour_list'):
+            $invoice  = Invoice::where('id','=',$id)
+            ->with('customers','invoice_incomes','contacts','suppliers','tour_list', 'tour')->get();       
+        elseif($request->link == 'invoice_other_list'):
+                $invoice  = Invoice::where('id','=',$id)
+                ->with('customers','invoice_incomes','contacts','suppliers','other_list')->get();       
+    
         endif;
 
         $contacts = Customer_contacts::all()->where('customer_id','=',$invoice[0]->customer_id);
@@ -390,9 +416,12 @@ class InvoiceController extends Controller
         $user_id = auth()->user()->id;
         
         // invoice id
-        $number = Invoice::count();
+        if($request->status_vat == 'vat'):
+            $number = Invoice::where('status_vat','vat')->count();
+        else:
+            $number = Invoice::where('status_vat','no_vat')->count();
+        endif;
         $number = str_pad($number+1, 6, '0', STR_PAD_LEFT);
-        
         $invoice_number = date('Y').'-'.$number;
         
     
@@ -599,6 +628,7 @@ class InvoiceController extends Controller
                 'invoice_id' => $insert_invoice->id,
                 'from_date'  => $request->from_date,
                 'to_date'    => $request->to_date,
+                'tour_code'  => $request->tour_code,
             ];
 
             Invoice_tour::create($data_tour);
@@ -607,13 +637,29 @@ class InvoiceController extends Controller
                     'invoice_id'        => $insert_invoice->id,
                     'net_price'         => $request->n_p[$i],
                     'full_name'         => $request->full_name[$i],
-                    'total_adult'       => $request->total_adult[$i],
-                    'total_child'       => $request->total_child[$i],
+                    'type'              => $request->type[$i],
                     'quantity'          => $request->qty[$i],
                     'price'             => $request->price[$i],
                 ];
             }   
             Invoice_tour_list::insert($data_tour_list);
+
+        }
+
+        // invoice_tour_list
+        elseif($request->route == 'invoice_other_list'){
+    
+            for ($i = 0; $i < count($request->n_p); $i++) {
+                $data_other_list[] = [
+                    'invoice_id'        => $insert_invoice->id,
+                    'net_price'         => $request->n_p[$i],
+                    'full_name'         => $request->full_name[$i],
+                    'service_for'       => $request->service_for[$i],
+                    'quantity'          => $request->qty[$i],
+                    'price'             => $request->price[$i],
+                ];
+            }   
+            Invoice_other_list::insert($data_other_list);
 
         }
         
@@ -866,6 +912,76 @@ class InvoiceController extends Controller
                     ];
                 }   
             Invoice_hotel_list::insert($data_hotel_list);
+            endif;
+           
+        }
+        elseif($request->route == 'invoice_tour_list'){
+
+           
+            // update sale_tour
+            $data_tour = [
+                'from_date' => $request->e_from_date,
+                'to_date'   => $request->e_to_date,
+                'tour_Code' => $request->e_tour_code,
+            ];
+           
+            Invoice_tour::where('invoice_id',$request->id)->update($data_tour);
+
+            // data update invoice-tour-list
+            for ($i = 0; $i < count($request->e_n_p); $i++):
+                $e_data_tour_list = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'full_name'         => $request->e_full_name[$i],
+                    'type'              => $request->e_type[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice_tour_list::where('id', $request->tour_list_id[$i])->update($e_data_tour_list);
+
+            endfor;
+            // data insert invoice-tour-list
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_tour_list[] = [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
+                        'full_name'         => $request->full_name[$i],
+                        'type'              => $request->type[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+            Invoice_tour_list::insert($data_tour_list);
+            endif;
+           
+        }
+        elseif($request->route == 'invoice_other_list'){
+
+            // data update invoice-tour-list
+            for ($i = 0; $i < count($request->e_n_p); $i++):
+                $e_data_other_list = [
+                    'net_price'         => $request->e_n_p[$i],
+                    'full_name'         => $request->e_full_name[$i],
+                    'service_for'       => $request->e_service_for[$i],
+                    'quantity'          => $request->e_qty[$i],
+                    'price'             => $request->e_price[$i],
+                ];
+                Invoice_other_list::where('id', $request->other_list_id[$i])->update($e_data_other_list);
+
+            endfor;
+            // data insert invoice-other-list
+            if(!empty($request->n_p)):
+                for ($i = 0; $i < count($request->n_p); $i++) {
+                    $data_other_list[] = [
+                        'invoice_id'        => $request->id,
+                        'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
+                        'full_name'         => $request->full_name[$i],
+                        'service_for'       => $request->service_for[$i],
+                        'quantity'          => $request->qty[$i],
+                        'price'             => $request->price[$i],
+                    ];
+                }   
+            Invoice_other_list::insert($data_other_list);
             endif;
            
         }

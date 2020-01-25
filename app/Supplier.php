@@ -24,4 +24,11 @@ class Supplier extends Model
     {
         return $this->hasOne(Hotel::class,'supplier_id','id');
     }
+
+    public function supplier_tour()
+    {
+        return $this->hasOne(Tour::class,'supplier_id','id');
+    }
+
+
 }

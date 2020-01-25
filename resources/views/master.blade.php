@@ -351,6 +351,12 @@
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts" style="display: none;">
 						<li class="nav-item"><a href="{{ 'invoice_airticket_list' }}" class="nav-link legitRipple">Air Ticket</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_visa_list' }}" class="nav-link legitRipple">Visa Service</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_tour_list' }}" class="nav-link legitRipple">Tour Booking Service</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_hotel_list' }}" class="nav-link legitRipple">Hotel Booking</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_insurance_list' }}" class="nav-link legitRipple">Insurance Saving</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_transportation_list' }}" class="nav-link legitRipple">Transportation</a></li>
+						<li class="nav-item"><a href="{{ 'invoice_other_list' }}" class="nav-link legitRipple">Other</a></li>
 
 					</ul>
 				</li>

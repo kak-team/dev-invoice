@@ -2,7 +2,9 @@
 #modalOne .modal-default{max-width: 110px!important;min-width: 90%!important;}
 .deposit input{height: 32px!important;border:0px solid #ddd !important;}
 .deposit .caret{top: 10px!important;right: 10px!important}
-
+#modalOne .table td{
+    padding:10px;
+}
 </style>
 <div class="modal-header bg-primary p-2  d-flex justify-content-center">
     <span class="modal-title text-center">NEW INVOICE</span>
@@ -10,8 +12,8 @@
 <form method="post" action="{{ action('InvoiceController@exe_form_create_invoice') }}">
     @csrf
     <input type="hidden" value="{{ $company[0]->vat }}" name="vat_value">
-    <input type="hidden" value="invoice_tour_list" name="route">
-    <input type="hidden" value="6" name="service_id">
+    <input type="hidden" value="invoice_other_list" name="route">
+    <input type="hidden" value="7" name="service_id">
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
@@ -32,7 +34,7 @@
                                     <div class="card-body row p-2">
                                         
                                         <div class="col-lg-4 mb-2">
-                                            <div class="col-lg-4 d-flex align-items-center text-nowrap font-weight-bold">
+                                            <div class="col-lg-4 d-flex align-items-center ">
                                                 Customer Name
                                             </div>
                                             <div class="col d-flex">
@@ -46,7 +48,7 @@
                                         </div>
                                         
                                         <div class="col-lg-4 mb-2">
-                                            <div class="col-lg-4 d-flex align-items-center text-nowrap font-weight-bold">
+                                            <div class="col-lg-4 d-flex align-items-center ">
                                                 Contact Person :
                                             </div>
                                             <div class="col d-flex " id="contactPerson">
@@ -56,7 +58,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4 mb-2">
-                                            <div class="col-lg-4 d-flex align-items-center text-nowrap font-weight-bold">
+                                            <div class="col-lg-4 d-flex align-items-center ">
                                                 Phone :
                                             </div>
                                             <div class="col d-flex ">                                
@@ -174,12 +176,11 @@
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td style="width:45px;">No</td>                            
-                            <td style="width:420px;">Full Name</td>                        
-                            <td style="width:120px;">type</td>                                           
-                            <td>Qty</td>
-                            <td>Unit Price</td>                            
-                                                    
+                            <td style="width:45px">No</td>
+                            <td style="width:220px;">Full Name</td>
+                            <td style="width:220px;">Service For</td>
+                            <td style="width: 120px;">Qty</td>
+                            <td style="width: 120px;">Price</td>             
                         </tr>
                         <tr>
                             <td class="position-relative text-center hidMode"> 
@@ -193,20 +194,19 @@
                                 <input type="hidden" name="n_p[]" id="np_1">
                                 <span>1</span>
                             </td>
-                            
-                            <td>
+                            <td class="text-center">                                
                                 <div class="md-form m-0">
-                                    <input type="text" id="full_name_1" name="full_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text"  id="fullname_1" name="full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
                                 </div>
                             </td>
-                            <td>                                
-                                <select class="mdb-select md-form m-0 type" name="type[]">                                
-                                    <option value="Adult">Adult</option>
-                                    <option value="Child">Child</option>
-                                    <option value="Infant">Infant</option>
-                                </select>                                
-                            </td>                            
-                            
+
+                            <td>
+                                <div class="md-form m-0">
+                                    <input type="text" id="service_for_1" name="service_for[]" placeholder="Service For " required class="form-control m-0" autocomplete="off">                                    
+                                </div>                
+                            </td>
+                                     
+                
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
@@ -226,19 +226,19 @@
                 <input type="hidden" name="status_vat" value="no_vat">
                 <table class="table border table-create table-bordered">
                         <tr class="table-active table-border-double text-center">
-                            <td class="p-2" style="width:45px;">
+                            <td class="p-2">
                                 <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
                                     <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                                     <span class="custom-control-label" for="defaultUnchecked"></span>
                                 </div>
                             </td>
-                            <td style="width:45px;">No</td>
-                            
-                            <td style="width:220px;">Guest Name</td>  
-                            <td style="width:220px;">type</td>                                                    
+                            <td>No</td>
+                            <td style="width:220px;">Full Name</td>
+                            <td style="width:220px;">Service For</td>
+                           
                             <td style="width: 120px;">Qty</td>
                             <td style="width: 120px;">Net Price</td>
-                            <td style="width: 120px;">Unit Price</td>
+                            <td style="width: 120px;">Price</td>
                             
                                                     
                         </tr>
@@ -253,19 +253,17 @@
                                 <div class="Dtdisabled"></div>
                                 <span>1</span>
                             </td>
-                            <td>
+                            <td class="text-center">                                
                                 <div class="md-form m-0">
-                                    <input type="text" id="full_name_1" name="full_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text"  id="fullname_1" name="full_name[]" class="fullname_1 form-control m-0" required placeholder="Full Name" autocomplete="off"></span>
                                 </div>
                             </td>
-                            <td>                                
-                                <select class="mdb-select md-form m-0 type" name="type[]">                                
-                                    <option value="Adult">Adult</option>
-                                    <option value="Child">Child</option>
-                                    <option value="Infant">Infant</option>
-                                </select>                               
+                            <td>
+                                <div class="md-form m-0">
+                                    <input type="text" id="service_for_1" name="service_for[]" placeholder="Service For" required class="form-control m-0" autocomplete="off">                                    
+                                </div>                
                             </td>
-                            
+                           
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
@@ -289,34 +287,14 @@
                 @endif
                     <div class="d-flex justify-content-between">
 
-                    <div class="col-lg-6 mt-3">
-                            <div class="row">
-                                <div class="col pl-0">
-                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">From Date</label>
-                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date" name="from_date" required="" value="{{ date('Y-m-d') }}" autocomplete="off">
-                                    </div>
-                                </div>
-                                
-                                <div class="col">
-                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">To Date</label>
-                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date" name="to_date" required="" autocomplete="off">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Tour Code</label>
-                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="text" class="form-control font-weight-bold totalInput border-color" id="tour_code" name="tour_code" required="" autocomplete="off">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-lg-5 mt-3">                            
                             <!--Description-->
                             <div class="md-form md-outline">
                                 <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
                                 <label for="form75">Description</label>
                             </div>                            
                         </div>
+
                         
                         
                         <div class="col-lg-5 mt-3">

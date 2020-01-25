@@ -26,57 +26,49 @@
                                
                             </div>
 
-                            <div class="form-group form-group-feedback form-group-feedback-left">
+                            <div class="form-group md-form form-group-feedback form-group-feedback-left">
                                 <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="" required autocomplete="off">
+                                <label for="username"><i class="icon-user text-muted"></i></i> Username</label>
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <div class="form-control-feedback">
-                                    <i class="icon-user text-muted"></i>
-                                </div>
                             </div>
 
-                            <div class="form-group form-group-feedback form-group-feedback-left">
+                            <div class="form-group md-form form-group-feedback form-group-feedback-left">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="" required autocomplete="off">
+                                <label for="email"><i class="icon-envelop4 text-muted"></i> Email</label>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <div class="form-control-feedback">
-                                    <i class="icon-envelop4 text-muted"></i>
-                                </div>
                             </div>
 
-                            <div class="form-group form-group-feedback form-group-feedback-left">
-                                <input id="password1" type="password" class="form-control @error('password') is-invalid @enderror" value="" name="password" required autocomplete="off" >
+                            <div class="form-group md-form form-group-feedback form-group-feedback-left">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" value="" name="password" required autocomplete="off" >
+                                <label for="password"><i class="icon-lock2 text-muted"></i> Password</label>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <div class="form-control-feedback">
-                                    <i class="icon-lock2 text-muted"></i>
-                                </div>
                             </div>    
-                            <div class="form-group form-group-feedback form-group-feedback-left">
+                            <div class="form-group md-form form-group-feedback form-group-feedback-left">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <label for="password-confirm"><i class="icon-lock2 text-muted"></i> Confirm Password</label>
                                 @error('comfirm-password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <div class="form-control-feedback">
-                                    <i class="icon-lock2 text-muted"></i>
-                                </div>
                             </div>               
 
                             <div class="form-group form-group-feedback form-group-feedback-left">
                                 <div class="row m-0">
                                     <label class="form-check-label mr-3  text-muted">
-                                        Choose Level
+                                        Choose User Level
                                     </label>
                                     <div class="form-check">
                                         <div class="custom-control custom-checkbox" id="btnCheck_single">
@@ -155,7 +147,11 @@
                     <tbody>
                     <tr>
                         <td>
-                            <div class="uniform-checker"><span><input type="checkbox" class="form-input-styled" id="checkall"></span></div>
+                            <!-- Default unchecked -->                                
+                            <div class="custom-control custom-checkbox check_false" id="btnCheck_all">
+                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                <span class="custom-control-label" for="defaultUnchecked"></span>
+                            </div>                            
                         </td>
                         <td class="text-blue-800 font-weight-bold">FULL NAME</td>
                         <td class="text-blue-800 font-weight-bold">USERNAME</td>
@@ -165,7 +161,12 @@
                     </tr>
                     @foreach($users as $user)                  
                         <tr>
-                            <td><div class="uniform-checker"><span id="b4-check"><input type="checkbox" class="form-input-styled" id="checkself"></span></div></td>
+                            <td>
+                                <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                    <input type="checkbox" class="custom-control-input" id="TdefaultUnchecked{{$loop->index}}" value="{{$loop->index}}" name="checkbox">
+                                    <label class="custom-control-label" for="TdefaultUnchecked{{$loop->index}}"></label>
+                                </div>
+                            </td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="mr-3">
@@ -236,6 +237,12 @@
         $('#modal_theme_success,#modal_theme_info').on('click','#check_service',function(){
             $(this).parent().toggleClass('checked');
         });
+
+        @if ($errors->any())
+            $('#modal_theme_success').modal('show');
+        @endif
+
+       
     });
 
 

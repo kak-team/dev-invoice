@@ -12,7 +12,7 @@ $(document).ready(function(){
                 html += '<td class="position-relative text-center"><div class="custom-control custom-checkbox" id="btnCheck_single"><input type="checkbox" class="custom-control-input Bchk" id="c_'+loop+'"><label class="custom-control-label" for="c_'+loop+'"></label></div></td>';
                 html += '<td class="position-relative text-center"><div class="Dtdisabled"></div><span>'+loop+'</span></td>';
                 html += '<td class="text-center"> <div class="md-form m-0"> <input type="text" id="fullname_'+loop+'" name="full_name[]" class="fullname_'+loop+' form-control m-0" required placeholder="Full Name" autocomplete="off"></span> </div> </td>';
-                html += '<td><select class="mdb-select_'+loop+' md-form m-0" name="type[]"><option value="Adult">Adult</option><option value="Child">Child</option><option value="Infant">Infant</option></select></td>';
+                html += '<td> <div class="md-form m-0"> <input type="text" id="service_for_'+loop+'" name="service_for[]" placeholder="Service For" required="" class="form-control m-0" autocomplete="off"> </div></td>';
                 html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty" readonly value="1"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" class="form-control m-0 text-center" name="n_p[]" autocomplete="off"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" name="price[]" id="price_'+loop+'" step="0.01" class="form-control m-0 text-center price" value="0"></div></td>';
@@ -23,8 +23,8 @@ $(document).ready(function(){
                 html += '<td class="position-relative text-center"><div class="custom-control custom-checkbox" id="btnCheck_single"><input type="checkbox" class="custom-control-input Bchk" id="c_'+loop+'"><label class="custom-control-label" for="c_'+loop+'"></label></div></td>';
                 html += '<td class="position-relative text-center" id="hidMode_'+loop+'"><div class="Dtdisabled"></div><input type="hidden" name="n_p[]" id="np_'+loop+'" ><span>'+loop+'</span></td>';
                 html += '<td class="text-center"> <div class="md-form m-0"> <input type="text" id="fullname_'+loop+'" name="full_name[]" class="fullname_'+loop+' form-control m-0" required placeholder="Full Name" autocomplete="off"></span> </div> </td>';
-                html += '<td><select class="mdb-select_'+loop+' md-form m-0" name="type[]"><option value="Adult">Adult</option><option value="Child">Child</option><option value="Infant">Infant</option></select></td>';
-                html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty " readonly value="1"></div></td>';
+                html += '<td> <div class="md-form m-0"> <input type="text" id="service_for_'+loop+'" name="service_for[]" placeholder="Service For" required="" class="form-control m-0" autocomplete="off"> </div></td>';
+                html += '<td class="position-relative"><div class="Tddisabled"></div><div class="md-form m-0"><input type="number" name="qty[]" id="qty_'+loop+'" class="form-control m-0 text-center qty" readonly value="1"></div></td>';
                 html += '<td><div class="md-form m-0"><input type="number" name="price[]" id="price_'+loop+'" step="0.01" class="form-control m-0 text-center price" value="0"></div></td>';
                 html += '</tr>'; 
         }  
@@ -40,16 +40,5 @@ $(document).ready(function(){
         $(parent_private+ ' #vat_total').val(vat_total.toFixed(2));
         $(parent_private+ ' #SerFee_total').val(servicefee_total.toFixed(2));
     });
-    // Accept Supplier
-    $(parent_private).on('click','#acceptSupplier',function(){
-        supplier_id = $(this).attr('supplier_id');
-        $.ajax({
-            type : 'post',
-            data : { supplier_id : supplier_id },
-            url  : 'invoice/auto_hotel',
-            success : function(respond){
-                $('#modalOne .respond-car').html(respond);
-            }
-        });
-    });
+
 });
