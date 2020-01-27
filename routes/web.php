@@ -109,19 +109,16 @@ Route::group(['middleware'=>'auth'], function(){
         Route::get('/transportation/update_status/{id}', 'TransportationController@update_status');
         Route::get('/transportation/transportation_contact/{id}', 'TransportationController@transportation_contact');
         Route::post('/transportation/update', 'TransportationController@update');
-
-        // invoice Print
-        Route::resource('print', 'PrintController');
-        Route::post('receipt', 'PrintController@receipt');
-        // Route::get('report', function(){
-        //     return view('report.report');
-        // });
     });
 
 });
 Route::get('/dashboard', function () {
     return view('dashboard.main-dashboard');
 });
+
+// invoice Print
+Route::resource('report', 'ReportController');
+Route::post('report/auto_filter','ReportController@auto_filter');
 
 //Users route
 Route::resource('user', 'UserController@index');

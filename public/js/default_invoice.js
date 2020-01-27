@@ -104,6 +104,7 @@ $(document).ready(function(){
     $('.table-responsive').on('click','#btn-print',function(){
         id      = $(this).val();
         number  = $(this).attr('data-invoice-number');
+        link    = $('body').data('link');
 
         $(parent_private+' .md-overlay').show();
         $(parent_private+' .modal-default').removeClass('blowup out');
@@ -111,7 +112,7 @@ $(document).ready(function(){
 
         $.ajax({
             type : 'post',
-            data : {id : id},
+            data : {id : id, link : link},
             url  : 'invoice/form_print_invoice',
             success : function(respond){
                 setTimeout(function(){ 

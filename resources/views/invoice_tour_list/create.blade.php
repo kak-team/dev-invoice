@@ -320,6 +320,7 @@
                         
                         
                         <div class="col-lg-5 mt-3">
+                             @if($vat == 'vat')
                             <div class="row">
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Price</label>
@@ -340,6 +341,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="row mt-2 pt-2 border-top">
                                 
                                 <div class="col pr-1">

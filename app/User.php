@@ -45,4 +45,9 @@ class User extends Authenticatable
         return $this->role;
     }
 
+    public function invoice()
+    {
+        return $this->belongTo(Invoice::class,'user_id','id');
+    }
+
 }

@@ -28,6 +28,7 @@ use App\PaymentMethod;
 use App\Customer_contacts;
 use App\Transportation;
 use App\Hotel;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
@@ -50,11 +51,19 @@ class InvoiceController extends Controller
         
         //invoice_airticket_list
         if($this->route[0] == 'invoice_airticket_list'):
-            $invoice = Invoice::where('service_id',1)
-            ->where('status_invoice','active')
-            ->where('status_vat', $user_status)
-            ->orderBy('id','desc')
-            ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',1)
+                ->where('status_invoice','active')
+                
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            else:
+                $invoice = Invoice::where('service_id',1)
+                ->where('status_invoice','active')
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            endif;
             
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
@@ -67,11 +76,18 @@ class InvoiceController extends Controller
         
         // invoice_visa_list
         elseif($this->route[0] == 'invoice_visa_list'):
-            $invoice = Invoice::where('service_id',2)
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',2)
                 ->where('status_invoice','active')
-                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(5);
+            else: 
+                $invoice = Invoice::where('service_id',2)
+                ->where('status_invoice','active')
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(5);
+            endif;
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
                 'invoices'          => $invoice, 
@@ -82,11 +98,18 @@ class InvoiceController extends Controller
         
         // invoice_insurance_list
         elseif($this->route[0] == 'invoice_insurance_list'):
-            $invoice = Invoice::where('service_id',3)
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',3)
                 ->where('status_invoice','active')
-                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',3)
+                ->where('status_invoice','active')
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
                 'invoices'          => $invoice, 
@@ -97,12 +120,18 @@ class InvoiceController extends Controller
         
         // invoice_transportation_list
         elseif($this->route[0] == 'invoice_transportation_list'):
-            
-            $invoice = Invoice::where('service_id',4)
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',4)            
                 ->where('status_invoice','active')
-                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',4)            
+                ->where('status_invoice','active')
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
                 'invoices'          => $invoice, 
@@ -113,11 +142,18 @@ class InvoiceController extends Controller
         
         // invoice_hotel_list
         elseif($this->route[0] == 'invoice_hotel_list'):
+            if($user_status == 'no_vat'):
                 $invoice = Invoice::where('service_id',5)
                     ->where('status_invoice','active')
-                    ->where('status_vat', $user_status)
                     ->orderBy('id','desc')
                     ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',5)
+                    ->where('status_invoice','active')
+                    ->where('status_vat', 'vat')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
                 return view('invoice.index',[ 
                     'user_status'       => $user_status,
                     'invoices'          => $invoice, 
@@ -127,11 +163,18 @@ class InvoiceController extends Controller
                 ]);
         // invoice_tuour_list
         elseif($this->route[0] == 'invoice_tour_list'):
-            $invoice = Invoice::where('service_id',6)
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',6)
                 ->where('status_invoice','active')
-                ->where('status_vat', $user_status)
                 ->orderBy('id','desc')
                 ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',6)
+                ->where('status_invoice','active')
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
                
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
@@ -143,13 +186,19 @@ class InvoiceController extends Controller
 
         // invoice_other_list
         elseif($this->route[0] == 'invoice_other_list'):
-            
-            $invoice = Invoice::where('service_id',7)
-                ->where('status_invoice','active')
-                ->where('status_vat', $user_status)
-                ->orderBy('id','desc')
-                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
-           // dd($invoice);
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',7)
+                    ->where('status_invoice','active')
+                    ->where('status_vat', 'vat')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            // dd($invoice);
+            else:
+                $invoice = Invoice::where('service_id',7)
+                    ->where('status_invoice','active')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
             return view('invoice.index',[ 
                 'user_status'       => $user_status,
                 'invoices'          => $invoice,                 
@@ -363,10 +412,22 @@ class InvoiceController extends Controller
 
     public function form_print_invoice(Request $request)
     {
-        $companyprofile = CompanyProfile::with('company_address','company_email','company_phone')->get();
-        $data = [
+        $id             = $request->id;
+        $variable       = str_replace('invoice_','',$request->link);
+        $obj            = str_replace('_list','',$variable);
+        $method         = ($obj == 'other' || $obj == 'airticket' ? 'general' : $obj );
+        
+        $companyprofile = CompanyProfile::with('company_address','company_email','company_phone')->get(); 
+        $invoice        = Invoice::where('id','=',$id)
+        ->with('customers','invoice_incomes','contacts','customers.contacts','suppliers',
+        $variable, $method ,'issue_by')->get();         
+        $data           = [
             'company' => $companyprofile,
+            'invoice' => $invoice,
+            'variable' => $variable,
+            'obj'       => $obj
         ];
+        //  dd($invoice);
         return view('invoice.print_invoice', $data);
     }
 
@@ -495,7 +556,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'airline_id'        => $request->airline_id[$i],
                     'ticket_number'     => $request->ticket_no[$i],
                     'passanger_name'    => $request->guest_name[$i],
@@ -543,7 +604,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_insurance_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'quantity'          => $request->qty[$i],
                     'price'             => $request->price[$i],
@@ -577,7 +638,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_transportation_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'quantity'          => $request->qty[$i],
                     'price'             => $request->price[$i],
@@ -588,6 +649,7 @@ class InvoiceController extends Controller
         }
         // invoice_hotel_list
         elseif($request->route == 'invoice_hotel_list'){
+            
             //dd($request->all());
             if(!empty($request->room_type)):
                 $b = array();
@@ -598,21 +660,21 @@ class InvoiceController extends Controller
             else:
                 $b = '';
             endif;
-           
+            
             $total_room = array_sum($request->total_room);
             $data_hotel = [
-                'invoice_id' =>$insert_invoice->id,
-                'checking_date'  =>$request->checking_date,
-                'checkout_date'    =>$request->checkout_date,
-                'total_room'  =>$total_room,
-                'room_type'   =>$b
+                'invoice_id'    =>$insert_invoice->id,
+                'checking_date' =>$request->checking_date,
+                'checkout_date' =>$request->checkout_date,
+                'total_room'    =>$total_room,
+                'room_type'     =>$b
             ];
 
-             Invoice_hotel::create($data_hotel);
+            Invoice_hotel::create($data_hotel);
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_hotel_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'quantity'          => $request->qty[$i],
                     'price'             => $request->price[$i],
@@ -635,7 +697,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_tour_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'type'              => $request->type[$i],
                     'quantity'          => $request->qty[$i],
@@ -652,7 +714,7 @@ class InvoiceController extends Controller
             for ($i = 0; $i < count($request->n_p); $i++) {
                 $data_other_list[] = [
                     'invoice_id'        => $insert_invoice->id,
-                    'net_price'         => $request->n_p[$i],
+                    'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                     'full_name'         => $request->full_name[$i],
                     'service_for'       => $request->service_for[$i],
                     'quantity'          => $request->qty[$i],
@@ -803,7 +865,7 @@ class InvoiceController extends Controller
                     for ($i = 0; $i < count($request->n_p); $i++) {
                         $data_insurance_list[] = [
                             'invoice_id'        => $request->id,
-                            'net_price'         => $request->n_p[$i],
+                            'net_price'         => (!empty($request->n_p[$i]) ? $request->n_p[$i] : 0),
                             'full_name'         => $request->full_name[$i],
                             'quantity'          => $request->qty[$i],
                             'price'             => $request->price[$i],
@@ -1019,7 +1081,7 @@ class InvoiceController extends Controller
             'description'       => $request->description,
             'issue_date'        => $issue_date,
             'created_at'        => $create_date,
-            'status'            => $request->payment_status
+            'status'            => ( !empty($request->payment_status) ? $request->payment_status : 'N/A')
         ];
         
         Invoice_income::create($data);

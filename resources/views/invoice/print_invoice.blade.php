@@ -41,37 +41,38 @@
                                 <tr class="">
                                     <td>ឈ្មោះក្រុមហ៊ុន</td>
                                     <td>: </td>
-                                    <td>Name Here</td>
+                                    <td>{{ $invoice[0]->customers->name_kh }}</td>
                                 </tr>
                                 <tr class="">
                                     <td>Company Name</td>
                                     <td>: </td>
-                                    <td>Name Here</td>
+                                    <td>{{ $invoice[0]->customers->name_en }}</td>
                                 </tr>
                                 <tr class="">
                                     <td>លេខអតប / VAT No.</td>
                                     <td>: </td>
-                                    <td>00000000000000000</td>
+                                    <td>{{ $invoice[0]->customers->register_number }}</td>
+
                                 </tr>
                                 <tr class="">
                                     <td>ទំនាក់ទំនង​/ Contact</td>
                                     <td>: </td>
-                                    <td>00000000000000000</td>
-                                </tr>
+                                    <td>{{ $invoice[0]->customers->contacts[0]->full_name }}</td>
+                               </tr>
                                 <tr class="">
                                     <td>ទូរសព្ទ / Tel</td>
                                     <td>: </td>
-                                    <td>00000000000000000</td>
-                                </tr>
+                                    <td>{{ $invoice[0]->customers->contacts[0]->phone }}</td>
+                               </tr>
                                 <tr class="">
                                     <td>អុីម៉ែល / E-mail</td>
                                     <td>: </td>
-                                    <td>00000000000000000</td>
-                                </tr>
+                                    <td>{{ $invoice[0]->customers->contacts[0]->email }}</td>
+                               </tr>
                                 <tr class="">
                                     <td>អាសយដ្ឋាន / Address</td>
                                     <td>: </td>
-                                    <td>00000000000000000</td>
+                                    <td>{{ $invoice[0]->customers->address }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -86,17 +87,17 @@
                                 <tr>
                                     <td>វិក័យប័ត្រលេខ / Invoice No</td>
                                     <td>:</td>
-                                    <td>#000000</td>
+                                    <td>{{ $invoice[0]->invoice_number }}</td>
                                 </tr>
                                 <tr>
                                     <td>ថ្ងៃចេញវិក័យប័ត្រ / Issued Date</td>
                                     <td>:</td>
-                                    <td> 12/12/2019</td>
+                                    <td> {{ date('d-M-Y',strtotime($invoice[0]->issue_date)) }}</td>
                                 </tr>
                                 <tr>
                                     <td>ចេញដោយ / Issued by</td>
                                     <td>:</td>
-                                    <td> Heng Seyha</td>
+                                    <td> {{ $invoice[0]->issue_by->name }}</td>
                                 </tr>
                                 
                             </table>
@@ -114,7 +115,7 @@
                                     <thead>
                                         <tr class="bg-info">
                                             <th class="text-nowrap">ល.រ <br/>No</th>
-                                            <th class="text-nowrap">បរិយាយមុខទំនិញ<br/>Description</th>
+                                            <th class="text-nowrap text-left">បរិយាយមុខទំនិញ<br/>Description</th>
                                             <th class="text-nowrap">ថ្ងៃទំនិញរាយ<br/>Unit Price</th>
                                             <th class="text-nowrap">បរិមាណ<br/>Quantity</th>
                                             <th class="text-nowrap">តម្លៃសរុប<br/>Total Price</th>
@@ -123,62 +124,66 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    
+                                    
+                                        @foreach($invoice[0]->$variable as $$variable)
+                                            
+                                                <tr>
+                                                    <td class="align-top">{{ $loop->iteration }}</td>
+                                                    <td class="text-left"> 
+                                                        <p class="m-0"> សេវាកម្មសម្រាប់៖ {{ $$variable->full_name }} </p>
+                                                        @if($obj == 'tour')
+                                                            <p class="m-0">From-To Date: {{ date('d/m/Y',strtotime($invoice[0]->tour->from_date)) }} - {{ date('d/m/Y',strtotime($invoice[0]->tour->to_date)) }}</p>
+                                                            <p class="m-0">Tour Code: {{ $invoice[0]->tour->tour_code }}</p>
+                                                        @endif
+                                                            <p class="m-0">Description: {{ $invoice[0]->description }}</p>
+                                                    </td>
+                                                    <td>${{ number_format($$variable->price,2) }}</td>
+                                                    <td>{{ $$variable->quantity }}</td>
+                                                    <td>${{ number_format($$variable->price*$$variable->quantity,2) }} </td>
+                                                    <td> - </td>
+                                                    <td>${{ number_format($$variable->price*$$variable->quantity,2) }}</td>
+                                                
+                                                </tr>
+                                               
+                                        @endforeach                                    
+
+                                        @php
+                                            $service_fee        = $invoice[0]->service_fee_price*$invoice[0]->$variable->sum('quantity');
+                                            $total_service_fee  =  $service_fee/$invoice[0]->vat_percent; 
+                                             $vat               = $service_fee + $total_service_fee;
+                                        @endphp
                                         <tr>
-                                            <td>1</td>
-                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
-                                                Ticket No: MT00000000000<br/>
-                                                Routing: PP-BKK/BKK-PP
-                                            </td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td>1</td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td></td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
-                                                Ticket No: MT00000000000<br/>
-                                                Routing: PP-BKK/BKK-PP
-                                            </td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td>1</td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td></td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
-                                                Ticket No: MT00000000000<br/>
-                                                Routing: PP-BKK/BKK-PP
-                                            </td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td>1</td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td></td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td class="text-left">សេវាកម្មសម្រាប់៖ Customer's Name<br/>
-                                                Ticket No: MT00000000000<br/>
-                                                Routing: PP-BKK/BKK-PP
-                                            </td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td>1</td>
-                                            <td>$ {{ number_format(319,2) }}</td>
-                                            <td></td>
-                                            <td>$ {{ number_format(319,2) }}</td>
+                                            <td class="align-top">{{ $invoice[0]->$variable->count('id')+1 }}</td>
+                                            <td class="text-left">កម្រៃសេវា / Service Fee</td>
+                                            <td>${{ number_format($invoice[0]->service_fee_price,2) }}</td>
+                                           
+                                            <td>{{ $invoice[0]->$variable->sum('quantity') }}</td>
+                                            <td>${{ number_format($service_fee,2) }}</td>
+                                            <td>${{ number_format($total_service_fee,2) }}</td>
+                                            <td>${{ number_format($vat,2) }}</td>
                                         </tr>
                                         <!--Total row-->
                                         <tr class="border-top-2 border-dark">
-                                            <td colspan="3" class="text-left">អត្រាប្ដូរប្រាក់ / Exchange Rate:USD 1 = KHR 4068</td>
+                                            <td colspan="3" class="text-left align-top">អត្រាប្ដូរប្រាក់ / Exchange Rate:USD 1 = KHR {{ $invoice[0]->exchange_riel }}</td>
                                             <td></td>
-                                            <td>សរុបមុនអត<br><small class="text-nowrap">Total before VAT</small></td>
-                                            <td>សរុបអតប<br><small class="text-nowrap">Total VAT</small></td>
-                                            <td>សរុបរួមអតប<br><small class="text-nowrap">TOTAL Incl.VAT</small></td>
+                                            <td>
+                                                សរុបមុនអត<br>
+                                                <small class="text-nowrap">Total before VAT</small>
+                                                <p class="m-0">USD {{ number_format($invoice[0]->$variable->sum('price')+$service_fee,2) }}</p>
+                                            </td>
+                                            <td>
+                                                សរុបអតប<br><small class="text-nowrap">Total VAT</small>
+                                                <p class="m-0">USD {{ number_format($total_service_fee,2) }}</p>
+                                            </td>
+                                            <td>
+                                                សរុបរួមអតប<br><small class="text-nowrap">TOTAL Incl.VAT</small>
+                                                <p class="m-0">USD {{ number_format($invoice[0]->$variable->sum('price')+$vat,2) }}</p>
+                                                <p class="m-0">KHR {{ number_format( ($invoice[0]->$variable->sum('price')+$vat)*$invoice[0]->exchange_riel,0)}}</p>
+
+                                            </td>
                                         </tr>
+                                       
 
                                     </tbody>
                                 </table>
@@ -211,20 +216,20 @@
                             <div class="col-md-12 ">
                                 <hr class="mt-1">
                             </div>
-                            <div class="note​​ col-md-12">
+                            <div class="note​​ col-md-12 pt-0">
                                 <small class="text-left">
-                                <p>សំគាល់៖ វិក័យប័ត្រពន្ធនេះមានសុពលភាពដរាបណាមានហត្ថលេខារបស់គណនេយ្យករ​ ឬ ក៏បុគ្គលិកផ្នែកទទួលបន្ទុក អមជាមួយនិងត្រាក្រុមហ៊ុន។</p>
-                                <p>Note: This Tax Invoice is valid only whne there is a signature of our company's cashier or reservation sfaff with company stamp.</p>
+                                    <p class="m-0">សំគាល់៖ វិក័យប័ត្រពន្ធនេះមានសុពលភាពដរាបណាមានហត្ថលេខារបស់គណនេយ្យករ​ ឬ ក៏បុគ្គលិកផ្នែកទទួលបន្ទុក អមជាមួយនិងត្រាក្រុមហ៊ុន។</p>
+                                    <p class="">Note: This Tax Invoice is valid only whne there is a signature of our company's cashier or reservation sfaff with company stamp.</p>
                                 </small>
                             </div>    
                             <div class="col-md-12">
                                 <hr class="mt-1 mb-1">
                             </div>
                             <div class="address col-md-12 text-center pb-3">
-                                <small class="companyinfo">
+                                <small class="companyinfo ">
                                     @foreach($value->company_address as $address)
                                         @if($address->lang == 'kh')
-                                            <p>ផ្ទះលេខ{{ $address->house_number}}  ផ្លូវលេខ{{ $address->street_number}}  សង្កាត់{{ $address->commune}}  ខ័ណ្ឌ{{ $address->districk}}  រាជធានី{{ $address->province}}  កម្ពុជា / លេខទំនាក់ទំនង៖​ 
+                                            <p class="m-0">ផ្ទះលេខ{{ $address->house_number}}  ផ្លូវលេខ{{ $address->street_number}}  សង្កាត់{{ $address->commune}}  ខ័ណ្ឌ{{ $address->districk}}  រាជធានី{{ $address->province}}  កម្ពុជា / លេខទំនាក់ទំនង៖​ 
                                                 @foreach($value->company_phone as $phone) 
                                                     {{$phone->phone }}
                                                     @if(!$loop->last)
@@ -240,7 +245,7 @@
                                                 @endforeach
                                             </p>
                                         @else
-                                            <p>{{ $address->house_number}}, Street {{ $address->street_number}}, Sangkat {{ $address->commune}}, Khan {{ $address->districk}}, City {{ $address->province}}, Cambodia. Hoteline:
+                                            <p class="m-0">{{ $address->house_number}}, Street {{ $address->street_number}}, Sangkat {{ $address->commune}}, Khan {{ $address->districk}}, City {{ $address->province}}, Cambodia. Hoteline:
                                             @foreach($value->company_phone as $phone) 
                                                     {{$phone->phone }}
                                                     @if(!$loop->last)

@@ -190,8 +190,7 @@
                     
                 </div>
 
-                <div class="table-responsive">
-                    
+                <div class="table-responsive">                    
                     @include($route[0].'.table')
                 </div>
             </div>

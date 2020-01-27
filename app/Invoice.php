@@ -111,5 +111,19 @@ class Invoice extends Model
     {
         return $this->hasOne(Customer_contacts::Class,'id','contact_person_id');
     }
+
+    public function issue_by()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    public function general(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    public function service_type()
+    {
+        return $this->hasMany(Service::class,'id','service_id');
+    }
     
 }
