@@ -119,6 +119,9 @@ Route::get('/dashboard', function () {
 // invoice Print
 Route::resource('report', 'ReportController');
 Route::post('report/auto_filter','ReportController@auto_filter');
+Route::post('report/auto_inovoice_number','ReportController@auto_inovoice_number');
+Route::post('report/auto_customer','ReportController@auto_customer');
+Route::post('report/auto_inovoice_by_cusomter','ReportController@auto_inovoice_by_cusomter');
 
 //Users route
 Route::resource('user', 'UserController@index');

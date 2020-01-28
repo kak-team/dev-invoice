@@ -24,6 +24,7 @@
 	
 	<!-- Theme JS files -->
 	<script type="text/javascript" src="{{ URL::asset('js/jquery-3.4.0.min.js') }}"></script>
+	
 	<script type="text/javascript" src="{{ URL::asset('js/simple.money.format.js') }}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 	<script src="{{ URL::asset('js/custom.js') }}"></script>
@@ -76,7 +77,7 @@
 	<!-- Main navbar -->
 	<div class="navbar navbar-expand-md navbar-dark bg-indigo fixed-top">
 		<div class="navbar-brand">
-		<a href="index.html" class="d-inline-block" style="font-size: 14px;color: #fff;">BEST WORLD TRAVEL &amp; TOURS</a>
+		<a href="/" class="d-inline-block" style="font-size: 14px;color: #fff;">BEST WORLD TRAVEL &amp; TOURS</a>
 		</div>
 
 		<div class="d-md-none">
@@ -99,151 +100,9 @@
 
 			<span class="navbar-text ml-md-3">
 				<span class="badge badge-mark border-orange-300 mr-2"></span>
-				Morning, Victoria!
+				Hello {{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}} !
 			</span>
-
 			<ul class="navbar-nav ml-md-auto">
-				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-make-group mr-2"></i>
-						Connect
-					</a>
-
-					<div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
-						<div class="dropdown-content-body p-2">
-							<div class="row no-gutters">
-								<div class="col-12 col-sm-4">
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-github4 icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Github</div>
-									</a>
-
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-dropbox text-blue-400 icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Dropbox</div>
-									</a>
-								</div>
-								
-								<div class="col-12 col-sm-4">
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-dribbble3 text-pink-400 icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Dribbble</div>
-									</a>
-
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-google-drive text-success-400 icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Drive</div>
-									</a>
-								</div>
-
-								<div class="col-12 col-sm-4">
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-twitter text-info-400 icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Twitter</div>
-									</a>
-
-									<a href="#" class="d-block text-default text-center ripple-dark rounded p-3">
-										<i class="icon-youtube text-danger icon-2x"></i>
-										<div class="font-size-sm font-weight-semibold text-uppercase mt-2">Youtube</div>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
-
-				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-pulse2 mr-2"></i>
-						Activity
-					</a>
-					
-					<div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350">
-						<div class="dropdown-content-header">
-							<span class="font-size-sm line-height-sm text-uppercase font-weight-semibold">Latest activity</span>
-							<a href="#" class="text-default"><i class="icon-search4 font-size-base"></i></a>
-						</div>
-
-						<div class="dropdown-content-body dropdown-scrollable">
-							<ul class="media-list">
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-success-400 rounded-round btn-icon"><i class="icon-mention"></i></a>
-									</div>
-
-									<div class="media-body">
-										<a href="#">Taylor Swift</a> mentioned you in a post "Angular JS. Tips and tricks"
-										<div class="font-size-sm text-muted mt-1">4 minutes ago</div>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-pink-400 rounded-round btn-icon"><i class="icon-paperplane"></i></a>
-									</div>
-									
-									<div class="media-body">
-										Special offers have been sent to subscribed users by <a href="#">Donna Gordon</a>
-										<div class="font-size-sm text-muted mt-1">36 minutes ago</div>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-blue rounded-round btn-icon"><i class="icon-plus3"></i></a>
-									</div>
-									
-									<div class="media-body">
-										<a href="#">Chris Arney</a> created a new <span class="font-weight-semibold">Design</span> branch in <span class="font-weight-semibold">Limitless</span> repository
-										<div class="font-size-sm text-muted mt-1">2 hours ago</div>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-purple-300 rounded-round btn-icon"><i class="icon-truck"></i></a>
-									</div>
-									
-									<div class="media-body">
-										Shipping cost to the Netherlands has been reduced, database updated
-										<div class="font-size-sm text-muted mt-1">Feb 8, 11:30</div>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-warning-400 rounded-round btn-icon"><i class="icon-comment"></i></a>
-									</div>
-									
-									<div class="media-body">
-										New review received on <a href="#">Server side integration</a> services
-										<div class="font-size-sm text-muted mt-1">Feb 2, 10:20</div>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<a href="#" class="btn bg-teal-400 rounded-round btn-icon"><i class="icon-spinner11"></i></a>
-									</div>
-									
-									<div class="media-body">
-										<strong>January, 2018</strong> - 1320 new users, 3284 orders, $49,390 revenue
-										<div class="font-size-sm text-muted mt-1">Feb 1, 05:46</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-
-						<div class="dropdown-content-footer bg-light">
-							<a href="#" class="font-size-sm line-height-sm text-uppercase font-weight-semibold text-grey mr-auto">All activity</a>
-							<div>
-								<a href="#" class="text-grey" data-popup="tooltip" title="Clear list"><i class="icon-checkmark3"></i></a>
-								<a href="#" class="text-grey ml-2" data-popup="tooltip" title="Settings"><i class="icon-gear"></i></a>
-							</div>
-						</div>
-					</div>
-				</li>
-
 				<li class="nav-item">
 					<a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="navbar-nav-link">
@@ -289,8 +148,8 @@
 							<a href="#">
 								<img src="http://localhost/dev-invoice/public/images/demo/users/face6.jpg" class="img-fluid rounded-circle shadow-1 mb-3" width="80" height="80" alt="">
 							</a>
-							<h6 class="mb-0 text-white text-shadow-dark">Victoria Baker</h6>
-							<span class="font-size-sm text-white text-shadow-dark">Santa Ana, CA</span>
+							<h6 class="mb-0 text-white text-shadow-dark">{{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}}</h6>
+							<span class="font-size-sm text-white text-shadow-dark"></span>
 						</div>
 													
 						<div class="sidebar-user-material-footer">
@@ -308,28 +167,19 @@
 							</li>
 							<li class="nav-item">
 								<a href="#" class="nav-link legitRipple">
-									<i class="icon-coins"></i>
-									<span>My balance</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link legitRipple">
-									<i class="icon-comment-discussion"></i>
-									<span>Messages</span>
-									<span class="badge bg-teal-400 badge-pill align-self-center ml-auto">58</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="#" class="nav-link legitRipple">
 									<i class="icon-cog5"></i>
 									<span>Account settings</span>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="#" class="nav-link legitRipple">
+								<a class="nav-link legitRipple" href="{{ route('logout') }}" onclick="event.preventDefault();
+													document.getElementById('logout-form').submit();" class="navbar-nav-link">
 									<i class="icon-switch2"></i>
 									<span>Logout</span>
-								</a>
+									<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+										@csrf
+									</form>
+								</a>	
 							</li>
 						</ul>
 					</div>
@@ -338,7 +188,7 @@
 				<li class="nav-item-header">
 					<div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
 				<li class="nav-item">
-					<a href="index.html" class="nav-link active legitRipple">
+					<a href="/" class="nav-link active legitRipple">
 						<i class="icon-home4"></i>
 						<span>Dashboard</span>
 					</a>
@@ -373,50 +223,14 @@
 						<li class="nav-item"><a href="{{ 'paymentmethod' }}" class="nav-link legitRipple">Payment Method</a></li>
 					</ul>
 				</li>
-				<li class="nav-item nav-item-submenu">
-					<a href="#" class="nav-link legitRipple"><i class="icon-stack"></i> <span>Starter kit</span></a>
-
-					<ul class="nav nav-group-sub" data-submenu-title="Starter kit">
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/layout_nav_horizontal.html" class="nav-link legitRipple">Horizontal navigation</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_none.html" class="nav-link legitRipple">No sidebar</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_main.html" class="nav-link legitRipple">1 sidebar</a></li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link legitRipple">2 sidebars</a>
-							<ul class="nav nav-group-sub">
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_secondary.html" class="nav-link legitRipple">Secondary sidebar</a></li>
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_right.html" class="nav-link legitRipple">Right sidebar</a></li>
-							</ul>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link legitRipple">3 sidebars</a>
-							<ul class="nav nav-group-sub">
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_right_hidden.html" class="nav-link legitRipple">Right sidebar hidden</a></li>
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_right_visible.html" class="nav-link legitRipple">Right sidebar visible</a></li>
-							</ul>
-						</li>
-						<li class="nav-item nav-item-submenu">
-							<a href="#" class="nav-link legitRipple">Content sidebars</a>
-							<ul class="nav nav-group-sub">
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_content_left.html" class="nav-link legitRipple">Left sidebar</a></li>
-								<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/sidebar_content_right.html" class="nav-link legitRipple">Right sidebar</a></li>
-							</ul>
-						</li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/layout_boxed.html" class="nav-link legitRipple">Boxed layout</a></li>
-						<li class="nav-item-divider"></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/navbar_fixed_main.html" class="nav-link legitRipple">Fixed main navbar</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/navbar_fixed_secondary.html" class="nav-link legitRipple">Fixed secondary navbar</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/navbar_fixed_both.html" class="nav-link legitRipple">Both navbars fixed</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/demo/bs4/Template/layout_1/LTR/material/seed/layout_fixed.html" class="nav-link legitRipple">Fixed layout</a></li>
-					</ul>
-				</li>
 				<li class="nav-item">
 					<a href="{{ 'companyprofile' }}" class="nav-link legitRipple">
 						<i class="icon-list-unordered"></i>
 						<span>Company Setting</span>
-						<span class="badge bg-blue-400 align-self-center ml-auto">2.2</span>
+						<span class="badge bg-blue-400 align-self-center ml-auto">0.1</span>
 					</a>
 				</li>
-				<li class="nav-item"><a href="#" class="nav-link legitRipple"><i class="icon-width"></i> <span>Report</span></a></li>
+				<li class="nav-item"><a href="/report" class="nav-link legitRipple"><i class="icon-width"></i> <span>Report</span></a></li>
 				<li class="nav-item"><a href="/user" class="nav-link legitRipple"><i class="icon-width"></i> <span>Users</span></a></li>
 				<!-- /main -->
 
@@ -473,7 +287,7 @@
 								</div>
 
 								<div>
-									<a href="#" class="btn bg-teal-400"><i class="icon-statistics mr-2"></i> Report</a>
+									<a href="/report" class="btn bg-teal-400"><i class="icon-statistics mr-2"></i> Report</a>
 								</div>
 							</div>
 						</div>
@@ -554,11 +368,13 @@
 	</div>
 	<!-- /page content -->
 	
-	
+
 	<script type="text/javascript" src="{{ URL::asset('js/compiled-4.8.0.min.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js//md.uploadfile.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js//md.rating.js') }}"></script>
 	<script type="text/javascript" src="{{ URL::asset('js/popper.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/Print-Excel/libs/FileSaver/FileSaver.min.js') }}"></script>
+	<script type="text/javascript" src="{{ URL::asset('js/Print-Excel/tableExport.js') }}"></script>
 	<script src="{{ URL::asset('js/app.js') }}"></script>
 
 </body>

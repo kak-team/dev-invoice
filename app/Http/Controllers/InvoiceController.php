@@ -474,13 +474,12 @@ class InvoiceController extends Controller
     {
         
         // user id
-        $user_id = auth()->user()->id;
-        
+        $user_id     = auth()->user()->id;
         // invoice id
         if($request->status_vat == 'vat'):
             $number = Invoice::where('status_vat','vat')->count();
         else:
-            $number = Invoice::where('status_vat','no_vat')->count();
+            $number = 'V'.Invoice::where('status_vat','no_vat')->count();
         endif;
         $number = str_pad($number+1, 6, '0', STR_PAD_LEFT);
         $invoice_number = date('Y').'-'.$number;
