@@ -41,11 +41,19 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $service = Service::all();
-        $invoice = Invoice::limit(100)->get();
+        $service        = Service::all();
+        
+
+        if(auth()->user()->status == 'vat'):
+            $invoice = Invoice::where('status_vat','vat')
+            ->with('airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->orderBy('id','DESC')->limit(100)->get();
+        else:
+            $invoice = Invoice::orderBy('id','DESC')->limit(100)->get();
+        endif;
         $data = [
-            'services' => $service,
-            'invoice' => $invoice
+            'services'      => $service,
+            'invoice'       => $invoice,
         ];
         return view('report.index',$data);
     }
@@ -149,11 +157,90 @@ class ReportController extends Controller
 
     }
 
+    public function auto_filter_income(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date   = $request->to_date;
+        $service   = explode(',',$request->service);
+        $status    = explode(',',$request->status);
+        if($request->status == null ):
+            $status    = array('paid','unpaid');
+        else: 
+            $status    = explode(',',$request->status);
+        endif;
+        
+        $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
+        
+        //dd($request->service);
+        if(!empty($request->service)): 
+            $invoice = Invoice::whereBetween('issue_date',[$from_date,$to_date])
+            ->whereIn('service_id', $service)       
+            ->with('invoice_incomes','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->get();
+        else:
+            $invoice = Invoice::whereBetween('issue_date',[$from_date,$to_date])
+            ->with('invoice_incomes','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->get();
+        endif;
+       
+        foreach($invoice as $value):
+            $list               = $invoice_list[$value->service_id];
+            $list               = $value->$list->count('id');
+
+            $amount         = $value->total_amount;
+            $total_payment  = $value->invoice_incomes->sum('new_payment');
+
+            // Compare invoice status ( Paid & Unpaid )
+            if($total_payment == $value->total_amount):
+                $invoice_income_status = 'paid';
+            else:
+                $invoice_income_status = 'unpaid';                
+            endif;
+
+            if(in_array($invoice_income_status,$status)):
+                if($list>0):
+                    $total_service_fee  = $value->service_fee_price * $list;
+                    $total_vat = ($total_service_fee * $list)/$value->vat_percent;
+                    echo '
+                        <tr>
+                            <td>'.$value->issue_date.'</td>
+                            <td>'.$value->invoice_number.'</td>
+                            <td>$'.number_format($value->total_amount,2).'</td>
+                            <td>$'.number_format($total_service_fee,2).'</td>
+                            <td>$'.number_format($total_vat,2).'</td>
+                            <td>$'.number_format($total_service_fee,2).'</td>';
+                            echo '<td>';
+                                if($invoice_income_status == 'paid'):
+                                    echo  '<button class="btn bg-success legitRipple btn-sm badge">PAID</button>';
+                                else:
+                                    echo '<button class="btn bg-orange legitRipple btn-sm badge">UNPAID</button>';
+                                endif;
+                            echo '<td>
+                            <button type="button" link="invoice_'.$value->service_type[0]->name.'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
+                        <i class="icon-printer2"></i>
+                    </button></td>';
+                    echo '<tr>'; 
+                endif;
+            endif;
+
+        endforeach;
+
+
+       
+    }
+
     public function auto_inovoice_number(Request $request)
     {
-        $invoice = Invoice::where('invoice_number',$request->value)
+        if(auth()->user()->status == 'vat'):
+            $invoice = Invoice::where('invoice_number',$request->value)
+            ->where('status_vat','vat')
             ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
             ->get();
+        else: 
+            $invoice = Invoice::where('invoice_number',$request->value)
+            ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
+            ->get();
+        endif;
             if (!empty($invoice[0]->id)):
                 foreach($invoice as $value){
                     $amount         = $value->total_amount;
@@ -212,9 +299,16 @@ class ReportController extends Controller
 
     public function auto_inovoice_by_cusomter(Request $request)
     {
-        $invoice = Invoice::where('customer_id',$request->customer_id)
+        if(auth()->user()->status == 'vat'):
+            $invoice = Invoice::where('customer_id',$request->customer_id)
+            ->where('status_vat','vat')
             ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
             ->get();
+        else:
+            $invoice = Invoice::where('customer_id',$request->customer_id)
+            ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
+            ->get();
+        endif;
             if (!empty($invoice[0]->id)):
                 foreach($invoice as $value){
                     $amount         = $value->total_amount;

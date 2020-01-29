@@ -84,192 +84,366 @@
 </div>
 <div class="card">
     <div class="card-body">
+        <ul class="nav nav-tabs nav-tabs-highlight">
+            <li class="nav-item"><a href="#highlighted-tab1" class="nav-link active show" data-toggle="tab">Report Invoice</a></li>
+            <li class="nav-item"><a href="#highlighted-tab2" class="nav-link" data-toggle="tab">Report Expense</a></li>
+            <li class="nav-item"><a href="#highlighted-tab3" class="nav-link" data-toggle="tab">Report Income</a></li>
+        </ul>
 
-        <div class="row">
-            <div class="col">
-                <div class="card" id="filter_date">
-                    <small class="card-header info-color white-text text-center p-2 mb-2">
-                        Filter by date
-                    </small>
-                    <div class="card-body">
-                        <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Type</p><hr class="mt-0">
-                        <div class="row">                               
-                            @foreach($services as $service)                                        
-                                <div class="col-md-4 p-1">                                   
-                                    
-                                    <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                        <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="c_{{ $service->id }}" value="{{ $service->id }}">                                    
-                                        <label class="custom-control-label" for="c_{{ $service->id }}">{{ $service->name }}</label>
-                                    </div>                 
-                                </div>
-                            @endforeach                                   
-                        </div> 
-                        <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Status</p><hr class="mt-0">
-                        <div class="row">
-                            
-                            <div class="col-lg-3 my-1">
-                                <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_Paid" value="paid">                                    
-                                    <label class="custom-control-label" for="d_Paid">Paid</label>
-                                </div>    
-                            </div>
-                            <div class="col-lg-3 my-1">
-                                <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_unpaid" value="unpaid">                                    
-                                    <label class="custom-control-label" for="d_unpaid">Unpaid</label>
-                                </div>    
-                            </div>
+        <div class="tab-content px-0">
+            <div class="tab-pane fade active show" id="highlighted-tab1">
 
-                            <div class="col-lg-3 my-1 ">
-                                <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" name="invoiceStatusCancel" class="custom-control-input Bchk" id="d_cancel" value="cancel">                                    
-                                    <label class="custom-control-label text-nowrap" for="d_cancel"> Cancel Invoice</label>
-                                </div>    
-                            </div>
-                            
-                        </div>
-
-                        <p class="mt-2 mb-0 font-weight-bold text-info">Date Range</p><hr class="mt-0">
-                        <div class="row mt-2">
-                            <div class="col">
-                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                    <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                    <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center mt-2">
-                            <button class="btn btn-success" id="query_filter">Query Data</button>
-                        </div>
-                    </div>
-                </div>
-            
-            </div>
-            <div class="col">            
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <small class="card-header primary-color white-text text-center p-1">Filter by invoice number</small>
-                        
+                    <div class="col">
+                        <div class="card" id="filter_date">
+                            <small class="card-header info-color white-text text-center p-2 mb-2">
+                                Filter by date
+                            </small>
                             <div class="card-body">
-                                <div class="row d-flex align-items-center pt-3">
-                                    <div class="col">
-                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                            <input type="text" class="form-control font-weight-bold text-center" id="invoice_number" placeholder="Invoice Number" required="" autocomplete="off">
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Type</p><hr class="mt-0">
+                                <div class="row">                               
+                                    @foreach($services as $service)                                        
+                                        <div class="col-md-4 p-1">                                   
+                                            
+                                            <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                                <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="c_{{ $service->id }}" value="{{ $service->id }}">                                    
+                                                <label class="custom-control-label" for="c_{{ $service->id }}">{{ $service->name }}</label>
+                                            </div>                 
                                         </div>
-                                        <div class="text-center mt-2">
-                                            <button class="btn btn-success waves-effect waves-light" id="query_invoice_number">Query Data</button>
-                                        </div>
+                                    @endforeach                                   
+                                </div> 
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Status</p><hr class="mt-0">
+                                <div class="row">
+                                    
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_Paid" value="paid">                                    
+                                            <label class="custom-control-label" for="d_Paid">Paid</label>
+                                        </div>    
+                                    </div>
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_unpaid" value="unpaid">                                    
+                                            <label class="custom-control-label" for="d_unpaid">Unpaid</label>
+                                        </div>    
+                                    </div>
+
+                                    <div class="col-lg-3 my-1 ">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatusCancel" class="custom-control-input Bchk" id="d_cancel" value="cancel">                                    
+                                            <label class="custom-control-label text-nowrap" for="d_cancel"> Cancel Invoice</label>
+                                        </div>    
                                     </div>
                                     
-                                </div>                     
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <small class="card-header primary-color white-text text-center p-1">Filter by Customer</small>                        
-                            <div class="card-body">
-                                <div class="row d-flex align-items-center pt-3">
-                                    
+                                </div>
+
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Date Range</p><hr class="mt-0">
+                                <div class="row mt-2">
                                     <div class="col">
                                         <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                            <input type="text" class="form-control font-weight-bold text-center" id="customer_name" placeholder="Customer Name (English)" required="" autocomplete="off">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
                                         </div>
-                                        <div class="AutoDisplay_Customer"></div>                                       
                                     </div>
-                                    
+                                    <div class="col">
+                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="text-center mt-2">
-                                    <button class="btn btn-success waves-effect waves-light" id="query_customer">Query Data</button>
-                                </div>                     
+                                    <button class="btn btn-success" id="query_filter">Query Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="col">            
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <small class="card-header primary-color white-text text-center p-1">Filter by invoice number</small>
+                                
+                                    <div class="card-body">
+                                        <div class="row d-flex align-items-center pt-3">
+                                            <div class="col">
+                                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                                    <input type="text" class="form-control font-weight-bold text-center" id="invoice_number" placeholder="Invoice Number" required="" autocomplete="off">
+                                                </div>
+                                                <div class="text-center mt-2">
+                                                    <button class="btn btn-success waves-effect waves-light" id="query_invoice_number">Query Data</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>                     
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <small class="card-header primary-color white-text text-center p-1">Filter by Customer</small>                        
+                                    <div class="card-body">
+                                        <div class="row d-flex align-items-center pt-3">
+                                            
+                                            <div class="col">
+                                                <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                                    <input type="text" class="form-control font-weight-bold text-center" id="customer_name" placeholder="Customer Name (English)" required="" autocomplete="off">
+                                                </div>
+                                                <div class="AutoDisplay_Customer"></div>                                       
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <button class="btn btn-success waves-effect waves-light" id="query_customer">Query Data</button>
+                                        </div>                     
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="d-flex justify-content-between">
-            <div></div>
-            <div><h1>Report</h1></div>            
-            <div class="btn-group mb-2">
-                <button type="button" class="btn legitRipple mr-2" id="btnExcel">
-                    <i class="icon-printer"></i>
-                    <span class="d-none d-lg-inline-block ml-2">Export-Excel</span>
-                </button>
-                <button type="button" class="btn legitRipple waves-effect waves-light">
-                    <i class="icon-new-tab2"></i>
-                    <span class="d-none d-lg-inline-block ml-2">Print Now</span>
-                </button>
-            </div>
-        </div>
-        <table class="table table-striped border" id="reportTable">
-            <thead class="bg-info">
-                <tr>
-                    <th style="background-color:#00bcd4" class="text-nowrap small">Issued Date</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Invoice Number</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Provider Name</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Service Type</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Company Name</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Total</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Sale By</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Payment Status</th>
-                    <th style="background-color:#00bcd4" class="text-center text-nowrap small">Status</th>
-                    <th>View</th>
-                </tr>
-            </thead>
-            <tbody id="result">
-            <?php 
-               
-                if (!empty($invoice[0]->id)):
-                    foreach($invoice as $value){
-                        $amount         = $value->total_amount;
-                        $total_payment  = $value->invoice_incomes->sum('new_payment');
-            
-                        // Compare invoice status ( Paid & Unpaid )
-                        if($total_payment == $value->total_amount):
-                            $invoice_income_status = 'paid';
-                        else:
-                            $invoice_income_status = 'unpaid';                
-                        endif;
-                        
-                        echo '<tr>';
-                            echo '<td>'.date('d-m-Y',strtotime($value->issue_date)).'</td>';
-                            echo '<td>'.$value->invoice_number.'</td>';
-                            echo '<td>'.$value->suppliers->name_en.'</td>';
-                            echo '<td>'.$value->service_type[0]->name.'</td>';
-                            echo '<td>'.$value->customers->name_en.'</td>';
-                            echo '<td>$'.$amount.'.00</td>';
-                            echo '<td>'.$value->issue_by->name.'</td>';
-                            echo '<td>';
-                                if($invoice_income_status == 'paid'):
-                                    echo  '<button class="btn bg-success legitRipple btn-sm badge">PAID</button>';
+                <div class="d-flex justify-content-between">
+                    <div></div>
+                    <div><h1>Report</h1></div>            
+                    <div class="btn-group mb-2">
+                        <button type="button" class="btn legitRipple mr-2" id="btnExcel">
+                            <i class="icon-printer"></i>
+                            <span class="d-none d-lg-inline-block ml-2">Export-Excel</span>
+                        </button>
+                        <button type="button" class="btn legitRipple waves-effect waves-light">
+                            <i class="icon-new-tab2"></i>
+                            <span class="d-none d-lg-inline-block ml-2">Print Now</span>
+                        </button>
+                    </div>
+                </div>
+                <table class="table table-striped border" id="reportTable">
+                    <thead class="bg-info">
+                        <tr>
+                            <th style="background-color:#00bcd4" class="text-nowrap small">Issued Date</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Invoice Number</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Provider Name</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Service Type</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Company Name</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Total</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Sale By</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Payment Status</th>
+                            <th style="background-color:#00bcd4" class="text-center text-nowrap small">Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result">
+                    <?php 
+                    
+                        if (!empty($invoice[0]->id)):
+                            foreach($invoice as $value){
+                                $amount         = $value->total_amount;
+                                $total_payment  = $value->invoice_incomes->sum('new_payment');
+                    
+                                // Compare invoice status ( Paid & Unpaid )
+                                if($total_payment == $value->total_amount):
+                                    $invoice_income_status = 'paid';
                                 else:
-                                    echo '<button class="btn bg-orange legitRipple btn-sm badge">UNPAID</button>';
+                                    $invoice_income_status = 'unpaid';                
                                 endif;
-                            echo '</td>';
-                            echo '<td>'.($value->status_invoice == 'active' ? $value->status_invoice : '<span class="badge bg-danger" >Cancel</span>' ).'</td>';
-                            echo '<td>
-                                <button type="button" link="invoice_'.$value->service_type[0]->name.'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
-                            <i class="icon-printer2"></i>
-                        </button></td>';
-                        echo '</tr>';           
-                    }
-                else:
-                    echo '<tr>
-                            <td colspan="10" class="text-center">Recent Invoice...</td>
-                        </tr>';
-                endif;
-            ?>
-            </tbody>
-        </table>
+                                
+                                echo '<tr>';
+                                    echo '<td>'.date('d-m-Y',strtotime($value->issue_date)).'</td>';
+                                    echo '<td>'.$value->invoice_number.'</td>';
+                                    echo '<td>'.$value->suppliers->name_en.'</td>';
+                                    echo '<td>'.$value->service_type[0]->name.'</td>';
+                                    echo '<td>'.$value->customers->name_en.'</td>';
+                                    echo '<td>$'.$amount.'.00</td>';
+                                    echo '<td>'.$value->issue_by->name.'</td>';
+                                    echo '<td>';
+                                        if($invoice_income_status == 'paid'):
+                                            echo  '<button class="btn bg-success legitRipple btn-sm badge">PAID</button>';
+                                        else:
+                                            echo '<button class="btn bg-orange legitRipple btn-sm badge">UNPAID</button>';
+                                        endif;
+                                    echo '</td>';
+                                    echo '<td>'.($value->status_invoice == 'active' ? $value->status_invoice : '<span class="badge bg-danger" >Cancel</span>' ).'</td>';
+                                    echo '<td>
+                                        <button type="button" link="invoice_'.$value->service_type[0]->name.'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
+                                    <i class="icon-printer2"></i>
+                                </button></td>';
+                                echo '</tr>';           
+                            }
+                        else:
+                            echo '<tr>
+                                    <td colspan="10" class="text-center">Recent Invoice...</td>
+                                </tr>';
+                        endif;
+                    ?>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="tab-pane fade" id="highlighted-tab2">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card" id="filter_date">
+                            <small class="card-header info-color white-text text-center p-2 mb-2">
+                                Filter by date
+                            </small>
+                            <div class="card-body">
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Type</p><hr class="mt-0">
+                                <div class="row">                               
+                                    @foreach($services as $service)                                        
+                                        <div class="col-md-4 p-1">                                   
+                                            
+                                            <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                                <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="c_{{ $service->id }}" value="{{ $service->id }}">                                    
+                                                <label class="custom-control-label" for="c_{{ $service->id }}">{{ $service->name }}</label>
+                                            </div>                 
+                                        </div>
+                                    @endforeach                                   
+                                </div> 
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Status</p><hr class="mt-0">
+                                <div class="row">
+                                    
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_Paid" value="paid">                                    
+                                            <label class="custom-control-label" for="d_Paid">Paid</label>
+                                        </div>    
+                                    </div>
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_unpaid" value="unpaid">                                    
+                                            <label class="custom-control-label" for="d_unpaid">Unpaid</label>
+                                        </div>    
+                                    </div>
+                                    
+                                </div>
+
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Date Range</p><hr class="mt-0">
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button class="btn btn-success" id="query_filter">Query Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="highlighted-tab3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card" id="filter_date">
+                            <small class="card-header info-color white-text text-center p-2 mb-2">
+                                Filter by date
+                            </small>
+                            <div class="card-body" id="card-income">
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Type</p><hr class="mt-0">
+                                <div class="row">                               
+                                    @foreach($services as $service)                                        
+                                        <div class="col-md-4 p-1">                                   
+                                            
+                                            <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                                <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="income_{{ $service->id }}" value="{{ $service->id }}">                                    
+                                                <label class="custom-control-label" for="income_{{ $service->id }}">{{ $service->name }}</label>
+                                            </div>                 
+                                        </div>
+                                    @endforeach                                   
+                                </div> 
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Invoice Status</p><hr class="mt-0">
+                                <div class="row">
+                                    
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="income_Paid" value="paid">                                    
+                                            <label class="custom-control-label" for="income_Paid">Paid</label>
+                                        </div>    
+                                    </div>
+                                    <div class="col-lg-3 my-1">
+                                        <div class="custom-control custom-checkbox" id="btnCheck_single">
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="income_unpaid" value="unpaid">                                    
+                                            <label class="custom-control-label" for="income_unpaid">Unpaid</label>
+                                        </div>    
+                                    </div>
+                                    
+                                </div>
+
+                                <p class="mt-2 mb-0 font-weight-bold text-info">Date Range</p><hr class="mt-0">
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button class="btn btn-success" id="query_filter_income">Query Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+               <table class="table">
+                        <tr>
+                            <td>Issue Date</td>
+                            <td>Invoice Number</td>
+                            <td>Total Amount</td>
+                            <td>Total Service Fee</td>
+                            <td>Total Vat</td>
+                            <td>Total Income</td>
+                            <td>Payment Status</td>
+                            <td>View</td>
+                        </tr>
+                        <tbody id="table-income">
+                        <?php
+                            $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
+                            foreach($invoice as $value):
+                                $list               = $invoice_list[$value->service_id];
+                                $list               = $value->$list->count('id');
+                                if($list>0):
+                                    $total_service_fee  = $value->service_fee_price * $list;
+                                    $total_vat = ($total_service_fee * $list)/$value->vat_percent;
+                                    echo '
+                                        <tr>
+                                            <td>'.$value->issue_date.'</td>
+                                            <td>'.$value->invoice_number.'</td>
+                                            <td>$'.number_format($value->total_amount,2).'</td>
+                                            <td>$'.number_format($total_service_fee,2).'</td>
+                                            <td>$'.number_format($total_vat,2).'</td>
+                                            <td>$'.number_format($total_service_fee,2).'</td>';
+                                            echo '<td>
+                                            <button type="button" link="invoice_'.$value->service_type[0]->name.'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
+                                        <i class="icon-printer2"></i>
+                                    </button></td>';
+                                    echo '<tr>'; 
+                                endif;
+                                endforeach;
+                            
+                        ?>
+                        </tbody>
+               </table>
+            </div>
+
+        </div>
     </div>
 </div>
+
 
         
  
@@ -330,6 +504,33 @@ $(document).ready(function(){
         });
     });
 
+    $('#query_filter_income').click(function(){
+        var from_date = $('#card-income #from_date').val();
+        var to_date   = $('#card-income #to_date').val();		
+        var array_invoiceService   = new Array();
+        var array_invoiceStatus    = new Array();
+       
+        $('#card-income input[name="invoiceService"]:checked').each(function() {
+            array_invoiceService.push(this.value);
+        });
+
+        $('#card-income input[name="invoiceStatus"]:checked').each(function() {
+            array_invoiceStatus.push(this.value);
+        });   
+
+        var service         = array_invoiceService.toString();
+        var status          = array_invoiceStatus.toString();
+       
+        $.ajax({
+            type : 'post',
+            data : { from_date : from_date, to_date : to_date, service : service, status : status },
+            url  : 'report/auto_filter_income',
+            success : function(repsond){
+                $('#highlighted-tab3 #table-income').html(repsond);
+            }
+        });
+    });
+
     $('#query_invoice_number').click(function(){
         var value = $('#invoice_number').val();
         $.ajax({
@@ -385,7 +586,7 @@ $(document).ready(function(){
     });
 
     // btn print invoice
-    $('#reportTable').on('click','#btn-print',function(){
+    $('#reportTable,#table-income').on('click','#btn-print',function(){
         id      = $(this).val();
         number  = $(this).attr('data-invoice-number');
         link    = $(this).attr('link');

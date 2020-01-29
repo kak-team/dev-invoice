@@ -116,12 +116,17 @@ Route::get('/dashboard', function () {
     return view('dashboard.main-dashboard');
 });
 
-// invoice Print
+// invoice Report
 Route::resource('report', 'ReportController');
 Route::post('report/auto_filter','ReportController@auto_filter');
+Route::post('report/auto_filter_income','ReportController@auto_filter_income');
 Route::post('report/auto_inovoice_number','ReportController@auto_inovoice_number');
 Route::post('report/auto_customer','ReportController@auto_customer');
 Route::post('report/auto_inovoice_by_cusomter','ReportController@auto_inovoice_by_cusomter');
+
+//invoice expense
+Route::resource('expense', 'Invoice_expenseController');
+
 
 //Users route
 Route::resource('user', 'UserController@index');

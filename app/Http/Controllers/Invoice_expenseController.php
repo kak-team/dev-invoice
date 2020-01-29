@@ -15,6 +15,7 @@ class Invoice_expenseController extends Controller
     public function index()
     {
         //
+        return view('invoice_expense.index');
     }
 
     /**
