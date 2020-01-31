@@ -48,13 +48,20 @@ class ReportController extends Controller
             $invoice = Invoice::where('status_vat','vat')
             ->with('airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
             ->orderBy('id','DESC')->limit(100)->get();
+
+            $invoice_expense = Invoice::where('status_vat','vat')
+            ->with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
         else:
             $invoice = Invoice::orderBy('id','DESC')->limit(100)->get();
+            $invoice_expense = Invoice::with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
         endif;
+
         $data = [
-            'services'      => $service,
-            'invoice'       => $invoice,
+            'services'        => $service,
+            'invoice'         => $invoice,
+            'invoice_expense' => $invoice_expense
         ];
+        // dd($invoice_expense);
         return view('report.index',$data);
     }
 

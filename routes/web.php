@@ -126,11 +126,16 @@ Route::post('report/auto_inovoice_by_cusomter','ReportController@auto_inovoice_b
 
 //invoice expense
 Route::resource('expense', 'Invoice_expenseController');
+Route::post('/expense/form_create', 'Invoice_expenseController@form_create');
+Route::post('/expense/auto_invoice_number', 'Invoice_expenseController@auto_invoice_number');
+Route::post('/expense/ajax', 'Invoice_expenseController@ajax');
+Route::post('/expense/destroy', 'Invoice_expenseController@destroy');
 
 
 //Users route
-Route::resource('user', 'UserController@index');
+Route::resource('user', 'UserController');
 Route::post('/create_user', 'UserController@create');
+Route::post('/edit-user', 'UserController@edit_user');
 
 // Airline Name
 Route::resource('airline', 'AirlineController');

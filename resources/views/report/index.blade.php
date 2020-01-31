@@ -335,9 +335,49 @@
                                 </div>
                             </div>
                         </div>
-                    
                     </div>
                 </div>
+                
+                <table class="table">
+                    <tr>
+                        <td class="text-blue-800 font-weight-bold">Invoice ID</td>
+                        <td class="text-blue-800 font-weight-bold">Invoice Expense</td>
+                        <td class="text-blue-800 font-weight-bold">Expense Price</td>
+                        <td class="text-blue-800 font-weight-bold">Expense Date</td>
+                        <td class="text-blue-800 font-weight-bold">Status Paid</td>
+                        <td class="text-blue-800 font-weight-bold">Setting</td>
+                    </tr>
+                    <tbody>
+                    <?php
+                        $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
+                        $loop = 0;
+                        // dd($invoice_expense);
+                        //dd($invoice_expense[1]->expense->invoice_expense_id);
+                        foreach($invoice_expense as $value):                            
+                            $list = $invoice_list[$value->service_id];  
+                            if($value->status_vat == 'vat'):
+                                $total_expense  = $value->$list->sum('price');
+                            else:
+                                $total_expense  = $value->$list->sum('net_price');
+                            endif;
+                            //$invoice = $value->expense();
+                            
+                            
+                            echo '<tr>';
+                            echo '<td>'.$value->invoice_number.'</td>';
+                            echo '<td>'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
+                            echo '<td>'.$total_expense.'</td>';
+                            echo '<td>'.$total_expense.'</td>';
+                            echo '<td>'.$value->issue_date.'</td>';
+                            echo '<td></td>';
+                            echo '<td></td>';
+                            echo '</tr>';
+                            $loop++;
+                        endforeach;
+                    ?>
+                    </tbody>
+                </table>
+
             </div>
 
             <div class="tab-pane fade" id="highlighted-tab3">

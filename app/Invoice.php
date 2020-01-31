@@ -125,5 +125,10 @@ class Invoice extends Model
     {
         return $this->hasMany(Service::class,'id','service_id');
     }
+
+    public function expense()
+    {
+        return $this->hasOne(Invoice_expense::class,'invoice_id','id');
+    }
     
 }

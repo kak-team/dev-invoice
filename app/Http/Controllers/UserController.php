@@ -17,8 +17,8 @@ class UserController extends Controller
     //
     public function index()
     {
-        $users = User::paginate(15)->get();
-        dd($users);
+        $users = User::paginate(15);
+        // dd($users);
         $data = [
             'users'=>$users,
         ];
@@ -47,6 +47,19 @@ class UserController extends Controller
         ]);
         
         return redirect()->back()->withSuccess('IT WORKS!');
+    }
+
+    public function edit_user(Request $request)
+    {
+        $id = $request->id;
+        $users = User::find($id);
+        // dd($users);
+        $data = [
+            'users'=>$users,
+        ];
+
+        return view('user.edit', $data);
+
     }
 
 
