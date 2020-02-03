@@ -17,13 +17,12 @@ class Invoice_expenseController extends Controller
      */
     public function index()
     {
-        $expense = Invoice_expense::with('invoice','invoice.service_type')->paginate(10);
+        $expense = Invoice_expense::with('invoice','invoice.service_type')->orderBy('id','DESC')->paginate(10);
         $payment_method = PaymentMethod::all();
         $data = [
             'values'=>$expense,
             'payment_method' => $payment_method
         ];
-
         return view('invoice_expense.index', $data);
     }
 
@@ -70,6 +69,12 @@ class Invoice_expenseController extends Controller
        
         return json_encode($data);
     }
+
+    public function form_delete(Reqeust $request)
+    {
+        return view('invoice_expense.delete');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -101,6 +106,7 @@ class Invoice_expenseController extends Controller
                 'user_id'            => $user_id,
                 'invoice_expense_id' => $request->expense_invoice_number,
                 'expense_price'      => $request->payment_expense,
+                'collect_by'         => $request->collect_by,
                 'payment_method'     => $request->payment_method,
                 'issue_date'         => $issue_date,
                 'description'        => $request->description,
