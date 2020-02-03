@@ -55,27 +55,30 @@ table#airline td {
                         <td class="text-blue-800 font-weight-bold">Invoice Expense</td>
                         <td class="text-blue-800 font-weight-bold">Expense Price</td>
                         <td class="text-blue-800 font-weight-bold">Invoice Type</td>
-                        <td class="text-blue-800 font-weight-bold">Expense Date</td>
                         <td class="text-blue-800 font-weight-bold">Setting</td>
                     </tr>
                     @foreach($values as $value)
                         <tr>
-                            <td>
-                            {{ $value->invoice->invoice_number }}
+                            <td class="font-weight-bold">
+                                {{ $value->invoice->invoice_number }}
+                                <p class="m-0">{{ $value->invoice->service_type[0]->name }}</p>
                             </td>
-                            <td>                        
+                            <td class="font-weight-bold">                        
                                 {{ $value->invoice_expense_id }}
+                                <p class="m-0">Collect By : {{ $value->collect_by }}</p>
                             </td>
-                            <td>
-                                {{ $value->expense_price }}
+                            <td class="text-danger font-weight-bold">
+                                USD -{{ number_format($value->expense_price,2) }} 
                             </td>
-                            <td>
-                                {{ $value->invoice->service_type[0]->name }}
-                            </td>
+                            
                             <td>
                                 {{ date('d/m/Y',strtotime($value->issue_date)) }}
                             </td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="{{ $value->id }}" airline_id="{{ $value->id }}" airline_name="{{ $value->name }}" airline_code="{{ $value->code }}"><i class="icon-quill4"></i></button></td>
+                            <td>
+                                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="4">
+                                <i class="icon-trash"></i>
+                            </button>    
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -162,6 +165,25 @@ table#airline td {
                 
              }
            });
+        });
+
+        $('.table-responsive').on('click','#btn-delete',function(){
+            id = $(this).val();
+            $(parent_private+' .md-overlay').show();
+            $(parent_private+' .modal-default').removeClass('blowup out');
+            $(parent_private+' .modal-body').html('');
+            $.ajax({
+                type : 'post',
+                url  : 'expense/form_delete',
+                sucess : function(respond){
+                    setTimeout(function(){  
+                        $(parent_private+' .md-overlay').hide();
+                        $(parent_private+' .modal-default').addClass('blowup');
+                        $(parent_private+' #expense_id').val(id);
+                        $(parent_private+' .modal-body').html(respond);
+                    }, 1000);
+                }
+            });
         });
     });
 </script>

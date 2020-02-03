@@ -6,7 +6,7 @@
     padding-top: 2.5rem;
 }
 .company-name {
-    font-family: moul, Roboto;
+    font-family: "Khmer OS Moul";
 }
 .company-en-name {
     font-family:Roboto;
@@ -188,9 +188,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.Second row -->
-
-                    <!-- Third row -->
                     <div class="row mt-4">
                         <div class="col-md-3 float-md-right ml-auto">
                             <ul class="striped list-unstyled">
@@ -200,9 +197,8 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- /.Third row -->
+                  
                 </div>
-                <!---footer invoice-->
                 <div class="col-md-12 footer-invoice pt-5 mt-5">
                     <div class="row pt-5">
                         <div class="col d-flex justify-content-center">

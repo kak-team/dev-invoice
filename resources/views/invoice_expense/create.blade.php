@@ -27,7 +27,7 @@ input.select-dropdown {
                             <div class="col-lg-12">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Invoice Number</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" id="invoice_number" name="invoice_number" autocomplete="off">    
+                                    <input type="text" class="form-control font-weight-bold totalInput border-color px-2" required id="invoice_number" name="invoice_number" autocomplete="off">    
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -63,13 +63,13 @@ input.select-dropdown {
                             <div class="col-lg-12 mb-2">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Expense Invoice Number</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" name="expense_invoice_number" id="expense_invoice_number" autocomplete="off">    
+                                    <input type="text" class="form-control font-weight-bold totalInput border-color px-2" required name="expense_invoice_number" id="expense_invoice_number" autocomplete="off">    
                                 </div>
                             </div>
                             <div class="col-lg-12 mb-2">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Payment Expense</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" name="payment_expense" id="payment_expense" autocomplete="off">    
+                                    <input type="number" class="form-control font-weight-bold totalInput border-color px-2" style="background:#eee" required name="payment_expense" id="payment_expense" autocomplete="off" readonly>    
                                 </div>
                             </div>
                             <div class="col-lg-12 mb-2 px-2 deposit">
@@ -84,13 +84,13 @@ input.select-dropdown {
                             <div class="col-lg-12">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Collect By</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="text" class="form-control font-weight-bold totalInput border-color" name="collect_by"  id="collect_by" autocomplete="off">    
+                                    <input type="text" class="form-control font-weight-bold totalInput border-color px-2" required name="collect_by"  id="collect_by" autocomplete="off">    
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Collect Date</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="date" class="form-control font-weight-bold totalInput border-color" name="collect_date"  id="collect_date" autocomplete="off">    
+                                    <input type="date" class="form-control font-weight-bold totalInput border-color px-2" required name="collect_date"  id="collect_date" autocomplete="off">    
                                 </div>
                             </div>
                             

@@ -293,8 +293,8 @@
                                         <div class="col-md-4 p-1">                                   
                                             
                                             <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                                <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="c_{{ $service->id }}" value="{{ $service->id }}">                                    
-                                                <label class="custom-control-label" for="c_{{ $service->id }}">{{ $service->name }}</label>
+                                                <input type="checkbox" name="invoiceService" class="custom-control-input Bchk" id="expense_{{ $service->id }}" value="{{ $service->id }}">                                    
+                                                <label class="custom-control-label" for="expense_{{ $service->id }}">{{ $service->name }}</label>
                                             </div>                 
                                         </div>
                                     @endforeach                                   
@@ -304,14 +304,14 @@
                                     
                                     <div class="col-lg-3 my-1">
                                         <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_Paid" value="paid">                                    
-                                            <label class="custom-control-label" for="d_Paid">Paid</label>
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="expense_Paid" value="paid">                                    
+                                            <label class="custom-control-label" for="expense_Paid">Paid</label>
                                         </div>    
                                     </div>
                                     <div class="col-lg-3 my-1">
                                         <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="d_unpaid" value="unpaid">                                    
-                                            <label class="custom-control-label" for="d_unpaid">Unpaid</label>
+                                            <input type="checkbox" name="invoiceStatus" class="custom-control-input Bchk" id="expense_unpaid" value="unpaid">                                    
+                                            <label class="custom-control-label" for="expense_unpaid">Unpaid</label>
                                         </div>    
                                     </div>
                                     
@@ -331,7 +331,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center mt-2">
-                                    <button class="btn btn-success" id="query_filter">Query Data</button>
+                                    <button class="btn btn-success" id="query_filter_expense">Query Data</button>
                                 </div>
                             </div>
                         </div>
@@ -345,9 +345,8 @@
                         <td class="text-blue-800 font-weight-bold">Expense Price</td>
                         <td class="text-blue-800 font-weight-bold">Expense Date</td>
                         <td class="text-blue-800 font-weight-bold">Status Paid</td>
-                        <td class="text-blue-800 font-weight-bold">Setting</td>
                     </tr>
-                    <tbody>
+                    <tbody id="table-expense">
                     <?php
                         $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
                         $loop = 0;
@@ -360,16 +359,15 @@
                             else:
                                 $total_expense  = $value->$list->sum('net_price');
                             endif;
-                            //$invoice = $value->expense();
+                            //$invoice = $value->expense();                       
                             
                             
                             echo '<tr>';
                             echo '<td>'.$value->invoice_number.'</td>';
-                            echo '<td>'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
-                            echo '<td>'.$total_expense.'</td>';
-                            echo '<td>'.$total_expense.'</td>';
-                            echo '<td>'.$value->issue_date.'</td>';
-                            echo '<td></td>';
+                            echo '<td class="font-weight-bold">'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
+                            echo '<td>'.(empty($value->expense->expense_price) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
+                            echo '<td>'.(empty($value->expense->issue_date) ? '--' : date('d/m/Y',strtotime($value->expense->issue_date))).'</td>';
+                            echo '<td>'.(empty($value->expense->id) ? 'No' : 'Yes' ).'</td>';
                             echo '<td></td>';
                             echo '</tr>';
                             $loop++;
@@ -567,6 +565,33 @@ $(document).ready(function(){
             url  : 'report/auto_filter_income',
             success : function(repsond){
                 $('#highlighted-tab3 #table-income').html(repsond);
+            }
+        });
+    });
+
+    $('#query_filter_expense').click(function(){
+        var from_date = $('#highlighted-tab2 #from_date').val();
+        var to_date   = $('#highlighted-tab2 #to_date').val();		
+        var array_invoiceService   = new Array();
+        var array_invoiceStatus    = new Array();
+       
+        $('#highlighted-tab2 input[name="invoiceService"]:checked').each(function() {
+            array_invoiceService.push(this.value);
+        });
+
+        $('#highlighted-tab2 input[name="invoiceStatus"]:checked').each(function() {
+            array_invoiceStatus.push(this.value);
+        });   
+
+        var service         = array_invoiceService.toString();
+        var status          = array_invoiceStatus.toString();
+       
+        $.ajax({
+            type : 'post',
+            data : { from_date : from_date, to_date : to_date, service : service, status : status },
+            url  : 'report/auto_filter_expense',
+            success : function(repsond){
+                $('#highlighted-tab2 #table-expense').html(repsond);
             }
         });
     });

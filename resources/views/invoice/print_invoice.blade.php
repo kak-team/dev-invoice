@@ -7,12 +7,15 @@
     padding-top: 2.5rem;
 }
 .company-name {
-    font-family: moul, Roboto;
+    font-family: "Khmer OS Moul";
+   
 }
 .company-en-name {
     font-family:Roboto;
     font-weight: 600;
 }
+
+/* testing */
 </style>
 <div class="fixed-sn white-skin js-focus-visible">
     <main class="pt-0">
