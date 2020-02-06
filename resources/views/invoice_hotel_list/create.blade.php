@@ -86,11 +86,10 @@
                                     <div class="card-body p-2">
                                         <div class="col d-flex">
                                             <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold w-100">
-                                                <input type="text" required="" class="form-control" placeholder="Supplier Name" id="supNameEn" autocomplete="off">
-                                                <input type="hidden" id="supplier_id" name="supplier_id">
+                                                <input type="text" required="" class="form-control" placeholder="Supplier Name...." autocomplete="off">
+                                                <input type="hidden" id="supplier_id" name="supplier_id" value="0">
                                                 <div class="AutoDisplaySup"></div>
                                             </div>
-                                            <i class="icon-notification2 text-warning align-self-center" id="SupplierAutoStatus"></i>
                                         </div>
                                     </div>
                                 </div>
