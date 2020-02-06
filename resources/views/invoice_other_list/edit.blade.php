@@ -45,12 +45,18 @@
                                                 Contact Person :
                                             </div>
                                             <div class="col d-flex " id="contactPerson">
-                                                <select class="mdb-select md-form m-0 w-100  mdbContact" name="contact_person" id="contact_person" >                                    
+                                                @if($invoice->customer_id == 1)
+                                                <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
+                                                        <input type="text" value="{{ $invoice->contact_person_id }}" class="form-control dashed" placeholder="Contact name" name="contact_person" required="" autocomplete="off">
+                                                    </div>
                                                 
+                                                @else
+                                                <select class="mdb-select md-form m-0 w-100  mdbContact" name="contact_person" id="contact_person" >                                
                                                     @foreach($contacts as $contact)
                                                         <option value="{{ $contact->id }}" {{ ($invoice->contact_person_id == $contact->id ? 'selected':'') }}>{{ $contact->full_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4 mb-2">

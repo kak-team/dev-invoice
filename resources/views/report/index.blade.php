@@ -165,10 +165,13 @@
                                 
                                     <div class="card-body">
                                         <div class="row d-flex align-items-center pt-3">
-                                            <div class="col">
+                                            <div class="col-lg-12">
                                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
                                                     <input type="text" class="form-control font-weight-bold text-center" id="invoice_number" placeholder="Invoice Number" required="" autocomplete="off">
                                                 </div>
+
+                                                
+                                                
                                                 <div class="text-center mt-2">
                                                     <button class="btn btn-success waves-effect waves-light" id="query_invoice_number">Query Data</button>
                                                 </div>
@@ -184,11 +187,27 @@
                                     <div class="card-body">
                                         <div class="row d-flex align-items-center pt-3">
                                             
-                                            <div class="col">
+                                            <div class="col-lg-12">
                                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
                                                     <input type="text" class="form-control font-weight-bold text-center" id="customer_name" placeholder="Customer Name (English)" required="" autocomplete="off">
                                                 </div>
                                                 <div class="AutoDisplay_Customer"></div>                                       
+                                            </div>
+
+                                            <div class="col-lg-12" id="s_customer">
+                                                <p class="mt-2 mb-0 font-weight-bold text-info">Date Range</p><hr class="mt-0">
+                                                <div class="row mt-2">
+                                                    <div class="col">
+                                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="from_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                                            <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date"  value="{{ date('Y-m-d') }}" required="" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             
                                         </div>
@@ -210,10 +229,6 @@
                             <i class="icon-printer"></i>
                             <span class="d-none d-lg-inline-block ml-2">Export-Excel</span>
                         </button>
-                        <button type="button" class="btn legitRipple waves-effect waves-light">
-                            <i class="icon-new-tab2"></i>
-                            <span class="d-none d-lg-inline-block ml-2">Print Now</span>
-                        </button>
                     </div>
                 </div>
                 <table class="table table-striped border" id="reportTable">
@@ -233,7 +248,8 @@
                     </thead>
                     <tbody id="result">
                     <?php 
-                    
+                        $invoice_head = array('n/a','airticket','visa','insurance','transportation','hotel','tour','other');
+                          
                         if (!empty($invoice[0]->id)):
                             foreach($invoice as $value){
                                 $amount         = $value->total_amount;
@@ -245,11 +261,19 @@
                                 else:
                                     $invoice_income_status = 'unpaid';                
                                 endif;
+
+                                // supplier
+                                if($value->supplier_id == 0 ):                                    
+                                    $supplier = $invoice_head[$value->service_id];
+                                    $supplier = $value->$supplier->supplier_name;
+                                else:
+                                    $supplier = $value->suppliers->name_en;
+                                endif;
                                 
                                 echo '<tr>';
                                     echo '<td>'.date('d-m-Y',strtotime($value->issue_date)).'</td>';
                                     echo '<td>'.$value->invoice_number.'</td>';
-                                    echo '<td>'.$value->suppliers->name_en.'</td>';
+                                    echo '<td>'.$supplier.'</td>';
                                     echo '<td>'.$value->service_type[0]->name.'</td>';
                                     echo '<td>'.$value->customers->name_en.'</td>';
                                     echo '<td>$'.$amount.'.00</td>';
@@ -263,7 +287,7 @@
                                     echo '</td>';
                                     echo '<td>'.($value->status_invoice == 'active' ? $value->status_invoice : '<span class="badge bg-danger" >Cancel</span>' ).'</td>';
                                     echo '<td>
-                                        <button type="button" link="invoice_'.$value->service_type[0]->name.'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
+                                        <button type="button" link="invoice_'.$invoice_head[$value->service_id].'_list" class="btn btn-outline bg-teal-400 border-teal-400 text-teal-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-print" value="'.$value->id.'">
                                     <i class="icon-printer2"></i>
                                 </button></td>';
                                 echo '</tr>';           
@@ -336,6 +360,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <small class="card-header primary-color white-text text-center p-1">Filter by invoice number</small>
+                            
+                                <div class="card-body">
+                                    <div class="row d-flex align-items-center pt-3">
+                                        <div class="col-lg-12">
+                                            <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                                <input type="text" class="form-control font-weight-bold text-center" id="supplier_invoice_number" placeholder="Supplier Invoice Number" required="" autocomplete="off">
+                                            </div>
+                                                
+                                                
+                                            <div class="text-center mt-2">
+                                                <button class="btn btn-success waves-effect waves-light" id="query_supplier_invoice_number">Query Data</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <table class="table">
@@ -345,6 +392,7 @@
                         <td class="text-blue-800 font-weight-bold">Expense Price</td>
                         <td class="text-blue-800 font-weight-bold">Expense Date</td>
                         <td class="text-blue-800 font-weight-bold">Status Paid</td>
+                        <td class="text-blue-800 font-weight-bold">Description</td>
                     </tr>
                     <tbody id="table-expense">
                     <?php
@@ -353,22 +401,38 @@
                         // dd($invoice_expense);
                         //dd($invoice_expense[1]->expense->invoice_expense_id);
                         foreach($invoice_expense as $value):                            
-                            $list = $invoice_list[$value->service_id];  
-                            if($value->status_vat == 'vat'):
-                                $total_expense  = $value->$list->sum('price');
+                            $list                  = $invoice_list[$value->service_id];  
+                            $head                  = $invoice_head[$value->service_id];
+                            $total_vat             = ($value->service_fee_price*$value->$list->count('id'))/$value->vat_percent;
+                            $total_expense_vat     = $value->total_amount - $value->service_fee_price - $total_vat;
+                            $total_expense_no_vat  = $value->total_amount - $value->$list->sum('net_price');
+
+           
+                            if(auth()->user()->status == 'vat'): 
+                                $total_expense = $total_expense_vat;
                             else:
-                                $total_expense  = $value->$list->sum('net_price');
+                                $total_expense = $total_expense_no_vat;
                             endif;
-                            //$invoice = $value->expense();                       
-                            
+
+                            if($value->service_id == '1'):
+                                $description = '<p>Passenger Name: '.$value->contact_person_id.'</p>';
+                                $description .= '<ul>';
+                                foreach($value->airticket_list as $passenger):
+                                    $description .= '<li>'.$passenger->passanger_name.'</li>';
+                                endforeach;
+                                $description .= '</ul>';                                
+                            else:
+                                $description = '';
+                            endif;
+                        
                             
                             echo '<tr>';
                             echo '<td>'.$value->invoice_number.'</td>';
                             echo '<td class="font-weight-bold">'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
-                            echo '<td>'.(empty($value->expense->expense_price) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
+                            echo '<td>'.(empty($value->expense->invoice_expense_id) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
                             echo '<td>'.(empty($value->expense->issue_date) ? '--' : date('d/m/Y',strtotime($value->expense->issue_date))).'</td>';
                             echo '<td>'.(empty($value->expense->id) ? 'No' : 'Yes' ).'</td>';
-                            echo '<td></td>';
+                            echo '<td>'.$description.'</td>';
                             echo '</tr>';
                             $loop++;
                         endforeach;
@@ -597,16 +661,31 @@ $(document).ready(function(){
     });
 
     $('#query_invoice_number').click(function(){
-        var value = $('#invoice_number').val();
+        value     = $('#invoice_number').val();
+        from_date = $('#s_customer #from_date').val();
+        to_date   = $('#s_customer #to_date').val();
         $.ajax({
             type : 'post',
-            data : { value : value },
+            data : { value : value, from_date : from_date, to_date : to_date },
             url  : 'report/auto_inovoice_number',
             success : function(repsond){
                 $('#result').html(repsond);
             }
         });
     });
+
+    $('#query_supplier_invoice_number').click(function(){
+        value     = $('#supplier_invoice_number').val();
+        $.ajax({
+            type : 'post',
+            data : { value : value },
+            url  : 'report/auto_supplier_inovoice_number',
+            success : function(repsond){
+                $('#highlighted-tab2 #table-expense').html(repsond);
+            }
+        });
+    });
+
     $('#customer_name').keyup(function(){
         var name = $(this).val();
         json = [];

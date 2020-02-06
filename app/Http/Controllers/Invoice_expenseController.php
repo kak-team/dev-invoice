@@ -40,28 +40,45 @@ class Invoice_expenseController extends Controller
         
         $invoice_number = $request->invoice_number;
         $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
-        $invoice        = Invoice::
-        where('invoice_number', $invoice_number)
-        ->with('suppliers','expense','service_type','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
+        $invoice_head   = array('n/a','airticket','visa','insurance','transportation','hotel','tour','other');
+        if(auth()->user()->status == 'vat'):
+            $invoice  = Invoice::where('invoice_number', $invoice_number)
+            ->where('status_invoice','active')
+            ->where('status_vat','vat')
+            ->with('suppliers','expense','transportation','hotel','service_type','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
+        else:
+            $invoice  = Invoice::where('invoice_number', $invoice_number)
+            ->where('status_invoice','active')
+            ->with('suppliers','expense','transportation','hotel','service_type','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
+        endif;
 
         if(!$invoice->isEmpty()){
-            $list           = $invoice_list[$invoice[0]->service_id];  
-            if($invoice[0]->status_vat == 'vat'):
-                $total_expense  = $invoice[0]->$list->sum('price');
-                $status_vat     = $invoice[0]->status_vat;
+            $list                  = $invoice_list[$invoice[0]->service_id];
+            $head                  = $invoice_head[$invoice[0]->service_id];
+            $total_vat             = ($invoice[0]->service_fee_price*$invoice[0]->$list->count('id'))/$invoice[0]->vat_percent;
+            $total_expense_vat     = $invoice[0]->total_amount - $invoice[0]->service_fee_price - $total_vat;
+            $total_expense_no_vat  = $invoice[0]->total_amount - $invoice[0]->$list->sum('net_price');
+
+           
+            if(auth()->user()->status == 'vat'): 
+                $span_invoice_exspense = $total_expense_vat;
             else:
-                $total_expense  = $invoice[0]->$list->sum('net_price');
-                $status_vat     = $invoice[0]->status_vat;
+                $span_invoice_exspense = $total_expense_no_vat;
             endif;
-            
             $data = [
-                'span_supplier_name'     => $invoice[0]->suppliers->name_en,
+                'span_supplier_name'     => ($invoice[0]->supplier_id == 0 ? $invoice[0]->$head->supplier_name : $invoice[0]->suppliers->name_en),
                 'span_invoice_type'      => $invoice[0]->service_type[0]->name,
                 'span_invoice_amount'    => number_format($invoice[0]->total_amount,2),
-                'span_invoice_exspense'  => number_format($total_expense,2),
+                'span_invoice_serviceFee'=> number_format($invoice[0]->service_fee_price,2),
+                'span_invoice_totalVat'  => number_format($total_vat,2),
+                'span_invoice_exspense'  => number_format($span_invoice_exspense,2),
                 'span_invoice_date'      => date('d/M/Y',strtotime($invoice[0]->issue_date)),
+                'value_exspense_vat'     => $total_expense_vat,
+                'value_exspense_no_vat'  => $total_expense_no_vat,
                 'alert'                  => ($invoice[0]->expense != null ? 'This invoice already pay to supplier' : 'This invoice not yet clear to supplier')
             ];
+
+           
         }
         else{
             $data = array();
@@ -101,15 +118,17 @@ class Invoice_expenseController extends Controller
             $issue_date = $request->collect_date.' '.$time;
             $created_at = date('Y-m-d h:i:s');
             $updated_at = date('Y-m-d h:i:s');
+            //dd($request->all());
             $data = [
                 'invoice_id'         => $invoice[0]->id,
                 'user_id'            => $user_id,
                 'invoice_expense_id' => $request->expense_invoice_number,
-                'expense_price'      => $request->payment_expense,
+                'exspense_price_vat'     => $request->value_exspense_vat,
+                'exspense_price_no_vat'  => $request->value_exspense_no_vat,
                 'collect_by'         => $request->collect_by,
                 'payment_method'     => $request->payment_method,
                 'issue_date'         => $issue_date,
-                'description'        => $request->description,
+                'description'        => (!empty($request->description) ? $request->description : '') ,
                 'created_at'         => $created_at,
                 'updated_at'         => $updated_at
             ];

@@ -17,8 +17,6 @@
     <div class="modal-body">
         <div class="card mb-0">
                 <div class="card-body">
-                    
-
                     <div class="row">
                         <div class="mr-auto p-2 col-lg-12">
                             <div class="col-lg-12">
@@ -86,7 +84,7 @@
                                     <div class="card-body p-2">
                                         <div class="col d-flex">
                                             <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold w-100">
-                                                <input type="text" required="" class="form-control" placeholder="Supplier Name...." autocomplete="off">
+                                                <input type="text" required="" name="supplier_name" class="form-control" placeholder="Supplier Name"autocomplete="off">
                                                 <input type="hidden" id="supplier_id" name="supplier_id" value="0">
                                                 <div class="AutoDisplaySup"></div>
                                             </div>
@@ -273,7 +271,7 @@
                 @endif
                     <div class="d-flex justify-content-between">
 
-                        <div class="col-lg-4 mt-3">
+                        <div class="col-lg-5 mt-3">
                             <div class="row">
                                 <div class="col-lg-6 pl-0">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Checking Date</label>
@@ -285,26 +283,24 @@
                                 <div class="col-lg-6">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Checkout Date</label>
                                     <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
-                                        <input type="date" class="form-control font-weight-bold totalInput border-color" id="checkout_date" name="checkout_date" required="" autocomplete="off">
+                                        <input type="date" placeholder="Checkout Date" class="form-control font-weight-bold totalInput border-color" id="checkout_date" name="checkout_date" required="" autocomplete="off">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12 pl-0">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Total Room</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" placeholder="total room" class="form-control font-weight-bold totalInput border-color" name="total_room" required="" autocomplete="off">
+                                    </div>
+                                </div>
+
                             </div>
                             <!--Description-->
                             <div class="md-form md-outline">
                                 <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
                                 <label for="form75">Description</label>
                             </div>                            
-                        </div>
-
-                        <div class="col-lg-3 mt-3 border">
-                            <div class="row">
-                            <p class="text-center p-1 w-100 text-uppercase font-weight-bold" style="background:#ddd">Room Type</p>
-                            </div>
-                            
-                            <div class="respond-car">
-
-                            </div>
-                        </div>
+                        </div> 
                         
                         <div class="col-lg-5 mt-3">
                             <div class="row">

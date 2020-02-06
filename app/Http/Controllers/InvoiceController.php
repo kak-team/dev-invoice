@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
-
 use App\Invoice;
 use App\Invoice_income;
 use App\Invoice_airticket_list;
@@ -416,7 +413,7 @@ class InvoiceController extends Controller
         $variable       = str_replace('invoice_','',$request->link);
         $obj            = str_replace('_list','',$variable);
         $method         = ($obj == 'other' || $obj == 'airticket' ? 'general' : $obj );
-        
+        //dd($method);
         $companyprofile = CompanyProfile::with('company_address','company_email','company_phone')->get(); 
         $invoice        = Invoice::where('id','=',$id)
         ->with('customers','invoice_incomes','contacts','customers.contacts','suppliers',
@@ -478,11 +475,14 @@ class InvoiceController extends Controller
         // invoice id
         if($request->status_vat == 'vat'):
             $number = Invoice::where('status_vat','vat')->count();
+            $number = str_pad($number+1, 6, '0', STR_PAD_LEFT);
+            $invoice_number = date('Y').'-'.$number;
         else:
-            $number = 'V'.Invoice::where('status_vat','no_vat')->count();
+            $number = Invoice::where('status_vat','no_vat')->count();
+            $number = str_pad($number+1, 6, '0', STR_PAD_LEFT);
+            $invoice_number = date('Y').'-'.'N'.$number;
         endif;
-        $number = str_pad($number+1, 6, '0', STR_PAD_LEFT);
-        $invoice_number = date('Y').'-'.$number;
+        
         
     
         //dd($request->all());
@@ -516,7 +516,7 @@ class InvoiceController extends Controller
             'service_id'        => $request->service_id,
             'invoice_number'    => $invoice_number,
             'total_amount'      => $request->amount_total,
-            'service_fee_price' => $request->servicefee_price,
+            'service_fee_price' => (!empty($request->servicefee_price) ? $request->servicefee_price : 0 ) ,
             'vat_percent'       => $request->vat_value,
             'exchange_riel'     => $request->exchange_riel,
             'routing'           => (isset($request->routing) ? $request->routing : '' ),
@@ -613,24 +613,13 @@ class InvoiceController extends Controller
         }
         // invoice_transportation_list
         elseif($request->route == 'invoice_transportation_list'){
-            //dd($request->all());
-            if(!empty($request->car_type)):
-                $b = array();
-                foreach($request->total_car as $key => $a):         
-                    $b[] = $request->car_type[$key].'-'.$a;                        
-                endforeach;
-                $b = implode(',',$b);
-            else:
-                $b = '';
-            endif;
-           
-            $total_car = array_sum($request->total_car);
+            
             $data_transportation = [
-                'invoice_id' =>$insert_invoice->id,
-                'from_date'  =>$request->from_date,
-                'to_date'    =>$request->to_date,
-                'total_car'  =>$total_car,
-                'car_type'   =>$b
+                'invoice_id'    =>$insert_invoice->id,
+                'from_date'     =>$request->from_date,
+                'to_date'       =>$request->to_date,
+                'total_car'     =>$request->total_car,
+                'supplier_name' =>$request->supplier_name
             ];
 
              Invoice_transportation::create($data_transportation);
@@ -649,24 +638,13 @@ class InvoiceController extends Controller
         // invoice_hotel_list
         elseif($request->route == 'invoice_hotel_list'){
             
-            //dd($request->all());
-            if(!empty($request->room_type)):
-                $b = array();
-                foreach($request->total_room as $key => $a):         
-                    $b[] = $request->room_type[$key].'-'.$a;                        
-                endforeach;
-                $b = implode(',',$b);
-            else:
-                $b = '';
-            endif;
             
-            $total_room = array_sum($request->total_room);
             $data_hotel = [
-                'invoice_id'    =>$insert_invoice->id,
-                'checking_date' =>$request->checking_date,
-                'checkout_date' =>$request->checkout_date,
-                'total_room'    =>$total_room,
-                'room_type'     =>$b
+                'invoice_id'        =>$insert_invoice->id,
+                'supplier_name'     =>$request->supplier_name,
+                'total_room'        =>$request->total_room,
+                'checking_date'     =>$request->checking_date.' '.$time,
+                'checkout_date'     =>$request->checkout_date.' '.$time,
             ];
 
             Invoice_hotel::create($data_hotel);
@@ -876,30 +854,19 @@ class InvoiceController extends Controller
         }
         elseif($request->route == 'invoice_transportation_list'){
 
-            if(!empty($request->car_type)):
-                $b = array();
-                foreach($request->total_car as $key => $a):         
-                    $b[] = $request->car_type[$key].'-'.$a;                        
-                endforeach;
-                $b = implode(',',$b);
-            else:
-                $b = '';
-            endif;
-
-            $total_car = array_sum($request->total_car);
-           
             // update sale_transportation
             $data_transportation = [
-                'from_date'  =>$request->from_date,
-                'to_date'    =>$request->to_date,
-                'total_car'  =>$total_car,
-                'car_type'   =>$b
+                'from_date'     =>$request->from_date,
+                'to_date'       =>$request->to_date,
+                'total_car'     =>$request->total_car,
+                'supplier_name' =>$request->supplier_name
 
             ];
            
             Invoice_transportation::where('invoice_id',$request->id)->update($data_transportation);
 
             // data update invoice-transportation-list
+            
             for ($i = 0; $i < count($request->e_n_p); $i++):
                 $e_data_transportation_list = [
                     'net_price'         => $request->e_n_p[$i],
@@ -926,26 +893,14 @@ class InvoiceController extends Controller
            
         }
         elseif($request->route == 'invoice_hotel_list'){
-
-            if(!empty($request->room_type)):
-                $b = array();
-                foreach($request->total_room as $key => $a):         
-                    $b[] = $request->room_type[$key].'-'.$a;                        
-                endforeach;
-                $b = implode(',',$b);
-            else:
-                $b = '';
-            endif;
-
-            $total_room = array_sum($request->total_room);
+ 
            
             // update sale_hotel
             $data_hotel = [
                 'checking_date' =>$request->checking_date,
                 'checkout_date' =>$request->checkout_date,
-                'total_room'    =>$total_room,
-                'room_type'     =>$b
-
+                'supplier_name' =>$request->supplier_name,
+                'total_room'    =>$request->total_room,
             ];
            
             Invoice_hotel::where('invoice_id',$request->id)->update($data_hotel);

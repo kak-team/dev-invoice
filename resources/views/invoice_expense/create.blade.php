@@ -42,10 +42,18 @@ input.select-dropdown {
                                     <p class="m-0"><span class="badge bg-blue-400 align-self-center">3</span> Invoice Amount: 
                                         <b>USD <span class="span_invoice_amount text-success">...</span></b>                                        
                                     </p>
-                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">4</span> Invoice Expense:   
-                                    USD<span class="span_invoice_exspense text-danger">...</span>
+                                    @if(auth()->user()->status == 'vat'):
+                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">4</span> Total ServiceFee: 
+                                        <b>USD <span class="span_invoice_serviceFee text-success">...</span></b>                                        
                                     </p>
-                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">5</span> Invoice Date: 
+                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">5</span> Total Vat: 
+                                        <b>USD <span class="span_invoice_totalVat text-success">...</span></b>                                        
+                                    </p>
+                                    @endif
+                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">6</span> Expense:   
+                                    USD <span class="span_invoice_exspense text-danger">...</span>
+                                    </p>
+                                    <p class="m-0"><span class="badge bg-blue-400 align-self-center">7</span> Invoice Date: 
                                         <span class="span_invoice_date">...</span>
                                     </p>
                                     <p class="mt-3 mb-0 bg-warning">
@@ -67,15 +75,16 @@ input.select-dropdown {
                                 </div>
                             </div>
                             <div class="col-lg-12 mb-2">
-                                <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Payment Expense</label>
+                                <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Expense</label>
                                 <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
-                                    <input type="number" class="form-control font-weight-bold totalInput border-color px-2" style="background:#eee" required name="payment_expense" id="payment_expense" autocomplete="off" readonly>    
+                                    <input type="number" class="form-control font-weight-bold totalInput border-color px-2 expense" style="background:#eee" required id="expense" autocomplete="off" readonly>    
+                                    <input type="hidden" name="value_exspense_vat" id="value_exspense_vat">
+                                    <input type="hidden" name="value_exspense_no_vat" id="value_exspense_no_vat">
                                 </div>
                             </div>
                             <div class="col-lg-12 mb-2 px-2 deposit">
                                 <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Payment Expense</label>
                                 <select class="mdb-select md-form m-0 w-100 payment_method border px-2" name="payment_method" id="payment_method">                                    
-                                    <option value="0" selected>No Payment</option>
                                     @foreach ($payment_method as $method)
                                         <option value="{{ $method->id }}" >{{ $method->name }}</option>
                                     @endforeach
@@ -101,7 +110,7 @@ input.select-dropdown {
                     </div>
 
                     <div class="col-lg-12">
-                        <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Description Date</label>
+                        <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Description</label>
                         <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">                                        
                             <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description" spellcheck="false"></textarea>   
                         </div>

@@ -186,37 +186,37 @@
                         <tr>
                             <td class="position-relative text-center hidMode"> 
                                 <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" class="custom-control-input Bchk" id="c_1">                                    
-                                    <label class="custom-control-label" for="c_1"></label>
+                                    <input type="checkbox" class="custom-control-input Bchk" id="c_999">                                    
+                                    <label class="custom-control-label" for="c_999"></label>
                                 </div>
                             </td>
-                            <td class="position-relative text-center" id="hidMode_1">
+                            <td class="position-relative text-center" id="hidMode_999">
                                 <div class="Dtdisabled"></div>
-                                <input type="hidden" name="n_p[]" id="np_1">
+                                <input type="hidden" name="n_p[]" id="np_999">
                                 <span>1</span>
                             </td>
                             <td class="text-center">
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name" autocomplete="off"></span>
-                                        <input type="hidden" name="airline_id[]" id="airlineId_1">
-                                        <div id="autoDisplay_airlineName_1"></div>
+                                        <input type="text" class="airlineId_999 form-control m-0" id="airlineName_999" required placeholder="airline name" autocomplete="off"></span>
+                                        <input type="hidden" name="airline_id[]" id="airlineId_999">
+                                        <div id="autoDisplay_airlineName_999"></div>
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_1"></i>
+                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_999"></i>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
+                                        <input type="text" id="ticketNo_999" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_1"></i>
+                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_999"></i>
                                 </div>                             
 
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="guestName_1" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text" id="guestName_999" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
                                 </div>
                             </td>
                             <td>
@@ -229,12 +229,12 @@
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="number" name="qty[]" id="qty_1" class="form-control m-0 text-center qty" readonly value=1>                                    
+                                    <input type="number" name="qty[]" id="qty_999" class="form-control m-0 text-center qty" readonly value=1>                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="price[]" id="price_1" step="0.01" class="form-control m-0 text-center price" value=0>                                    
+                                    <input type="number" name="price[]" id="price_999" step="0.01" class="form-control m-0 text-center price" value=0>                                    
                                 </div>
                             </td>
                             
@@ -265,8 +265,8 @@
                         <tr>
                             <td class="position-relative text-center hidMode"> 
                                 <div class="custom-control custom-checkbox" id="btnCheck_single">
-                                    <input type="checkbox" class="custom-control-input Bchk" id="c_1">                                    
-                                    <label class="custom-control-label" for="c_1"></label>
+                                    <input type="checkbox" class="custom-control-input Bchk" id="c_999">                                    
+                                    <label class="custom-control-label" for="c_999"></label>
                                 </div>
                             </td>
                             <td class="position-relative text-center">
@@ -276,25 +276,25 @@
                             <td class="text-center">
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" class="airlineId_1 form-control m-0" id="airlineName_1" required placeholder="airline name" autocomplete="off"></span>
-                                        <input type="hidden" name="airline_id[]" id="airlineId_1">
-                                        <div id="autoDisplay_airlineName_1"></div>
+                                        <input type="text" class="airlineId_999 form-control m-0" id="airlineName_999" required placeholder="airline name" autocomplete="off"></span>
+                                        <input type="hidden" name="airline_id[]" id="airlineId_999">
+                                        <div id="autoDisplay_airlineName_999"></div>
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_1"></i>
+                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconAirline_999"></i>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex">
                                     <div class="md-form m-0">
-                                        <input type="text" id="ticketNo_1" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
+                                        <input type="text" id="ticketNo_999" name="ticket_no[]" placeholder="ticket no" required class="form-control m-0" autocomplete="off">                                    
                                     </div>
-                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_1"></i>
+                                    <i class="icon-notification2 text-warning align-self-center pl-1" id="iconTicketNo_999"></i>
                                 </div>                             
 
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="text" id="guestName_1" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
+                                    <input type="text" id="guestName_999" name="guest_name[]" class="form-control m-0" autocomplete="off">                                    
                                 </div>
                             </td>
                             <td>
@@ -307,17 +307,17 @@
                             <td class="position-relative">
                                 <div class="Tddisabled"></div>
                                 <div class="md-form m-0">
-                                    <input type="number" name="qty[]" id="qty_1" class="form-control m-0 text-center qty" readonly value=1>                                    
+                                    <input type="number" name="qty[]" id="qty_999" class="form-control m-0 text-center qty" readonly value=1>                                    
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="n_p[]" class="form-control m-0 text-center qty" id="np_1">
+                                    <input type="number" name="n_p[]" class="form-control m-0 text-center qty" id="np_999">
                                 </div>
                             </td>
                             <td>
                                 <div class="md-form m-0">
-                                    <input type="number" name="price[]" id="price_1" step="0.01" class="form-control m-0 text-center price" value=0>                                    
+                                    <input type="number" name="price[]" id="price_999" step="0.01" class="form-control m-0 text-center price" value=0>                                    
                                 </div>
                             </td>
                             
@@ -345,6 +345,7 @@
                         
                         
                         <div class="col-lg-5 mt-3">
+                            @if($vat == 'vat')
                             <div class="row">
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Price</label>
@@ -365,6 +366,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="row mt-2 pt-2 border-top">
                                 
                                 <div class="col pr-1">

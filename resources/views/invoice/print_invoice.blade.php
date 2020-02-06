@@ -29,11 +29,16 @@
                         <div class="col p-3">
                             <img class="img-fluid" src="{{ URL::asset('/images/'. $value->logo) }}"/>
                         </div>
-                        <div class="col col-md-10 text-left">
+                        <div class="col col-md-7 text-left">
                             <h2 class="company-name"> {{ $value->name }} </h2>
                             <h2 class="company-en-name font-wieght-600"> {{ $value->en_name }} </h2>   
                         </div>
+                        <div class="col col-md-3 text-right">
+                            <button class="btn btn-success bg-teal-400 legitRipple" onclick="window.print()">Print</button>
+                            <button class="btn btn-danger bg-teal-400 legitRipple" data-dismiss="modal" data-modal="#modalOne">Cancel</button>
+                        </div>
                     </div>
+
                     <hr size="30">   
                     <!-- First row -->
                     <div class="row invoice-data">
@@ -60,12 +65,12 @@
                                 <tr class="">
                                     <td>ទំនាក់ទំនង​/ Contact</td>
                                     <td>: </td>
-                                    <td>{{ $invoice[0]->customers->contacts[0]->full_name }}</td>
+                                    <td>{{ $invoice[0]->contact_person_id }}</td>
                                </tr>
                                 <tr class="">
                                     <td>ទូរសព្ទ / Tel</td>
                                     <td>: </td>
-                                    <td>{{ $invoice[0]->customers->contacts[0]->phone }}</td>
+                                    <td>{{ $invoice[0]->contact_phone }}</td>
                                </tr>
                                 <tr class="">
                                     <td>អុីម៉ែល / E-mail</td>
@@ -138,6 +143,12 @@
                                                         @if($obj == 'tour')
                                                             <p class="m-0">From-To Date: {{ date('d/m/Y',strtotime($invoice[0]->tour->from_date)) }} - {{ date('d/m/Y',strtotime($invoice[0]->tour->to_date)) }}</p>
                                                             <p class="m-0">Tour Code: {{ $invoice[0]->tour->tour_code }}</p>
+                                                        @endif
+                                                        @if($obj == 'hotel')
+                                                            <p class="m-0">Total Room: {{ $invoice[0]->hotel->total_room }}</p>
+                                                        @endif
+                                                        @if($obj == 'transporation')
+                                                            <p class="m-0">Total Room: {{ $invoice[0]->transporation->total_car }}</p>
                                                         @endif
                                                             <p class="m-0">Description: {{ $invoice[0]->description }}</p>
                                                     </td>

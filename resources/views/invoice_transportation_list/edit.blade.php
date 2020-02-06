@@ -45,12 +45,18 @@
                                                 Contact Person :
                                             </div>
                                             <div class="col d-flex " id="contactPerson">
-                                                <select class="mdb-select md-form m-0 w-100  mdbContact" name="contact_person" id="contact_person" >                                    
+                                                @if($invoice->customer_id == 1)
+                                                <div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">
+                                                        <input type="text" value="{{ $invoice->contact_person_id }}" class="form-control dashed" placeholder="Contact name" name="contact_person" required="" autocomplete="off">
+                                                    </div>
                                                 
+                                                @else
+                                                <select class="mdb-select md-form m-0 w-100  mdbContact" name="contact_person" id="contact_person" >                                
                                                     @foreach($contacts as $contact)
                                                         <option value="{{ $contact->id }}" {{ ($invoice->contact_person_id == $contact->id ? 'selected':'') }}>{{ $contact->full_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4 mb-2">
@@ -82,11 +88,10 @@
                                     <div class="card-body p-2">
                                         <div class="col d-flex">
                                             <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold w-100">
-                                                <input type="text" value="{{ $invoice->suppliers->name_en }}" required="" class="form-control" placeholder="Supplier Name" id="supNameEn" autocomplete="off">
-                                                <input type="hidden" value="{{ $invoice->supplier_id }}" id="supplier_id" name="supplier_id">
+                                                <input type="text" name="supplier_name" value="{{ $invoice->transportation->supplier_name }}" required="" class="form-control" placeholder="Supplier Name" id="supNameEn" autocomplete="off">
+                                                <input type="hidden" value="0" id="supplier_id" name="supplier_id">
                                                 <div class="AutoDisplaySup"></div>
                                             </div>
-                                            <i class="icon-checkmark3 text-success align-self-center" id="SupplierAutoStatus"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +152,7 @@
                         @foreach($invoice->transportation_list as $transportation)
                             <tr>
                                 <td class="position-relative text-center hidMode">                                    
-                                    <input type="hidden" name="transportation_id[]" value="{{ $transportation->id }}">
+                                    <input type="hidden" name="transportation_list_id[]" value="{{ $transportation->id }}">
                                 </td>                                
                                 <td class="position-relative text-center" id="hidMode_{{ $loop->iteration }}E">
                                     <div class="Dtdisabled"></div>
@@ -251,6 +256,12 @@
                                         <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date" name="to_date" required="" value="{{ date('Y-m-d',strtotime($invoice->transportation->to_date)) }}" autocomplete="off">
                                     </div>
                                 </div>
+                                <div class="col-lg-12 pl-0">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Total Car</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" class="form-control font-weight-bold totalInput border-color" name="total_car" required="" value="{{ $invoice->transportation->total_car }}" autocomplete="off">
+                                    </div>
+                                </div>
                             </div>
                             
                             <!--Description-->
@@ -260,67 +271,9 @@
                             </div>                            
                         </div>
 
-                        <div class="col-lg-4 mt-3 border">
-                            <div class="row">
-                            <p class="text-center p-1 w-100 text-uppercase font-weight-bold" style="background:#ddd">Car Type</p>
-                            </div>
-                            
-                            <div class="respond-car">
-                            
-                            <?php 
-                            //dd($invoice->suppliers->supplier_transportation);   
-                            echo '<table class="table border table-create table-bordered">';
-
-                                $data_invoice_transportation = $invoice->transportation->car_type;
-                                if(!empty($data_invoice_transportation)):
-                                    $data_invoice_transportation = explode(',',$data_invoice_transportation);
-                                else:
-                                    $data_invoice_transportation = array();
-                                endif;
-                                //dd($data_invoice_transportation);
-                                $transportation = $invoice->suppliers->supplier_transportation;                               
-                                    $car_type = json_decode($transportation->car_type);
-                                    $car = array();
-                                    $loop = 0;
-                                    $for = 1;
-                                    foreach($car_type AS $a):
-                                        if(count($data_invoice_transportation) >= $for AND count($data_invoice_transportation) != 0 ):
-                                        $tran  = explode('-',$data_invoice_transportation[$loop]);
-                                        $car   = $tran[0];
-                                        $total = $tran[1];
-                                        else:
-                                            $car = '';
-                                            $total = 0;
-                                        endif;
-
-                                        foreach($a AS $b):
-                                           
-                                            echo'   
-                                            <tr>
-                                                <td>
-                                                    <input type="hidden" class="custom-control-input" id="'.$b.'" name="car_type[]" value="'.$b.'" >'.$b.'
-                                                </td>
-                                            
-                                                <td class="text-center">                                
-                                                    <div class="md-form m-0">
-                                                        <input type="number" name="total_car[]" value="'.($car == $b ? $total : 0).'" class="form-control m-0" required placeholder="..." autocomplete="off"></span>
-                                                    </div>
-                                                </td>
-                                                
-                                            ';
-                                            
-                                        endforeach;
-                                        $loop++;
-                                        $for++;
-                                    endforeach;
-                               
-                                echo '</table>';
-                                ?>
-                            </div>
-                        </div>
                         
                         
-                        <div class="col-lg-4 mt-3">
+                        <div class="col-lg-5 mt-3">
                             @if($invoice->status_vat == 'vat')
                             <div class="row">
                                 <div class="col-lg-4 pr-1">

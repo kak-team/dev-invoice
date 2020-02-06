@@ -297,6 +297,7 @@
                     <div class="d-flex justify-content-between">
 
                         <div class="col-lg-5 mt-3">
+                          
                             <div class="row">
                                 <div class="col-lg-6 pl-0">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">Application Date</label>
@@ -312,6 +313,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <!--Description-->
                             <div class="md-form md-outline">
                                 <textarea id="form75" class="md-textarea form-control w-100" rows="5" name="description"></textarea>
@@ -322,6 +324,7 @@
                         
                         
                         <div class="col-lg-5 mt-3">
+                            @if($vat == 'vat')
                             <div class="row">
                                 <div class="col-lg-4 pr-1">
                                     <label for="SerFee_total" class="font-weight-bold text-dark mb-0">Service-Fee Price</label>
@@ -342,6 +345,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="row mt-2 pt-2 border-top">
                                 
                                 <div class="col pr-1">

@@ -21,6 +21,7 @@ class Invoice extends Model
         'vat_percent',
         'exchange_riel',
         'routing',
+        'description',
         'groupping',
         'cancel_description',
         'issue_date',

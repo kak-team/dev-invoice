@@ -120,7 +120,9 @@ Route::get('/dashboard', function () {
 Route::resource('report', 'ReportController');
 Route::post('report/auto_filter','ReportController@auto_filter');
 Route::post('report/auto_filter_income','ReportController@auto_filter_income');
+Route::post('report/auto_filter_expense','ReportController@auto_filter_expense');
 Route::post('report/auto_inovoice_number','ReportController@auto_inovoice_number');
+Route::post('report/auto_supplier_inovoice_number','ReportController@auto_supplier_inovoice_number');
 Route::post('report/auto_customer','ReportController@auto_customer');
 Route::post('report/auto_inovoice_by_cusomter','ReportController@auto_inovoice_by_cusomter');
 
@@ -130,6 +132,7 @@ Route::post('/expense/form_create', 'Invoice_expenseController@form_create');
 Route::post('/expense/auto_invoice_number', 'Invoice_expenseController@auto_invoice_number');
 Route::post('/expense/ajax', 'Invoice_expenseController@ajax');
 Route::post('/expense/destroy', 'Invoice_expenseController@destroy');
+Route::post('/expense/form_delete', 'Invoice_expenseController@form_delete');
 
 
 //Users route

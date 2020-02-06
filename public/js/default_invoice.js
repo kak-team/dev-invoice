@@ -188,15 +188,26 @@ $(document).ready(function(){
         $(parent_private).on('click','#acceptCustomer',function(){
             var customer_id = $(this).attr('customer_id');
             var phone_data = $(this).attr('phone-data');
-            var opt = '<select class="mdb-select md-form m-0 w-100 dashed mdbContact" name="contact_person">';
+            
+            if(customer_id == "1"){
+                opt = '<div class="col d-flex ">';                              
+                opt +='<div class="form-group form-group-feedback form-group-feedback-left mb-0 w-100">';
+                opt +='<input type="text" class="form-control dashed" placeholder="Contact name" name="contact_person" required="" autocomplete="off">';
+                opt += '<div class="AutoDisplay"></div>';
+                opt +='</div></div>';            
+            }
+            else{
+                opt = '<select class="mdb-select md-form m-0 w-100 dashed mdbContact" name="contact_person">';
+                $.each(json[phone_data].contacts, function (i, contact) {
+                    opt += '<option value="'+contact.id+'" phone="'+contact.phone+'">'+contact.full_name+'</option>';
+                });
+                opt += '</select>';
+            }
+            $(parent_private+' #CustomerAutoStatus').attr('class','icon-checkmark3 text-success align-self-center pl-1');
             $(parent_private+' #customer_id').val(customer_id);
             $(parent_private+' #cusNameEn').val($(this).text());
             $(parent_private+' .AutoDisplay_Customer').text('');
-            $(parent_private+' #CustomerAutoStatus').attr('class','icon-checkmark3 text-success align-self-center pl-1');
-            $.each(json[phone_data].contacts, function (i, contact) {
-                opt += '<option value="'+contact.id+'" phone="'+contact.phone+'">'+contact.full_name+'</option>';
-            });
-            opt += '</select>';
+                
             $(parent_private+' #contactPerson').html(opt);
             $(parent_private+' .mdbContact').materialSelect();
             $(parent_private+' #phone').val(json[phone_data].contacts[0].phone); 

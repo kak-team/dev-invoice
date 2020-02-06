@@ -42,15 +42,13 @@ class ReportController extends Controller
     public function index()
     {
         $service        = Service::all();
-        
-
         if(auth()->user()->status == 'vat'):
             $invoice = Invoice::where('status_vat','vat')
-            ->with('airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->with('hotel','transportation','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
             ->orderBy('id','DESC')->limit(100)->get();
 
             $invoice_expense = Invoice::where('status_vat','vat')
-            ->with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
+            ->with('hotel','transportation','expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
         else:
             $invoice = Invoice::orderBy('id','DESC')->limit(100)->get();
             $invoice_expense = Invoice::with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list')->get();
@@ -62,6 +60,7 @@ class ReportController extends Controller
             'invoice_expense' => $invoice_expense
         ];
         // dd($invoice_expense);
+        //dd($invoice);
         return view('report.index',$data);
     }
 
@@ -263,8 +262,17 @@ class ReportController extends Controller
         endif;
         $loop = 0;
         foreach($invoice as $value):
-            $list               = $invoice_list[$value->service_id];
-            $list               = $value->$list->count('id');
+            $list                  = $invoice_list[$value->service_id];  
+            $total_vat             = ($value->service_fee_price*$value->$list->count('id'))/$value->vat_percent;
+            $total_expense_vat     = $value->total_amount - $value->service_fee_price - $total_vat;
+            $total_expense_no_vat  = $value->total_amount - $value->$list->sum('net_price');
+
+
+            if(auth()->user()->status == 'vat'): 
+                $total_expense = $total_expense_vat;
+            else:
+                $total_expense = $total_expense_no_vat;
+            endif;
 
             $amount         = $value->total_amount;
             $total_payment  = $value->invoice_incomes->sum('new_payment');
@@ -277,19 +285,10 @@ class ReportController extends Controller
             endif;
 
             if(in_array($status_expense,$status)):
-                
-                $list = $invoice_list[$value->service_id];  
-                if($value->status_vat == 'vat'):
-                    $total_expense  = $value->$list->sum('price');
-                else:
-                    $total_expense  = $value->$list->sum('net_price');
-                endif;
-                //$invoice = $value->expense();                      
-                
                 echo '<tr>';
                 echo '<td>'.$value->invoice_number.'</td>';
                 echo '<td class="font-weight-bold">'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
-                echo '<td>'.(empty($value->expense->expense_price) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
+                echo '<td>'.(empty($value->expense->invoice_expense_id) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
                 echo '<td>'.(empty($value->expense->issue_date) ? '--' : date('d/m/Y',strtotime($value->expense->issue_date))).'</td>';
                 echo '<td>'.(empty($value->expense->id) ? 'No' : 'Yes' ).'</td>';
                 echo '<td></td>';
@@ -298,6 +297,71 @@ class ReportController extends Controller
                
             endif;
 
+        endforeach;
+
+
+       
+    }
+
+    public function auto_supplier_inovoice_number(Request $request)
+    {
+       
+        $supplier_invoice_number = $request->value;
+        $service   = array(1,2,3,4,5,6,7);
+        $status    = array('paid','unpaid');
+        
+        $invoice_list   = array('n/a','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list');
+        
+        //dd($request->service);
+        if(!empty($request->service)): 
+            $invoice = Invoice::whereIn('service_id', $service)       
+            ->with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->get();
+        else:
+            $invoice = Invoice::with('expense','airticket_list','visa_list','insurance_list','transportation_list','hotel_list','tour_list','other_list','service_type')
+            ->get();
+        endif;
+        $loop = 0;
+
+        foreach($invoice as $value):
+            
+                $list                  = $invoice_list[$value->service_id];  
+                $total_vat             = ($value->service_fee_price*$value->$list->count('id'))/$value->vat_percent;
+                $total_expense_vat     = $value->total_amount - $value->service_fee_price - $total_vat;
+                $total_expense_no_vat  = $value->total_amount - $value->$list->sum('net_price');
+
+
+                if(auth()->user()->status == 'vat'): 
+                    $total_expense = $total_expense_vat;
+                else:
+                    $total_expense = $total_expense_no_vat;
+                endif;
+
+                $amount         = $value->total_amount;
+                $total_payment  = $value->invoice_incomes->sum('new_payment');
+
+                // Compare invoice status ( Paid & Unpaid )
+                if(empty($value->expense->id)):
+                    $status_expense = 'unpaid';
+                else:
+                    $status_expense = 'paid';
+                endif;
+                if(!empty($value->expense->invoice_expense_id)):
+                    if($value->expense->invoice_expense_id == $supplier_invoice_number ):
+                        if(in_array($status_expense,$status)):
+                            echo '<tr>';
+                            echo '<td>'.$value->invoice_number.'</td>';
+                            echo '<td class="font-weight-bold">'.(!empty($value->expense->invoice_expense_id) ? $value->expense->invoice_expense_id : 'N/A' ).'</td>';
+                            echo '<td>'.(empty($value->expense->invoice_expense_id) ? '--' : '<span class="text-danger font-weight-bold">USD -'.number_format($total_expense,2).'</span>').'</td>';
+                            echo '<td>'.(empty($value->expense->issue_date) ? '--' : date('d/m/Y',strtotime($value->expense->issue_date))).'</td>';
+                            echo '<td>'.(empty($value->expense->id) ? 'No' : 'Yes' ).'</td>';
+                            echo '<td></td>';
+                            echo '</tr>';
+                            $loop++;
+                        endif;  
+                    endif;  
+                endif;
+            
         endforeach;
 
 
@@ -374,13 +438,17 @@ class ReportController extends Controller
 
     public function auto_inovoice_by_cusomter(Request $request)
     {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
         if(auth()->user()->status == 'vat'):
             $invoice = Invoice::where('customer_id',$request->customer_id)
+            ->whereBetween('issue_date',array($from_date,$to_date))
             ->where('status_vat','vat')
             ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
             ->get();
         else:
             $invoice = Invoice::where('customer_id',$request->customer_id)
+            ->whereBetween('issue_date',array($from_date,$to_date))
             ->with('suppliers','customers','service_type','issue_by','invoice_incomes')
             ->get();
         endif;

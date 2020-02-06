@@ -86,11 +86,10 @@
                                     <div class="card-body p-2">
                                         <div class="col d-flex">
                                             <div class="form-group form-group-feedback form-group-feedback-left mb-0 font-weight-bold w-100">
-                                                <input type="text" required="" class="form-control" placeholder="Supplier Name" id="supNameEn" autocomplete="off">
-                                                <input type="hidden" id="supplier_id" name="supplier_id">
+                                                <input type="text" required="" name="supplier_name" class="form-control" placeholder="Supplier Name" autocomplete="off">
+                                                <input type="hidden" id="supplier_id" name="supplier_id" value="0">
                                                 <div class="AutoDisplaySup"></div>
                                             </div>
-                                            <i class="icon-notification2 text-warning align-self-center" id="SupplierAutoStatus"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +273,7 @@
                 @endif
                     <div class="d-flex justify-content-between">
 
-                        <div class="col-lg-4 mt-3">
+                        <div class="col-lg-5 mt-3">
                             <div class="row">
                                 <div class="col-lg-6 pl-0">
                                     <label for="deposit_total" class="font-weight-bold text-dark mb-0">From Date</label>
@@ -289,6 +288,12 @@
                                         <input type="date" class="form-control font-weight-bold totalInput border-color" id="to_date" name="to_date" required="" autocomplete="off">
                                     </div>
                                 </div>
+                                <div class="col-lg-12 pl-0">
+                                    <label for="deposit_total" class="font-weight-bold text-dark mb-0">Total Car</label>
+                                    <div class=" form-group form-group-feedback form-group-feedback-left mb-0 border font-weight-bold">
+                                        <input type="number" value="0" class="form-control font-weight-bold totalInput border-color" name="total_car" required="" autocomplete="off">
+                                    </div>
+                                </div>
                             </div>
                             <!--Description-->
                             <div class="md-form md-outline">
@@ -297,15 +302,6 @@
                             </div>                            
                         </div>
 
-                        <div class="col-lg-3 mt-3 border">
-                            <div class="row">
-                            <p class="text-center p-1 w-100 text-uppercase font-weight-bold" style="background:#ddd">Car Type</p>
-                            </div>
-                            
-                            <div class="respond-car">
-
-                            </div>
-                        </div>
                         
                         <div class="col-lg-5 mt-3">
                             <div class="row">

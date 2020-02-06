@@ -77,7 +77,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                                    <input type="text" class="form-control" placeholder="Phone" name="c_phone[]" id="c_phone" required="" autocomplete="off">
+                                                    <input type="text" class="form-control" placeholder="Phone" name="c_phone[]" id="c_phone"  autocomplete="off">
                                                     <div class="form-control-feedback">
                                                         <i class="icon-phone-wave text-muted"></i>
                                                     </div>
@@ -85,7 +85,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group form-group-feedback form-group-feedback-left mb-0">
-                                                    <input type="text" class="form-control" placeholder="Contact Email" name="c_email[]" id="c_email" required="" autocomplete="off">
+                                                    <input type="text" class="form-control" placeholder="Contact Email" name="c_email[]" id="c_email"  autocomplete="off">
                                                     <div class="form-control-feedback">
                                                         <i class="icon-envelop4 text-muted"></i>
                                                     </div>                                                

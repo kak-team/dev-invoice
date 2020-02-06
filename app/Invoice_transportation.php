@@ -12,7 +12,7 @@ class Invoice_transportation extends Model
         'from_date',
         'to_date',
         'total_car',
-        'car_type'
+        'supplier_name'
     ];
     public $timestamps  = false;
 }

@@ -12,7 +12,8 @@ class Invoice_expense extends Model
         'invoice_id',
         'invoice_expense_id',
         'collect_by',
-        'expense_price',
+        'exspense_price_vat',
+        'exspense_price_no_vat',
         'issue_date'
     ];
 

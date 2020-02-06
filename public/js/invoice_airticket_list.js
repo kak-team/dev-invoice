@@ -48,7 +48,7 @@ $(document).ready(function(){
     // AutoComplete AirTicket No
     $(parent_private).on('keyup','input[id^="ticketNo_"]',function(){
         var name  = $(this).val();
-        var Tid = $(this).attr("id").replace ( /[^\d.]/g, '' );
+        Tid = $(this).attr("id").replace ( /[^\d.]/g, '' );
         
         // Clear
         $(parent_private+' #airlineName_'+Tid).val('');
@@ -76,10 +76,9 @@ $(document).ready(function(){
 
     // AutoComplete Airline name
     $(parent_private).on('keyup','input[id^="airlineName_"]',function(){
-        var name            = $(this).val();
-        var seft_airline    = $(this);
-        var Aid              = $(this).attr("id").replace ( /[^\d.]/g, '' );
-        json                = [];
+        name            = $(this).val();
+        Aid             = $(this).attr("id").replace ( /[^\d.]/g, '' );
+        json            = [];
         
         // clear data
         $(parent_private+' airlineId_'+Aid).val('');
@@ -107,7 +106,8 @@ $(document).ready(function(){
         $(parent_private).on('click','#acceptAirtiket',function(){
             var airline_id = $(this).attr('airline_id');
             var text = $(this).text();
-            $(seft_airline).val(text);
+            $(parent_private+' #airlineName_'+Aid).val(text);
+            console.log(Aid);
             $(parent_private+' #airlineId_'+Aid).val(airline_id);
             $(parent_private+' #autoDisplay_airlineName_'+Aid).html('');
             $(parent_private+' #iconAirline_'+Aid).attr('class','icon-checkmark3 text-success align-self-center pl-1');

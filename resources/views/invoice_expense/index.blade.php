@@ -48,6 +48,45 @@ table#airline td {
             </div>
                    </div>
         <div class="table-responsive">
+                @if(auth()->user()->status == 'vat')
+                <table class="table text-nowrap">
+                    <tbody>
+                    <tr>
+                        <td class="text-blue-800 font-weight-bold">Invoice ID</td>
+                        <td class="text-blue-800 font-weight-bold">Invoice Expense</td>
+                        <td class="text-blue-800 font-weight-bold">Expense Price</td>
+                        <td class="text-blue-800 font-weight-bold">Invoice Type</td>
+                        <td class="text-blue-800 font-weight-bold">Setting</td>
+                    </tr>
+                    @foreach($values as $value)
+                        @if($value->invoice->status_vat == 'vat')
+                        <tr>
+                            <td class="font-weight-bold">
+                                {{ $value->invoice->invoice_number }}
+                                <p class="m-0">{{ $value->invoice->service_type[0]->name }}</p>
+                            </td>
+                            <td class="font-weight-bold">                        
+                                {{ $value->invoice_expense_id }}
+                                <p class="m-0">Collect By : {{ $value->collect_by }}</p>
+                            </td>
+                            <td class="text-danger font-weight-bold">
+                                USD -{{ number_format($value->exspense_price_vat,2) }} 
+                            </td>
+                            
+                            <td>
+                                {{ date('d/m/Y',strtotime($value->issue_date)) }}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="4">
+                                <i class="icon-trash"></i>
+                            </button>    
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                @else
                 <table class="table text-nowrap">
                     <tbody>
                     <tr>
@@ -68,7 +107,7 @@ table#airline td {
                                 <p class="m-0">Collect By : {{ $value->collect_by }}</p>
                             </td>
                             <td class="text-danger font-weight-bold">
-                                USD -{{ number_format($value->expense_price,2) }} 
+                                USD -{{ number_format($value->exspense_price_no_vat,2) }} 
                             </td>
                             
                             <td>
@@ -83,6 +122,7 @@ table#airline td {
                     @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         
         </div>
@@ -159,7 +199,12 @@ table#airline td {
                 $(parent_private+' .span_supplier_name').text( (obj.span_supplier_name == undefined ? '' : obj.span_supplier_name ) );
                 $(parent_private+' .span_invoice_type').text(obj.span_invoice_type == undefined ? '' : obj.span_invoice_type);
                 $(parent_private+' .span_invoice_amount').text(obj.span_invoice_amount == undefined ? '' : obj.span_invoice_amount);
+                $(parent_private+' .span_invoice_serviceFee').text(obj.span_invoice_serviceFee == undefined ? '' : obj.span_invoice_serviceFee);
+                $(parent_private+' .span_invoice_totalVat').text(obj.span_invoice_totalVat == undefined ? '' : obj.span_invoice_totalVat);
                 $(parent_private+' .span_invoice_exspense').text(obj.span_invoice_exspense == undefined ? '' : obj.span_invoice_exspense);
+                $(parent_private+' #value_exspense_vat').val(obj.value_exspense_vat == undefined ? '' : obj.value_exspense_vat);
+                $(parent_private+' #value_exspense_no_vat').val(obj.value_exspense_no_vat == undefined ? '' : obj.value_exspense_no_vat);
+                $(parent_private+' .expense').val(obj.span_invoice_exspense == undefined ? '' : obj.span_invoice_exspense);
                 $(parent_private+' .span_invoice_date').text(obj.span_invoice_date == undefined ? '' : obj.span_invoice_date);
                 $(parent_private+' .messenge-alert').text(obj.alert == undefined ? '' : obj.alert);
                 
