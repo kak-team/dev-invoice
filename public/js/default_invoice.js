@@ -150,6 +150,22 @@ $(document).ready(function(){
 
     //----------------------- Auto Complete -----------------------------
 
+    // auto search
+    $('#Insearch').keypress(function(e){
+        if(e.which == 13){
+            var search = $(this).val();
+            link = $('body').data('link');
+            $.ajax({
+                type : 'post',
+                data : { search : search, link : link },
+                url : 'invoice/auto_search',
+                success : function(responsive){
+                    $('.table-responsive .table tbody').html(responsive);
+                }
+            })
+        }
+    });
+
     // AutoComplete Customer
     $(parent_private).on('keyup','#cusNameEn',function(){
         
@@ -378,6 +394,8 @@ $(document).ready(function(){
             }
         });
     });
+
+
 
     // btn payment edit 
     $(parent_private).on('click','#btn-edit',function(){

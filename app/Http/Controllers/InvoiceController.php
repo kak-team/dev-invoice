@@ -206,7 +206,188 @@ class InvoiceController extends Controller
     }
 
 // Autocomplete -----------------------------------------------------------------------------------
+    public function auto_search(Request $request)
+    {   
+        $company_profile    = CompanyProfile::select('exchange_kh')->get();
+        $airline            = Airline::all();
+        $payment_method     = PaymentMethod::all()->where('status','=','1');
+        $user_status        = auth()->user()->status;
+        
+        //invoice_airticket_list
+        if($request->link == 'invoice_airticket_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',1)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)                
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            else:
+                $invoice = Invoice::where('service_id',1)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15); 
+            endif;
+            
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+            
+        
+        // invoice_visa_list
+        elseif($request->link == 'invoice_visa_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',2)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(5);
+            else: 
+                $invoice = Invoice::where('service_id',2)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(5);
+            endif;
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_insurance_list
+        elseif($request->link == 'invoice_insurance_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',3)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',3)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_transportation_list
+        elseif($request->link == 'invoice_transportation_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',4)            
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',4)            
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);
+        
+        // invoice_hotel_list
+        elseif($request->link == 'invoice_hotel_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',5)
+                    ->where('status_invoice','active')
+                    ->where('invoice_number',$request->search)
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',5)
+                    ->where('status_invoice','active')
+                    ->where('invoice_number',$request->search)
+                    ->where('status_vat', 'vat')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
+                return view($request->link.'.table',[ 
+                    'user_status'       => $user_status,
+                    'invoices'          => $invoice, 
+                    'airlines'          => $airline,
+                    'company_profile'   => $company_profile,
+                    'payment_methods'   => $payment_method 
+                ]);
+        // invoice_tuour_list
+        elseif($request->link == 'invoice_tour_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',6)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            else:
+                $invoice = Invoice::where('service_id',6)
+                ->where('status_invoice','active')
+                ->where('invoice_number',$request->search)
+                ->where('status_vat', 'vat')
+                ->orderBy('id','desc')
+                ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
+               
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice, 
+                'airlines'          => $airline,
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]); 
 
+        // invoice_other_list
+        elseif($request->link == 'invoice_other_list'):
+            if($user_status == 'no_vat'):
+                $invoice = Invoice::where('service_id',7)
+                    ->where('status_invoice','active')
+                    ->where('invoice_number',$request->search)
+                    ->where('status_vat', 'vat')
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            // dd($invoice);
+            else:
+                $invoice = Invoice::where('service_id',7)
+                    ->where('status_invoice','active')
+                    ->where('invoice_number',$request->search)
+                    ->orderBy('id','desc')
+                    ->with('customers', 'contacts','invoice_incomes')->paginate(15);
+            endif;
+            return view($request->link.'.table',[ 
+                'user_status'       => $user_status,
+                'invoices'          => $invoice,                 
+                'company_profile'   => $company_profile,
+                'payment_methods'   => $payment_method 
+            ]);        
+        endif;
+        
+        
+        
+        
+    }
     public function auto_customer(Request $request)
     {
         $all  = $request->all();

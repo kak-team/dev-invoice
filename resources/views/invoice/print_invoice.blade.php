@@ -124,11 +124,11 @@
                                         <tr class="bg-info">
                                             <th class="text-nowrap">ល.រ <br/>No</th>
                                             <th class="text-nowrap text-left">បរិយាយមុខទំនិញ<br/>Description</th>
-                                            <th class="text-nowrap">ថ្ងៃទំនិញរាយ<br/>Unit Price</th>
-                                            <th class="text-nowrap">បរិមាណ<br/>Quantity</th>
-                                            <th class="text-nowrap">តម្លៃសរុប<br/>Total Price</th>
+                                            <th class="text-nowrap">តម្លៃឯកតា<br/>Unit Price</th>
+                                            <th class="text-nowrap">ឯកតា<br/>Unit</th>
+                                            <th class="text-nowrap">តំលៃសរុប<br/>Total Price</th>
                                             <th class="text-nowrap">អតប១០%<br/>VAT10%</th>
-                                            <th class="text-nowrap">តម្លៃសរុបរួមអតប<br/>Total Price Include VAT</th>
+                                            <th class="text-nowrap">តំលៃសរុបរួមអតប<br/>Total Price Include VAT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -213,7 +213,7 @@
                         <div class="row pt-5">
                             <div class="col d-flex justify-content-center">
                                 <div class="col-md-7 text-center">
-                                    <h6 class="mt-3 pb-5 mb-5">ហត្ថលេខា និងឈ្មោះអ្នកទិញ​ <br/><small>Customer's Signature & Name</small></h6>
+                                    <h6 class="mt-3 pb-5 mb-5">ហត្ថលេខា និងឈ្មោះអតិថិជន​ <br/><small>Customer's Signature & Name</small></h6>
                                     <p>&nbsp;</p>
                                     <hr/>
                                 </div>
@@ -233,7 +233,7 @@
                             <div class="note​​ col-md-12 pt-0">
                                 <small class="text-left">
                                     <p class="m-0">សំគាល់៖ វិក័យប័ត្រពន្ធនេះមានសុពលភាពដរាបណាមានហត្ថលេខារបស់គណនេយ្យករ​ ឬ ក៏បុគ្គលិកផ្នែកទទួលបន្ទុក អមជាមួយនិងត្រាក្រុមហ៊ុន។</p>
-                                    <p class="">Note: This Tax Invoice is valid only whne there is a signature of our company's cashier or reservation sfaff with company stamp.</p>
+                                    <p class="">Note: This Tax Invoice is valid only when there is a signature of our company's cashier or reservation sfaff with company stamp.</p>
                                 </small>
                             </div>    
                             <div class="col-md-12">

@@ -204,6 +204,7 @@ Route::resource('invoice_other_list', 'InvoiceController');
     Route::post('invoice/auto_ticket',   'InvoiceController@auto_ticket');
     Route::post('invoice/auto_transportation', 'InvoiceController@auto_transportation');
     Route::post('invoice/auto_hotel', 'InvoiceController@auto_hotel');
+    Route::post('invoice/auto_search',   'InvoiceController@auto_search');
 
     // Execute
         // invoice

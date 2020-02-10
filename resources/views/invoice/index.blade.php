@@ -162,7 +162,6 @@
 <div class="card-body p-0">
     <ul class="nav nav-tabs nav-tabs-highlight justify-content-left m-0">
         <li class="nav-item"><a href="#centered-tab1" class="nav-link active" data-toggle="tab">Active</a></li>
-        <li class="nav-item"><a href="#centered-tab2" class="nav-link" data-toggle="tab">Search Active</a></li>
         
     </ul>
 
@@ -173,7 +172,7 @@
                     <h6 class="card-title font-weight-bold text-uppercase"> <i class="icon-users4 pr-2"></i> {{ $route[0] }}</h6>
                     <div>
                         <div class="form-group form-group-feedback form-group-feedback-right mb-0" style="width:200px">
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <input type="text" class="form-control" placeholder="Search..." id="Insearch">
                             <div class="form-control-feedback">
                                 <i class="icon-search4"></i>
                             </div>
@@ -196,33 +195,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" id="centered-tab2">
-            <div class="card">
-                <div class="card-header header-elements-sm-inline py-2">
-                    <h6 class="card-title font-weight-bold text-uppercase"> <i class="icon-users4 pr-2"></i> INVOICE {{$route[0]}}</h6>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><input type="date" class="form-control" id="rangeDemoStart" placeholder="Start date"></p>
-                            </div>
-
-                            <div class="col-md-6">
-                                <p><input type="date" class="form-control" id="rangeDemoFinish" placeholder="Finish date" disabled="disabled"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                    
-                    </div>
-                    
-                </div>
-
-                <div class="table-responsive">
-                   
-                </div>
-            </div>
-        </div>  
+       
 
     </div>
 </div>
