@@ -22,19 +22,19 @@ class UserController extends Controller
         $data = [
             'users'=>$users,
         ];
-        return view('user.create', $data);
+        return view('user.index', $data);
     }
 
     // Create new user
     public function create(Request $request)
     {
-        $request->validate([
-            'name'      => ['required', 'string', 'max:255'],
-            'username'  => ['required', 'string', 'max:255', 'unique:usernames'],
-            'email'     => ['required', 'string', 'email', 'max:255', 'unique:email'],
-            'role'      => ['required', 'string', 'role'],
-            'password'  => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        // $request->validate([
+        //     'name'      => ['required', 'string', 'max:255'],
+        //     'username'  => ['required', 'string', 'max:255', 'unique:username'],
+        //     'email'     => ['required', 'string', 'email', 'max:255', 'unique:email'],
+        //     'role'      => ['required', 'string', 'role'],
+        //     'password'  => ['required', 'string', 'min:8', 'confirmed'],
+        // ]);
 
         User::create([
             'name'      => $request->name,
@@ -49,17 +49,76 @@ class UserController extends Controller
         return redirect()->back()->withSuccess('IT WORKS!');
     }
 
-    public function edit_user(Request $request)
+    public function edit_user(Request $request, $id=NULL)
     {
-        $id = $request->id;
-        $users = User::find($id);
-        // dd($users);
+        $id = $request->input('id');
+        
+        $users = User::where('id',$id)->get();
+       
         $data = [
             'users'=>$users,
         ];
 
         return view('user.edit', $data);
 
+    }
+
+    public function update(Request $request)
+    {
+        // $request->validate([
+        //     'name'      => ['required', 'string', 'max:255'],
+        //     'username'  => ['required', 'string', 'max:255', 'unique:username'],
+        //     'email'     => ['required', 'string', 'email', 'max:255', 'unique:email'],
+        //     'role'      => ['required', 'string', 'role'],
+        //     'password'  => ['required', 'string', 'min:8', 'confirmed'],
+        // ]);
+
+        $id = $request->id;
+        $name = $request->name;
+        $username = $request->username;
+        $email = $request->email;
+        $role = $request->role;
+
+        if(!empty($request->password))
+            {
+                $password = Hash::make($request->password);
+                
+                $data = [
+                    'name'=>$name,
+                    'username'=>$username,
+                    'email'=>$email,
+                    'role'=>$role,
+                    'password'=> $password,
+                    
+                ];
+            }else{
+                $data = [
+                    'name'=>$name,
+                    'username'=>$username,
+                    'email'=>$email,
+                    'role'=>$role,
+                    
+                ];
+            }
+
+       
+
+        User::where('id', $id)->update($data);
+
+        return redirect()->back()->withSuccess('IT WORKS!');
+    }
+
+    public function destroy_user(Request $request)
+    {
+        $data = [ 'id' => $request->id];
+
+        return view('user.delete', $data);
+    }
+
+    public function destroy(Request $request)
+    {
+      $user = User::where('id',$request->id)->delete();
+      return redirect()->back()->withSuccess('IT WORKS!');
     }
 
 

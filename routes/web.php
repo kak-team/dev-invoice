@@ -16,6 +16,15 @@ Route::group(['middleware'=>'auth'], function(){
     // admin route section
     Route::group(['middleware' => 'admin'], function()
     {
+        
+        //Users route
+        Route::resource('user', 'UserController');
+        Route::post('/create_user', 'UserController@create');
+        Route::get('/edit-user', 'UserController@edit_user');
+        Route::post('/update-user', 'UserController@update');
+        Route::post('/destroy_user', 'UserController@destroy_user');
+        Route::post('/destroy', 'UserController@destroy');
+        
         // invoice
         Route::resource('invoice_airticket_list', 'InvoiceController');
 
@@ -132,13 +141,8 @@ Route::post('/expense/form_create', 'Invoice_expenseController@form_create');
 Route::post('/expense/auto_invoice_number', 'Invoice_expenseController@auto_invoice_number');
 Route::post('/expense/ajax', 'Invoice_expenseController@ajax');
 Route::post('/expense/destroy', 'Invoice_expenseController@destroy');
-Route::post('/expense/form_delete', 'Invoice_expenseController@form_delete');
+Route::post('/expense/fdelete', 'Invoice_expenseController@fdelete');
 
-
-//Users route
-Route::resource('user', 'UserController');
-Route::post('/create_user', 'UserController@create');
-Route::post('/edit-user', 'UserController@edit_user');
 
 // Airline Name
 Route::resource('airline', 'AirlineController');

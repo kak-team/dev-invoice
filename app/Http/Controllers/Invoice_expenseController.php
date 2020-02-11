@@ -87,9 +87,10 @@ class Invoice_expenseController extends Controller
         return json_encode($data);
     }
 
-    public function form_delete(Reqeust $request)
+    public function fdelete(Request $request)
     {
-        return view('invoice_expense.delete');
+        $data = [ 'id' => $request->id ];   
+        return view('invoice_expense.delete',$data);
     }
 
     /**
@@ -177,8 +178,11 @@ class Invoice_expenseController extends Controller
      * @param  \App\Invoice_expense  $invoice_expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice_expense $invoice_expense)
+    public function destroy(Request $request)
     {
-        //
+        //dd($request->all());
+        $expense = Invoice_expense::where('id', $request->id)->delete();
+
+        return redirect()->back()->withSuccess('IT WORKS!');
     }
 }

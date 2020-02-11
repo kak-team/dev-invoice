@@ -1,12 +1,32 @@
 @extends('master')
 @section('content')
+<div class="modal fade" id="modalOne" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-default blowup" style="width: 190px;" role="document">
+        <div class="modal-content modal-background bg-white">
+            <div class="md-overlay">
+                <div class="text-center d-flex justify-content-center">
+                    <img src="{{ URL::asset('images/loading.gif') }}">
+                </div>
+            </div>
+            <div class="modal-body text-center p-0">         
+                
+            </div>
+        </div>
+    </div>
+</div>
 
+@if(session('success'))
+    <script>
+        $(document).ready(function(){
+            toastr["success"]("Successfully") ;
+        });
+    </script>
+@endif
 <div id="modal_theme_success" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <!-- <form method="POST" action="{{ action('UserController@create') }}"> -->
-            <form method="POST" action=" {{ route('register') }}">
+            <form method="POST" action=" {{ action('UserController@create') }}">
                 @csrf
                 <div class="modal-body">
                     <div class="card mb-0">
@@ -168,25 +188,27 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="mr-3">
-                                        <a class="btn bg-primary-400 rounded-round btn-icon btn-sm">
-                                        <span class="text-icon">K</span>
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <a class="text-default font-weight-semibold">{{ $user->name }}</a>
-                                    </div>
-                                </div>
+                                    <a class="text-default font-weight-semibold">{{ $user->name }}</a>
                             </td>
                             <td>
-                                <div>
-                                    <a class="text-default font-weight-semibold">{{ $user->username }} </a>
-                                </div>
+                                    {{ $user->username }}
                             </td>
                             <td><span class="text-default font-weight-semibold">{{ $user->role }}</span></td>
                             <td><span class="text-default font-weight-semibold">{{ $user->email }}</span></td>
-                            <td><button type="button" class="btn btn-outline bg-info-400 border-info-400 text-info-800 btn-icon rounded-round legitRipple mr-1" data-toggle="modal" data-target="#modal_theme_info" id="btn-edit" value="1" company_name="Phnom Penh Airplane" register_number="10200391" website="phnompenhairplance.com.kh" address="Phnom Penh" value="1" service_id="[1,3,4]"><i class="icon-quill4"></i></button></td>
+                            <td><a class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" href="" onclick="event.preventDefault();
+                                                     document.getElementById('edit-form<?php echo $user->id; ?>').submit();" class="navbar-nav-link waves-effect waves-light"><i class="icon-quill4"></i></a>
+                                                     
+                                    <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="{{$user->id}}">
+                                        <i class="icon-trash"></i>
+                                    </button>
+                             </td>
+                            
+						
+						<form id="edit-form{{$user->id}}" action="{{'/edit-user'}}" method="get" style="display: none;">
+                        @csrf
+							<input type="hidden" name="id" value="{{$user->id}}">						
+                        </form>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -204,6 +226,25 @@
 </div>
 <script>
     $(document).ready(function(){
+        // Default vat percent from DB
+        vat = $('body').data('vat');
+
+        // Default Root 
+        root = $('body').data('link');
+        
+        // print 
+        $('#modal_print').on('click','#print',function(){
+            window.print();
+        });
+
+        // hidden menu left
+        $('.navbar-top').addClass('sidebar-xs');
+
+        // Token CSRF
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        
+        // Default Modal id
+        parent_private = '#modalOne';
     
         // Edit
         $('.table-responsive').on('click','#btn-edit',function(){
@@ -241,6 +282,29 @@
         @if ($errors->any())
             $('#modal_theme_success').modal('show');
         @endif
+
+        $('.table-responsive').on('click','#btn-delete',function(){
+            id = $(this).val();
+           
+            $(parent_private+' .md-overlay').show();
+            $(parent_private+' .modal-default').removeClass('blowup out');
+            $(parent_private+' .modal-body').html('');
+            $.ajax({
+                type : 'post',
+                data : {id : id},
+                url  : '/destroy_user',
+                success : function(html){                        
+                    setTimeout(function(){  
+                        $(parent_private+' .md-overlay').hide();
+                        $(parent_private+' .modal-default').addClass('blowup');
+                        $(parent_private+' .modal-body').html(html);
+                    }, 1000);
+                },
+                error: function () {
+                    alert('error path');
+                },
+            });
+        });
 
        
     });

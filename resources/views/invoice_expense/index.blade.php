@@ -77,7 +77,7 @@ table#airline td {
                                 {{ date('d/m/Y',strtotime($value->issue_date)) }}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="4">
+                                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="{{$value->id}}">
                                 <i class="icon-trash"></i>
                             </button>    
                             </td>
@@ -114,7 +114,7 @@ table#airline td {
                                 {{ date('d/m/Y',strtotime($value->issue_date)) }}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="4">
+                            <button type="button" class="btn btn-outline bg-danger-400 border-danger-400 text-danger-800 btn-icon rounded-round legitRipple mr-1 waves-effect waves-light" data-toggle="modal" data-target="#modalOne" id="btn-delete" value="{{$value->id}}">
                                 <i class="icon-trash"></i>
                             </button>    
                             </td>
@@ -219,15 +219,18 @@ table#airline td {
             $(parent_private+' .modal-body').html('');
             $.ajax({
                 type : 'post',
-                url  : 'expense/form_delete',
-                sucess : function(respond){
+                data : {id : id},
+                url  : 'expense/fdelete',
+                success : function(html){                        
                     setTimeout(function(){  
                         $(parent_private+' .md-overlay').hide();
                         $(parent_private+' .modal-default').addClass('blowup');
-                        $(parent_private+' #expense_id').val(id);
-                        $(parent_private+' .modal-body').html(respond);
+                        $(parent_private+' .modal-body').html(html);
                     }, 1000);
-                }
+                },
+                error: function () {
+                    alert('error path');
+                },
             });
         });
     });

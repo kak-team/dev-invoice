@@ -14,6 +14,11 @@
     font-family:Roboto;
     font-weight: 600;
 }
+@media print {
+    .nav-sidebar, .active, .print-button{
+        display:none;
+    }
+}
 
 /* testing */
 </style>
@@ -23,7 +28,6 @@
             <section class="invoice font row mb-r">
             @foreach($company as $value)
                 <div class="col-md-12">
-                
                     <!-- company logo-->
                     <div class="row p-1 d-flex align-items-center">
                         <div class="col p-3">
@@ -34,8 +38,8 @@
                             <h2 class="company-en-name font-wieght-600"> {{ $value->en_name }} </h2>   
                         </div>
                         <div class="col col-md-3 text-right">
-                            <button class="btn btn-success bg-teal-400 legitRipple" onclick="window.print()">Print</button>
-                            <button class="btn btn-danger bg-teal-400 legitRipple" data-dismiss="modal" data-modal="#modalOne">Cancel</button>
+                            <button class="print-button btn btn-success bg-teal-400 legitRipple" onclick="window.print()">Print</button>
+                            <button class="print-button btn btn-danger bg-teal-400 legitRipple" data-dismiss="modal" data-modal="#modalOne">Cancel</button>
                         </div>
                     </div>
 
