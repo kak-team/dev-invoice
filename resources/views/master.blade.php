@@ -1,18 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+	<title>TOUCANASIA INVOICING SYSTEM - BEST WORLD TRAVEL & TOURS</title>
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 	<!-- Global stylesheets -->
     <link href="{{ URL::asset('css/md.compile.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/mdbootstrap.fileupload.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Battambang|Roboto&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Moul&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 	<link href="{{ URL::asset('css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -193,8 +193,8 @@
 						<span>Dashboard</span>
 					</a>
 				</li>
-				<li class="nav-item nav-item-submenu">
-					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>All Invoices</span></a>
+				<li class="nav-item">
+					<a href="/" class="nav-link legitRipple"><i class="icon-file-check"></i> <span>All Invoices</span></a>
 				</li>
 				<li class="nav-item nav-item-submenu">
 					<a href="#" class="nav-link legitRipple"><i class="icon-copy"></i> <span>Create Invoice</span></a>
@@ -218,20 +218,21 @@
 						<li class="nav-item"><a href="{{ 'supplier' }}" class="nav-link legitRipple">Suppliers</a></li>
 
 						<li class="nav-item"><a href="{{ 'customer' }}" class="nav-link legitRipple">Customers</a></li>
-						<li class="nav-item"><a href="{{ 'hotel' }}" class="nav-link legitRipple">Hotel</a></li>
-						<li class="nav-item"><a href="{{ 'transportation' }}" class="nav-link legitRipple">Transportation</a></li>
+						<!-- <li class="nav-item"><a href="{{ 'hotel' }}" class="nav-link legitRipple">Hotel</a></li>
+						<li class="nav-item"><a href="{{ 'transportation' }}" class="nav-link legitRipple">Transportation</a></li> -->
 						<li class="nav-item"><a href="{{ 'paymentmethod' }}" class="nav-link legitRipple">Payment Method</a></li>
 					</ul>
 				</li>
 				<li class="nav-item">
 					<a href="{{ 'companyprofile' }}" class="nav-link legitRipple">
-						<i class="icon-list-unordered"></i>
+						<i class="icon-magazine"></i>
 						<span>Company Setting</span>
 						<span class="badge bg-blue-400 align-self-center ml-auto">0.1</span>
 					</a>
 				</li>
-				<li class="nav-item"><a href="/report" class="nav-link legitRipple"><i class="icon-width"></i> <span>Report</span></a></li>
-				<li class="nav-item"><a href="/user" class="nav-link legitRipple"><i class="icon-width"></i> <span>Users</span></a></li>
+				<li class="nav-item"><a href="/expense" class="nav-link legitRipple"><i class="icon-list-unordered"></i> <span>Expense</span></a></li>
+				<li class="nav-item"><a href="/report" class="nav-link legitRipple"><i class="icon-graph"></i> <span>Report</span></a></li>
+				<li class="nav-item"><a href="/user" class="nav-link legitRipple"><i class="icon-people"></i> <span>Users</span></a></li>
 				<!-- /main -->
 
 				<!-- /page kits -->
@@ -272,7 +273,7 @@
 										<i class="icon-coin-dollar"></i>
 									</a>
 									<div class="ml-3">
-										<h5 class="font-weight-semibold mb-0">06:25:00</h5>
+										<h5 class="font-weight-semibold mb-0">USD {{$totalservicefee}}</h5>
 										<span class="text-muted">{{ $service_fee }}</span>
 									</div>
 								</div>
@@ -281,7 +282,7 @@
 										<i class="icon-price-tag"></i>
 									</a>
 									<div class="ml-3">
-										<h5 class="font-weight-semibold mb-0">06:25:00</h5>
+										<h5 class="font-weight-semibold mb-0">USD {{$totalservicefee*0.1}}</h5>
 										<span class="text-muted">{{ $tax }}</span>
 									</div>
 								</div>
@@ -317,13 +318,13 @@
 									Settings
 								</a>
 
-								<div class="dropdown-menu dropdown-menu-right">
+								<!-- <div class="dropdown-menu dropdown-menu-right">
 									<a href="#" class="dropdown-item"><i class="icon-user-lock"></i> Account security</a>
 									<a href="#" class="dropdown-item"><i class="icon-statistics"></i> Analytics</a>
 									<a href="#" class="dropdown-item"><i class="icon-accessibility"></i> Accessibility</a>
 									<div class="dropdown-divider"></div>
 									<a href="#" class="dropdown-item"><i class="icon-gear"></i> All settings</a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -350,13 +351,12 @@
 
 				<div class="navbar-collapse collapse" id="navbar-footer">
 					<span class="navbar-text">
-						&copy; 2015 - 2018. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+						&copy; {{date('Y')}}. <a href="https://toucanasia.com/">Developed</a> by <a href="https://toucanasia.com/" target="_blank">ToucanAsia</a>
 					</span>
 
 					<ul class="navbar-nav ml-lg-auto">
-						<li class="nav-item"><a href="https://kopyov.ticksy.com/" class="navbar-nav-link" target="_blank"><i class="icon-lifebuoy mr-2"></i> Support</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/docs/" class="navbar-nav-link" target="_blank"><i class="icon-file-text2 mr-2"></i> Docs</a></li>
-						<li class="nav-item"><a href="https://themeforest.net/item/limitless-responsive-web-application-kit/13080328?ref=kopyov" class="navbar-nav-link font-weight-semibold"><span class="text-pink-400"><i class="icon-cart2 mr-2"></i> Purchase</span></a></li>
+						<li class="nav-item"><a href="https://toucanasia.com/contact/" class="navbar-nav-link" target="_blank"><i class="icon-lifebuoy mr-2"></i> Support</a></li>
+						<li class="nav-item"><a href="#" class="navbar-nav-link" target="_blank"><i class="icon-file-text2 mr-2"></i> Docs</a></li>
 					</ul>
 				</div>
 			</div>

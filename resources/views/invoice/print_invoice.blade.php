@@ -7,7 +7,7 @@
     padding-top: 2.5rem;
 }
 .company-name {
-    font-family: "Khmer OS Moul";
+    font-family: "Moul";
    
 }
 .company-en-name {
@@ -15,9 +15,16 @@
     font-weight: 600;
 }
 @media print {
-    .nav-sidebar, .active, .print-button{
+    .nav-sidebar, .active, .eader-elements-md-inline, .navbar-expand-md, .nav-tabs-highlight, .print-button{
         display:none;
     }
+    .modal-dialog.modal-dialog-centered.modal-default.blowup,.navbar-top,body {
+        margin-top: 0px!important;
+    }
+    .modal-body{
+        margin-top: -120px;
+    }
+
 }
 
 /* testing */
@@ -123,7 +130,7 @@
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <!-- Item list -->
-                                <table class="table table-striped">
+                                <table class="table table-borderless">
                                     <thead>
                                         <tr class="bg-info">
                                             <th class="text-nowrap">ល.រ <br/>No</th>
